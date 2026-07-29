@@ -96,7 +96,7 @@ export function SiteMotion() {
   );
 
   const [veilVisible, setVeilVisible] = useState(true);
-  const navigationTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const navigationTimer = useRef<number | null>(null);
 
   useEffect(() => {
     if (!isPublicPath(pathname)) {
