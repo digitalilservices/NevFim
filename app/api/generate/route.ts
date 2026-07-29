@@ -1,0 +1,154 @@
+import OpenAI, { toFile } from "openai";
+import { NextResponse } from "next/server";
+
+export const runtime = "nodejs";
+export const maxDuration = 300;
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+
+export async function POST(request: Request) {
+  try {
+    if (!process.env.OPENAI_API_KEY) {
+      return NextResponse.json(
+        { error: "OPENAI_API_KEY не знайдений у .env.local" },
+        { status: 500 },
+      );
+    }
+
+    const formData = await request.formData();
+
+    const roomImage = formData.get("roomImage");
+    const furnitureImage = formData.get("furnitureImage");
+
+    const userPrompt = String(formData.get("prompt") ?? "");
+    const category = String(formData.get("category") ?? "");
+    const modelName = String(formData.get("modelName") ?? "");
+    const width = String(formData.get("width") ?? "");
+    const height = String(formData.get("height") ?? "");
+    const depth = String(formData.get("depth") ?? "");
+    const material = String(formData.get("material") ?? "");
+    const color = String(formData.get("color") ?? "");
+    const fabric = String(formData.get("fabric") ?? "");
+
+    if (!(roomImage instanceof File)) {
+      return NextResponse.json(
+        { error: "Не передано фотографію кімнати." },
+        { status: 400 },
+      );
+    }
+
+    if (!(furnitureImage instanceof File)) {
+      return NextResponse.json(
+        { error: "Не передано фотографію меблів." },
+        { status: 400 },
+      );
+    }
+
+    const roomBuffer = Buffer.from(
+      await roomImage.arrayBuffer(),
+    );
+
+    const furnitureBuffer = Buffer.from(
+      await furnitureImage.arrayBuffer(),
+    );
+
+    const roomFile = await toFile(
+      roomBuffer,
+      roomImage.name || "room.png",
+      {
+        type: roomImage.type || "image/png",
+      },
+    );
+
+    const furnitureFile = await toFile(
+      furnitureBuffer,
+      furnitureImage.name || "furniture.png",
+      {
+        type: furnitureImage.type || "image/png",
+      },
+    );
+
+    const technicalPrompt = `
+The first reference image is the customer's real room.
+The second reference image is the exact furniture model that must be integrated into that room.
+
+Create a photorealistic, professionally staged interior visualization.
+
+Furniture category: ${category || "not specified"}
+Furniture model: ${modelName || "not specified"}
+
+Requested dimensions:
+- Width: ${width || "standard"} mm
+- Height: ${height || "standard"} mm
+- Depth: ${depth || "standard"} mm
+
+Material: ${material || "use the reference furniture material"}
+Color: ${color || "preserve the reference furniture color"}
+Fabric: ${fabric || "not applicable"}
+
+Customer placement/request notes:
+${userPrompt || "Choose the most natural available location in the room."}
+
+SPATIAL PLACEMENT RULES — VERY IMPORTANT:
+- First analyze the room before placing anything.
+- Detect and respect all existing large objects and occupied zones: beds, sofas, tables, chairs, cabinets, wardrobes, nightstands, radiators, windows, doors and architectural elements.
+- DO NOT place the new furniture on top of, inside, or intersecting any existing furniture.
+- DO NOT cover or block beds, sofas, tables, doors, windows, radiators, door swings, walkways or circulation paths.
+- Find a realistic free wall, empty corner, or open floor zone that can physically fit the requested furniture.
+- If the room is crowded, choose the safest logical free location instead of overlapping existing objects.
+- Keep realistic clearance around the furniture so a person can move around it.
+- Respect the customer's prompt when physically possible. If the requested position would overlap an existing object or block access, move the furniture to the nearest sensible free position while preserving the intent.
+- Place wardrobes, cabinets, dressers and similar storage furniture flush and parallel to an appropriate wall whenever possible.
+- Place tables and chairs in usable open areas with natural spacing.
+- Place beds and sofas only in zones where they fit without overlapping the existing furniture.
+
+VISUAL CONSISTENCY RULES:
+- Preserve the original room architecture and overall layout.
+- Preserve walls, windows, doors, floor, ceiling and camera angle.
+- Preserve existing furniture unless the customer explicitly asks to replace or remove something.
+- The new furniture must stand naturally on the floor, with correct contact shadows.
+- Match the room's perspective, scale, focal length, lighting direction, color temperature and shadows.
+- Use the second reference image as the primary design reference for the selected furniture.
+- Preserve the selected furniture's recognizable shape and design.
+- Do not duplicate the selected furniture.
+- Do not add unrelated furniture, decor, text, labels, dimensions or watermarks.
+- The final result should look like a realistic interior designer visualization, not a collage.
+`;
+
+    const result = await openai.images.edit({
+      model: "gpt-image-2",
+      image: [roomFile, furnitureFile],
+      prompt: technicalPrompt,
+      size: "1536x1024",
+      quality: "medium",
+      output_format: "png",
+    });
+
+    const base64Image = result.data?.[0]?.b64_json;
+
+    if (!base64Image) {
+      return NextResponse.json(
+        { error: "OpenAI не повернув готове зображення." },
+        { status: 500 },
+      );
+    }
+
+    return NextResponse.json({
+      image: `data:image/png;base64,${base64Image}`,
+    });
+  } catch (error) {
+    console.error("OpenAI image generation error:", error);
+
+    const message =
+      error instanceof Error
+        ? error.message
+        : "Невідома помилка генерації.";
+
+    return NextResponse.json(
+      { error: message },
+      { status: 500 },
+    );
+  }
+}
