@@ -17,6 +17,7 @@ type LoadedFurniture = {
 
 type RoomSceneProps = {
   addedFurniture: LoadedFurniture | null;
+  mobileMode?: boolean;
 };
 
 
@@ -93,15 +94,20 @@ const ROOM_HEIGHT = 3.4;
 const EYE_HEIGHT = 1.65;
 const MOVE_SPEED = 3.1;
 
-function createGrayWoodTexture() {
+function createGrayWoodTexture(mobileMode: boolean) {
   const canvas = document.createElement("canvas");
-  canvas.width = 1024;
-  canvas.height = 1024;
+  const textureSize = mobileMode ? 256 : 1024;
+  canvas.width = textureSize;
+  canvas.height = textureSize;
 
   const ctx = canvas.getContext("2d");
 
   if (!ctx) {
     return null;
+  }
+
+  if (mobileMode) {
+    ctx.scale(0.25, 0.25);
   }
 
   // Основа серого дуба.
@@ -167,7 +173,7 @@ function createGrayWoodTexture() {
   texture.wrapT = THREE.RepeatWrapping;
   texture.repeat.set(2.2, 3.2);
   texture.colorSpace = THREE.SRGBColorSpace;
-  texture.anisotropy = 4;
+  texture.anisotropy = mobileMode ? 1 : 4;
 
   return texture;
 }
@@ -475,10 +481,11 @@ function FirstPersonController() {
 
 export function RoomScene({
   addedFurniture,
+  mobileMode = false,
 }: RoomSceneProps) {
   const grayWoodTexture = useMemo(
-    () => createGrayWoodTexture(),
-    [],
+    () => createGrayWoodTexture(mobileMode),
+    [mobileMode],
   );
 
   const floorMaterial = useMemo(
@@ -522,18 +529,20 @@ export function RoomScene({
       />
 
       {/* Лёгкое освещение без тяжёлых люстр и теней */}
-      <ambientLight intensity={1.05} />
+      <ambientLight intensity={mobileMode ? 1.3 : 1.05} />
 
       <hemisphereLight
-        intensity={0.75}
+        intensity={mobileMode ? 0.55 : 0.75}
         color="#ffffff"
         groundColor="#777777"
       />
 
-      <directionalLight
-        position={[4, 6, 3]}
-        intensity={0.9}
-      />
+      {!mobileMode && (
+        <directionalLight
+          position={[4, 6, 3]}
+          intensity={0.9}
+        />
+      )}
 
       {/* СЕРЫЙ ДЕРЕВЯННЫЙ ПОЛ */}
       <mesh
@@ -616,33 +625,36 @@ export function RoomScene({
         />
       </mesh>
 
-      {/* СТОЛ — немного правее */}
-<DecorModel
-  path="/models/room/decor/table.glb"
-  position={[3.0, 0, -4.15]}
-  rotation={[0, -0.08, 0]}
-  targetSize={1.85}
-  fitBy="xz"
-/>
+      {/* Декоративные GLB отключены на телефоне:
+          они занимали много памяти и могли перезапускать Safari. */}
+      {!mobileMode && (
+        <>
+          <DecorModel
+            path="/models/room/decor/table.glb"
+            position={[3.0, 0, -4.15]}
+            rotation={[0, -0.08, 0]}
+            targetSize={1.85}
+            fitBy="xz"
+          />
 
-{/* КАРТИНА — правее вместе со столом и выше */}
-<DecorModel
-  path="/models/room/decor/picture.glb"
-  position={[3.0, 0, -4.12]}
-  rotation={[0, -0.08, 0]}
-  targetSize={0.95}
-  baseY={1.02}
-  fitBy="max"
-/>
+          <DecorModel
+            path="/models/room/decor/picture.glb"
+            position={[3.0, 0, -4.12]}
+            rotation={[0, -0.08, 0]}
+            targetSize={0.95}
+            baseY={1.02}
+            fitBy="max"
+          />
 
-{/* ЦВЕТОК — немного левее */}
-<DecorModel
-  path="/models/room/decor/plant.glb"
-  position={[-3.15, 0, -4.1]}
-  rotation={[0, 0.18, 0]}
-  targetSize={1.55}
-  fitBy="height"
-/>
+          <DecorModel
+            path="/models/room/decor/plant.glb"
+            position={[-3.15, 0, -4.1]}
+            rotation={[0, 0.18, 0]}
+            targetSize={1.55}
+            fitBy="height"
+          />
+        </>
+      )}
 
       {/* Мебель фиксированно и ровно возле задней стены */}
       {addedFurniture && (

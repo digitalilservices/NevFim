@@ -49,6 +49,8 @@ export default function Home() {
   const [generationError, setGenerationError] = useState("");
   const [isGenerated, setIsGenerated] = useState(false);
   const [viewMode, setViewMode] = useState<ViewMode>("2d");
+  const [is3DMounted, setIs3DMounted] = useState(false);
+  const [isMobile3D, setIsMobile3D] = useState(false);
   const [language, setLanguage] = useState<Language>("en");
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const [cartMessage, setCartMessage] = useState("");
@@ -67,6 +69,21 @@ export default function Home() {
     };
   }, []);
 
+
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 820px), (pointer: coarse)");
+
+    const updateDeviceMode = () => {
+      setIsMobile3D(media.matches);
+    };
+
+    updateDeviceMode();
+    media.addEventListener?.("change", updateDeviceMode);
+
+    return () => {
+      media.removeEventListener?.("change", updateDeviceMode);
+    };
+  }, []);
 
   useEffect(() => {
     const savedLanguage = window.localStorage.getItem("nevfim-language");
@@ -96,25 +113,34 @@ export default function Home() {
     );
     transitionTimers.current = [];
 
-    // 1. Шторка падает сверху.
     setTransitionPhase("cover");
 
-    // 2. Когда экран уже закрыт, переключаем 2D/3D.
-    // Новый режим начинает рендериться ПОД полупрозрачной шторкой.
+    const switchDelay = isMobile3D ? 420 : 620;
+    const revealDelay = isMobile3D ? 1050 : 1550;
+    const finishDelay = isMobile3D ? 1550 : 2250;
+
     const switchTimer = window.setTimeout(() => {
+      if (nextMode === "3d") {
+        setIs3DMounted(true);
+      }
+
       setViewMode(nextMode);
       setTransitionPhase("hold");
-    }, 620);
+    }, switchDelay);
 
-    // 3. Даём новому режиму время спокойно отрисовать Canvas/интерфейс.
     const revealTimer = window.setTimeout(() => {
       setTransitionPhase("reveal");
-    }, 1550);
+    }, revealDelay);
 
-    // 4. После ухода шторки полностью удаляем overlay.
     const finishTimer = window.setTimeout(() => {
       setTransitionPhase(null);
-    }, 2250);
+
+      // На телефоне полностью освобождаем WebGL и GLB-память,
+      // когда пользователь возвращается в 2D.
+      if (nextMode === "2d" && isMobile3D) {
+        setIs3DMounted(false);
+      }
+    }, finishDelay);
 
     transitionTimers.current.push(
       switchTimer,
@@ -422,22 +448,24 @@ export default function Home() {
         />
       </div>
 
-      {/* 3D Canvas создаётся один раз сразу при открытии сайта.
-          Пока пользователь в 2D, он скрыт и переведён в frameloop="demand",
-          поэтому не перерисовывается постоянно и почти не грузит GPU. */}
-      <div
-        className={`modeLayer ${
-          viewMode === "3d" ? "modeLayer--active" : "modeLayer--hidden"
-        }`}
-        aria-hidden={viewMode !== "3d"}
-      >
-        <ThreeDWorkspace
-          language={language}
-          onLanguageChange={handleLanguageChange}
-          onBackTo2D={() => startViewTransition("2d")}
-          isActive={viewMode === "3d"}
-        />
-      </div>
+      {/* На телефоне 3D создаётся только после нажатия кнопки.
+          При возврате в 2D Canvas полностью удаляется и освобождает память. */}
+      {is3DMounted && (
+        <div
+          className={`modeLayer ${
+            viewMode === "3d" ? "modeLayer--active" : "modeLayer--hidden"
+          }`}
+          aria-hidden={viewMode !== "3d"}
+        >
+          <ThreeDWorkspace
+            language={language}
+            onLanguageChange={handleLanguageChange}
+            onBackTo2D={() => startViewTransition("2d")}
+            isActive={viewMode === "3d"}
+            mobileMode={isMobile3D}
+          />
+        </div>
+      )}
 
       {transitionPhase && (
         <div

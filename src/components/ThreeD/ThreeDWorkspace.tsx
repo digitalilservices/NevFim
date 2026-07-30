@@ -40,6 +40,7 @@ type ThreeDWorkspaceProps = {
   onLanguageChange: (language: Language) => void;
   onBackTo2D: () => void;
   isActive?: boolean;
+  mobileMode?: boolean;
 };
 
 type LoadedFurniture = {
@@ -52,6 +53,7 @@ export function ThreeDWorkspace({
   onLanguageChange,
   onBackTo2D,
   isActive = true,
+  mobileMode = false,
 }: ThreeDWorkspaceProps) {
   const [selectedModel, setSelectedModel] =
     useState<Furniture3DModel | null>(null);
@@ -292,26 +294,48 @@ export function ThreeDWorkspace({
 
         <div className="threeDStage">
           <Canvas
-            dpr={1}
+            dpr={mobileMode ? 0.7 : 1}
             frameloop={isActive ? "always" : "demand"}
             shadows={false}
+            performance={{
+              min: mobileMode ? 0.35 : 0.5,
+              max: 1,
+              debounce: 250,
+            }}
             gl={{
               antialias: false,
               alpha: false,
-              powerPreference:
-                "high-performance",
+              powerPreference: mobileMode
+                ? "low-power"
+                : "high-performance",
+              preserveDrawingBuffer: false,
+              depth: true,
+              stencil: false,
             }}
             camera={{
-              position: [7, 5, 8],
-              fov: 42,
+              position: mobileMode ? [0, 1.65, 3.4] : [7, 5, 8],
+              fov: mobileMode ? 48 : 42,
               near: 0.1,
-              far: 100,
+              far: 50,
+            }}
+            onCreated={({ gl }) => {
+              const canvas = gl.domElement;
+
+              const handleContextLost = (event: Event) => {
+                event.preventDefault();
+                console.warn("WebGL context lost on mobile");
+              };
+
+              canvas.addEventListener(
+                "webglcontextlost",
+                handleContextLost,
+                false,
+              );
             }}
           >
             <RoomScene
-              addedFurniture={
-                addedFurniture
-              }
+              addedFurniture={addedFurniture}
+              mobileMode={mobileMode}
             />
           </Canvas>
 
