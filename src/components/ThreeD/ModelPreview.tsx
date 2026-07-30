@@ -29,11 +29,11 @@ function FurnitureModel({
       object.castShadow = false;
       object.receiveShadow = false;
 
-      object.material = new THREE.MeshStandardMaterial({
-        color: "#9a826f",
-        roughness: 0.75,
-        metalness: 0,
-      });
+      if (Array.isArray(object.material)) {
+        object.material = object.material.map((material) => material.clone());
+      } else if (object.material) {
+        object.material = object.material.clone();
+      }
     });
 
     return clone;
@@ -61,9 +61,9 @@ export function ModelPreview({
           position: [4, 3, 5],
           fov: 40,
         }}
-        dpr={1}
+        dpr={[1, 1.25]}
         gl={{
-          antialias: false,
+          antialias: true,
           powerPreference: "high-performance",
         }}
       >

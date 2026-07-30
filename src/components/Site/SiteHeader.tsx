@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { FormEvent, useMemo, useState } from "react";
+import { FormEvent, useEffect, useMemo, useState } from "react";
 import { Menu, Search, ShoppingCart, X } from "lucide-react";
 
 import { AccountButton } from "@/components/Account/AccountButton";
@@ -21,6 +21,24 @@ export function SiteHeader() {
   const { language, setLanguage } = useNevFimLanguage();
   const [menu, setMenu] = useState(false);
   const [query, setQuery] = useState("");
+
+  useEffect(() => {
+    if (!menu) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMenu(false);
+    };
+
+    window.addEventListener("keydown", closeOnEscape);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [menu]);
 
   const copy = getSiteCopy(language).header;
 
@@ -86,25 +104,65 @@ export function SiteHeader() {
           </span>
         </Link>
 
+        {menu && (
+          <button
+            type="button"
+            className="siteMobileMenuBackdrop"
+            onClick={() => setMenu(false)}
+            aria-label="Close menu"
+          />
+        )}
+
         <nav className={`siteNav ${menu ? "isOpen" : ""}`}>
-          {links.map(([href, label]) => (
+          <div className="siteMobileMenuHead">
+            <div className="siteMobileMenuBrand">
+              <img src="/images/logo/logo.png" alt="" />
+              <span>NevFim<b>.grup</b></span>
+            </div>
+
+            <button
+              type="button"
+              className="siteMobileMenuClose"
+              onClick={() => setMenu(false)}
+              aria-label="Close menu"
+            >
+              <X size={24} />
+            </button>
+          </div>
+
+          <div className="siteMobileMenuLinks">
+            {links.map(([href, label]) => (
+              <Link
+                key={href}
+                href={href}
+                className={isActive(href) ? "active" : ""}
+                onClick={() => setMenu(false)}
+              >
+                {label}
+              </Link>
+            ))}
+
             <Link
-              key={href}
-              href={href}
-              className={isActive(href) ? "active" : ""}
+              href="/configurator"
+              className="siteNavConstructor"
               onClick={() => setMenu(false)}
             >
-              {label}
+              {copy.constructor}
             </Link>
-          ))}
+          </div>
 
-          <Link
-            href="/configurator"
-            className="siteNavConstructor"
-            onClick={() => setMenu(false)}
-          >
-            {copy.constructor}
-          </Link>
+          <div className="siteMobileLanguage">
+            {(["ru", "cs", "en"] as Language[]).map((code) => (
+              <button
+                key={code}
+                type="button"
+                className={language === code ? "active" : ""}
+                onClick={() => setLanguage(code)}
+              >
+                {code === "cs" ? "CZ" : code.toUpperCase()}
+              </button>
+            ))}
+          </div>
         </nav>
 
         <form className="siteSearch" onSubmit={submit}>

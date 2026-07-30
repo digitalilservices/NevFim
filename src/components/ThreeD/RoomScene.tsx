@@ -96,7 +96,7 @@ const MOVE_SPEED = 3.1;
 
 function createGrayWoodTexture(mobileMode: boolean) {
   const canvas = document.createElement("canvas");
-  const textureSize = mobileMode ? 256 : 1024;
+  const textureSize = mobileMode ? 512 : 1024;
   canvas.width = textureSize;
   canvas.height = textureSize;
 
@@ -107,7 +107,7 @@ function createGrayWoodTexture(mobileMode: boolean) {
   }
 
   if (mobileMode) {
-    ctx.scale(0.25, 0.25);
+    ctx.scale(0.5, 0.5);
   }
 
   // Основа серого дуба.
@@ -173,7 +173,7 @@ function createGrayWoodTexture(mobileMode: boolean) {
   texture.wrapT = THREE.RepeatWrapping;
   texture.repeat.set(2.2, 3.2);
   texture.colorSpace = THREE.SRGBColorSpace;
-  texture.anisotropy = mobileMode ? 1 : 4;
+  texture.anisotropy = mobileMode ? 2 : 4;
 
   return texture;
 }
@@ -291,7 +291,7 @@ function FirstPersonController() {
 
   useEffect(() => {
     // Стартовая позиция ровно перед мебелью.
-    camera.position.set(0, EYE_HEIGHT, 3.4);
+    camera.position.set(0, EYE_HEIGHT, 4.15);
 
     yaw.current = 0;
     pitch.current = 0;
@@ -395,8 +395,19 @@ function FirstPersonController() {
       }
     };
 
+    const onMobileMove = (event: Event) => {
+      const detail = (event as CustomEvent<{
+        direction: "forward" | "backward" | "left" | "right";
+        active: boolean;
+      }>).detail;
+
+      if (!detail) return;
+      keys.current[detail.direction] = detail.active;
+    };
+
     canvas.style.cursor = "grab";
 
+    window.addEventListener("nevfim-mobile-move", onMobileMove);
     canvas.addEventListener("pointerdown", onPointerDown);
     window.addEventListener("pointermove", onPointerMove);
     window.addEventListener("pointerup", stopPointerDrag);
@@ -405,6 +416,7 @@ function FirstPersonController() {
     window.addEventListener("keyup", onKeyUp);
 
     return () => {
+      window.removeEventListener("nevfim-mobile-move", onMobileMove);
       canvas.removeEventListener("pointerdown", onPointerDown);
       window.removeEventListener("pointermove", onPointerMove);
       window.removeEventListener("pointerup", stopPointerDrag);
@@ -529,20 +541,18 @@ export function RoomScene({
       />
 
       {/* Лёгкое освещение без тяжёлых люстр и теней */}
-      <ambientLight intensity={mobileMode ? 1.3 : 1.05} />
+      <ambientLight intensity={mobileMode ? 0.82 : 1.05} />
 
       <hemisphereLight
-        intensity={mobileMode ? 0.55 : 0.75}
+        intensity={mobileMode ? 0.7 : 0.75}
         color="#ffffff"
         groundColor="#777777"
       />
 
-      {!mobileMode && (
-        <directionalLight
-          position={[4, 6, 3]}
-          intensity={0.9}
-        />
-      )}
+      <directionalLight
+        position={[4, 6, 3]}
+        intensity={mobileMode ? 0.62 : 0.9}
+      />
 
       {/* СЕРЫЙ ДЕРЕВЯННЫЙ ПОЛ */}
       <mesh

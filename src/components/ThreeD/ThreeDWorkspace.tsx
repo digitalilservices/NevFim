@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import type { Group } from "three";
+import { ChevronDown, ChevronLeft, ChevronRight, ChevronUp } from "lucide-react";
 
 import { ThreeDSidebar } from "./ThreeDSidebar";
 import { RoomScene } from "./RoomScene";
@@ -47,6 +48,19 @@ type LoadedFurniture = {
   model: Furniture3DModel;
   scene: Group;
 };
+
+type MobileMoveDirection = "forward" | "backward" | "left" | "right";
+
+function dispatchMobileMove(
+  direction: MobileMoveDirection,
+  active: boolean,
+) {
+  window.dispatchEvent(
+    new CustomEvent("nevfim-mobile-move", {
+      detail: { direction, active },
+    }),
+  );
+}
 
 export function ThreeDWorkspace({
   language,
@@ -294,27 +308,25 @@ export function ThreeDWorkspace({
 
         <div className="threeDStage">
           <Canvas
-            dpr={mobileMode ? 0.7 : 1}
+            dpr={mobileMode ? [1, 1.25] : [1, 1.5]}
             frameloop={isActive ? "always" : "demand"}
             shadows={false}
             performance={{
-              min: mobileMode ? 0.35 : 0.5,
+              min: mobileMode ? 0.65 : 0.5,
               max: 1,
               debounce: 250,
             }}
             gl={{
               antialias: false,
               alpha: false,
-              powerPreference: mobileMode
-                ? "low-power"
-                : "high-performance",
+              powerPreference: "high-performance",
               preserveDrawingBuffer: false,
               depth: true,
               stencil: false,
             }}
             camera={{
-              position: mobileMode ? [0, 1.65, 3.4] : [7, 5, 8],
-              fov: mobileMode ? 48 : 42,
+              position: mobileMode ? [0, 1.72, 4.15] : [7, 5, 8],
+              fov: mobileMode ? 44 : 42,
               near: 0.1,
               far: 50,
             }}
@@ -338,6 +350,58 @@ export function ThreeDWorkspace({
               mobileMode={mobileMode}
             />
           </Canvas>
+
+          {mobileMode && (
+            <div className="mobile3DControls" aria-label="3D movement controls">
+              <button
+                type="button"
+                className="mobile3DControl mobile3DControlUp"
+                aria-label="Move forward"
+                onPointerDown={() => dispatchMobileMove("forward", true)}
+                onPointerUp={() => dispatchMobileMove("forward", false)}
+                onPointerCancel={() => dispatchMobileMove("forward", false)}
+                onPointerLeave={() => dispatchMobileMove("forward", false)}
+              >
+                <ChevronUp size={25} />
+              </button>
+
+              <button
+                type="button"
+                className="mobile3DControl mobile3DControlLeft"
+                aria-label="Move left"
+                onPointerDown={() => dispatchMobileMove("left", true)}
+                onPointerUp={() => dispatchMobileMove("left", false)}
+                onPointerCancel={() => dispatchMobileMove("left", false)}
+                onPointerLeave={() => dispatchMobileMove("left", false)}
+              >
+                <ChevronLeft size={25} />
+              </button>
+
+              <button
+                type="button"
+                className="mobile3DControl mobile3DControlRight"
+                aria-label="Move right"
+                onPointerDown={() => dispatchMobileMove("right", true)}
+                onPointerUp={() => dispatchMobileMove("right", false)}
+                onPointerCancel={() => dispatchMobileMove("right", false)}
+                onPointerLeave={() => dispatchMobileMove("right", false)}
+              >
+                <ChevronRight size={25} />
+              </button>
+
+              <button
+                type="button"
+                className="mobile3DControl mobile3DControlDown"
+                aria-label="Move backward"
+                onPointerDown={() => dispatchMobileMove("backward", true)}
+                onPointerUp={() => dispatchMobileMove("backward", false)}
+                onPointerCancel={() => dispatchMobileMove("backward", false)}
+                onPointerLeave={() => dispatchMobileMove("backward", false)}
+              >
+                <ChevronDown size={25} />
+              </button>
+            </div>
+          )}
 
           {selectedModel &&
             isModelLoading && (
