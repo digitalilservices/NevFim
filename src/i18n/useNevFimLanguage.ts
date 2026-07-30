@@ -19,7 +19,8 @@ function languageFromCookie(): Language | null {
     .find((item) => item.startsWith(`${STORAGE_KEY}=`))
     ?.split("=")[1];
 
-  return isLanguage(value ?? null) ? value : null;
+  const language = value ?? null;
+  return isLanguage(language) ? language : null;
 }
 
 function savedLanguage(): Language {
