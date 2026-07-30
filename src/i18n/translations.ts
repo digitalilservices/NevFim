@@ -183,11 +183,20 @@ const translations = {
 } as const;
 
 export type TranslationKey = keyof typeof translations.en;
-export function t(language: Language, key: TranslationKey): string {
-  const dictionary = translations[language] as Record<string, string>;
-  const fallback = translations.en as Record<string, string>;
 
-  return dictionary[key] ?? fallback[key] ?? key;
+type TranslationDictionary = Record<string, string>;
+
+export function t(language: Language, key: TranslationKey): string {
+  const dictionaries = translations as unknown as Record<
+    Language,
+    TranslationDictionary
+  >;
+
+  return (
+    dictionaries[language]?.[String(key)] ??
+    dictionaries.en?.[String(key)] ??
+    String(key)
+  );
 }
 
 const categoryNames: Record<string, Record<Language, string>> = {
