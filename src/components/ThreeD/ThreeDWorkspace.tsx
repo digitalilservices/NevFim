@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import type { Group } from "three";
-import { ChevronDown, ChevronLeft, ChevronRight, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronLeft, ChevronRight, ChevronUp, Menu, X } from "lucide-react";
 
 import { ThreeDSidebar } from "./ThreeDSidebar";
 import { RoomScene } from "./RoomScene";
@@ -88,6 +88,7 @@ export function ThreeDWorkspace({
     useState("");
 
   const [isLanguageOpen, setIsLanguageOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const loadRequestId = useRef(0);
 
@@ -234,26 +235,36 @@ export function ThreeDWorkspace({
       />
 
       <section className="threeDWorkspace">
-        <header className="threeDTopbar">
-          <div className="threeDStudioTitle" style={{ gap: 14 }}>
-            <Link href="/" aria-label={backToSiteLabel(language)} style={backToSiteStyle}>
-              ← {backToSiteLabel(language)}
-            </Link>
+        <header className="threeDTopbar constructorTopbar">
+          <button
+            type="button"
+            className="constructorCatalogTopButton"
+            onClick={() =>
+              window.dispatchEvent(new CustomEvent("nevfim-open-3d-catalog"))
+            }
+          >
+            <Menu size={20} />
+            <span>{t(language, "catalog")}</span>
+          </button>
 
+          <div className="constructorStudioIdentity">
             <span className="threeDStatusDot" />
-
             <div>
-              <strong>
-                NevFim 3D Studio
-              </strong>
-
-              <small>
-                {t(language, "roomConstructor")}
-              </small>
+              <strong>NevFim 3D Studio</strong>
+              <small>{t(language, "roomConstructor")}</small>
             </div>
           </div>
 
-          <div className="threeDTopbarActions">
+          <button
+            type="button"
+            className="constructorMobileMenuButton"
+            onClick={() => setIsMobileMenuOpen(true)}
+            aria-label="Open menu"
+          >
+            <Menu size={25} />
+          </button>
+
+          <div className="threeDTopbarActions constructorDesktopActions">
             <div className="languageDropdown">
             <button
               type="button"
@@ -305,6 +316,50 @@ export function ThreeDWorkspace({
           </button>
           </div>
         </header>
+
+        {isMobileMenuOpen && (
+          <>
+            <button
+              type="button"
+              className="constructorMenuBackdrop"
+              onClick={() => setIsMobileMenuOpen(false)}
+              aria-label="Close menu"
+            />
+            <aside className="constructorMobileMenu isOpen">
+              <div className="constructorMobileMenuHeader">
+                <strong>NevFim 3D Studio</strong>
+                <button type="button" onClick={() => setIsMobileMenuOpen(false)}>
+                  <X size={24} />
+                </button>
+              </div>
+
+              <Link href="/" className="constructorMenuLink" onClick={() => setIsMobileMenuOpen(false)}>
+                ← {backToSiteLabel(language)}
+              </Link>
+
+              <button type="button" className="constructorMenuLink" onClick={() => { onBackTo2D(); setIsMobileMenuOpen(false); }}>
+                ← {t(language, "back2d")}
+              </button>
+
+              <div className="constructorMenuSection">
+                <span>{language === "ru" ? "Язык" : language === "cs" ? "Jazyk" : "Language"}</span>
+                <div className="constructorLanguageGrid">
+                  {languageOptions.map((option) => (
+                    <button
+                      key={option.code}
+                      type="button"
+                      className={option.code === language ? "isActive" : ""}
+                      onClick={() => onLanguageChange(option.code)}
+                    >
+                      <img src={option.flag} alt="" />
+                      {option.short}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </aside>
+          </>
+        )}
 
         <div className="threeDStage">
           <Canvas

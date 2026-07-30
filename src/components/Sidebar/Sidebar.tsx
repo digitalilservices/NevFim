@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type {
   FurnitureCategory,
   FurnitureModel,
@@ -160,6 +160,12 @@ export function Sidebar({
 }: SidebarProps) {
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+
+  useEffect(() => {
+    const openCatalog = () => setIsMobileOpen(true);
+    window.addEventListener("nevfim-open-2d-catalog", openCatalog);
+    return () => window.removeEventListener("nevfim-open-2d-catalog", openCatalog);
+  }, []);
 
   const categoryModels = selectedCategory
     ? models.filter((model) => model.categoryId === selectedCategory.id)

@@ -12,6 +12,7 @@ import {
   Ruler,
   Sparkles,
   Download,
+  Menu,
   X,
 } from "lucide-react";
 import { languageOptions, t, type Language } from "@/i18n/translations";
@@ -73,6 +74,7 @@ export function Workspace({
   const [isHelpOpen, setIsHelpOpen] = useState(false);
 
   const [isLanguageOpen, setIsLanguageOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     if (!isHelpOpen) {
@@ -111,21 +113,36 @@ export function Workspace({
 
   return (
     <section className="workspace">
-      <header className="topbar">
-        <div className="threeDStudioTitle" style={{ gap: 14 }}>
-          <Link href="/" aria-label={backToSiteLabel(language)} style={backToSiteStyle}>
-            ← {backToSiteLabel(language)}
-          </Link>
+      <header className="topbar constructorTopbar">
+        <button
+          type="button"
+          className="constructorCatalogTopButton"
+          onClick={() =>
+            window.dispatchEvent(new CustomEvent("nevfim-open-2d-catalog"))
+          }
+        >
+          <Menu size={20} />
+          <span>{t(language, "catalog")}</span>
+        </button>
 
+        <div className="constructorStudioIdentity">
           <span className="threeDStatusDot" />
-
           <div>
             <strong>NevFim 2D Studio</strong>
             <small>{t(language, "roomConstructor")}</small>
           </div>
         </div>
 
-        <div className="topbarActions">
+        <button
+          type="button"
+          className="constructorMobileMenuButton"
+          onClick={() => setIsMobileMenuOpen(true)}
+          aria-label="Open menu"
+        >
+          <Menu size={25} />
+        </button>
+
+        <div className="topbarActions constructorDesktopActions">
           <AccountButton language={language} />
 
           <div className="languageDropdown">
@@ -188,6 +205,58 @@ export function Workspace({
           </button>
         </div>
       </header>
+
+      {isMobileMenuOpen && (
+        <>
+          <button
+            type="button"
+            className="constructorMenuBackdrop"
+            onClick={() => setIsMobileMenuOpen(false)}
+            aria-label="Close menu"
+          />
+          <aside className="constructorMobileMenu isOpen">
+            <div className="constructorMobileMenuHeader">
+              <strong>NevFim 2D Studio</strong>
+              <button type="button" onClick={() => setIsMobileMenuOpen(false)}>
+                <X size={24} />
+              </button>
+            </div>
+
+            <Link href="/" className="constructorMenuLink" onClick={() => setIsMobileMenuOpen(false)}>
+              ← {backToSiteLabel(language)}
+            </Link>
+
+            <button type="button" className="constructorMenuLink" onClick={() => { setIsHelpOpen(true); setIsMobileMenuOpen(false); }}>
+              {t(language, "howWorks")}
+            </button>
+
+            <button type="button" className="constructorMenuLink" onClick={() => { onOpen3D(); setIsMobileMenuOpen(false); }}>
+              3D · {t(language, "go3d")}
+            </button>
+
+            <div className="constructorMenuSection">
+              <span>{language === "ru" ? "Язык" : language === "cs" ? "Jazyk" : "Language"}</span>
+              <div className="constructorLanguageGrid">
+                {languageOptions.map((option) => (
+                  <button
+                    key={option.code}
+                    type="button"
+                    className={option.code === language ? "isActive" : ""}
+                    onClick={() => onLanguageChange(option.code)}
+                  >
+                    <img src={option.flag} alt="" />
+                    {option.short}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="constructorMenuAccount">
+              <AccountButton language={language} />
+            </div>
+          </aside>
+        </>
+      )}
 
       <div className="canvas">
         {!roomImage ? (

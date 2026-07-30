@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  useEffect,
   useMemo,
   useState,
 } from "react";
@@ -117,6 +118,12 @@ export function ThreeDSidebar({
 
   const [isMobileOpen, setIsMobileOpen] =
     useState(false);
+
+  useEffect(() => {
+    const openCatalog = () => setIsMobileOpen(true);
+    window.addEventListener("nevfim-open-3d-catalog", openCatalog);
+    return () => window.removeEventListener("nevfim-open-3d-catalog", openCatalog);
+  }, []);
 
   const models = useMemo(() => {
     if (!selectedCategory) {
