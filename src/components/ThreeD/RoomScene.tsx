@@ -92,11 +92,11 @@ const ROOM_DEPTH = 10;
 const ROOM_HEIGHT = 3.4;
 
 const EYE_HEIGHT = 1.65;
-const MOVE_SPEED = 2.25;
+const MOVE_SPEED = 3.1;
 
 function createGrayWoodTexture(mobileMode: boolean) {
   const canvas = document.createElement("canvas");
-  const textureSize = mobileMode ? 640 : 1024;
+  const textureSize = mobileMode ? 512 : 1024;
   canvas.width = textureSize;
   canvas.height = textureSize;
 
@@ -173,7 +173,7 @@ function createGrayWoodTexture(mobileMode: boolean) {
   texture.wrapT = THREE.RepeatWrapping;
   texture.repeat.set(2.2, 3.2);
   texture.colorSpace = THREE.SRGBColorSpace;
-  texture.anisotropy = mobileMode ? 3 : 4;
+  texture.anisotropy = mobileMode ? 2 : 4;
 
   return texture;
 }
@@ -278,16 +278,9 @@ function FirstPersonController() {
 
   const yaw = useRef(0);
   const pitch = useRef(0);
-  const targetYaw = useRef(0);
-  const targetPitch = useRef(0);
 
-  const activePointerId = useRef<number | null>(null);
   const isDragging = useRef(false);
   const lastPointer = useRef({ x: 0, y: 0 });
-
-  const forwardVector = useRef(new THREE.Vector3());
-  const rightVector = useRef(new THREE.Vector3());
-  const moveVector = useRef(new THREE.Vector3());
 
   const keys = useRef({
     forward: false,
@@ -302,8 +295,6 @@ function FirstPersonController() {
 
     yaw.current = 0;
     pitch.current = 0;
-    targetYaw.current = 0;
-    targetPitch.current = 0;
 
     // Важно: полностью сбрасываем возможный старый наклон камеры.
     camera.rotation.set(0, 0, 0);
@@ -312,72 +303,46 @@ function FirstPersonController() {
     const canvas = gl.domElement;
 
     const onPointerDown = (event: PointerEvent) => {
-      if (event.pointerType === "mouse" && event.button !== 0) {
+      if (event.button !== 0) {
         return;
       }
 
-      // Камеру ведёт только палец, который начал жест прямо на Canvas.
-      // Второй палец на стрелках больше не вызывает скачки камеры.
-      activePointerId.current = event.pointerId;
       isDragging.current = true;
       lastPointer.current = {
         x: event.clientX,
         y: event.clientY,
       };
 
-      canvas.setPointerCapture?.(event.pointerId);
       canvas.style.cursor = "grabbing";
     };
 
     const onPointerMove = (event: PointerEvent) => {
-      if (
-        !isDragging.current ||
-        activePointerId.current !== event.pointerId
-      ) {
+      if (!isDragging.current) {
         return;
       }
 
-      const rawDeltaX = event.clientX - lastPointer.current.x;
-      const rawDeltaY = event.clientY - lastPointer.current.y;
-
-      // Ограничение резких скачков Safari при мультитаче.
-      const deltaX = THREE.MathUtils.clamp(rawDeltaX, -42, 42);
-      const deltaY = THREE.MathUtils.clamp(rawDeltaY, -42, 42);
+      const deltaX = event.clientX - lastPointer.current.x;
+      const deltaY = event.clientY - lastPointer.current.y;
 
       lastPointer.current = {
         x: event.clientX,
         y: event.clientY,
       };
 
-      const sensitivity =
-        event.pointerType === "touch" ? 0.00215 : 0.00265;
+      const sensitivity = 0.0028;
 
-      targetYaw.current -= deltaX * sensitivity;
-      targetPitch.current = THREE.MathUtils.clamp(
-        targetPitch.current - deltaY * sensitivity,
-        -0.58,
-        0.58,
+      yaw.current -= deltaX * sensitivity;
+      pitch.current -= deltaY * sensitivity;
+
+      // Не даём камере смотреть слишком резко вверх/вниз.
+      pitch.current = THREE.MathUtils.clamp(
+        pitch.current,
+        -0.72,
+        0.72,
       );
     };
 
-    const stopPointerDrag = (event?: PointerEvent) => {
-      if (
-        event &&
-        activePointerId.current !== null &&
-        event.pointerId !== activePointerId.current
-      ) {
-        return;
-      }
-
-      if (activePointerId.current !== null) {
-        try {
-          canvas.releasePointerCapture?.(activePointerId.current);
-        } catch {
-          // Pointer capture может уже быть снят браузером.
-        }
-      }
-
-      activePointerId.current = null;
+    const stopPointerDrag = () => {
       isDragging.current = false;
       canvas.style.cursor = "grab";
     };
@@ -443,21 +408,19 @@ function FirstPersonController() {
     canvas.style.cursor = "grab";
 
     window.addEventListener("nevfim-mobile-move", onMobileMove);
-    canvas.style.touchAction = "none";
     canvas.addEventListener("pointerdown", onPointerDown);
-    canvas.addEventListener("pointermove", onPointerMove);
-    canvas.addEventListener("pointerup", stopPointerDrag);
-    canvas.addEventListener("pointercancel", stopPointerDrag);
-    window.addEventListener("blur", () => stopPointerDrag());
+    window.addEventListener("pointermove", onPointerMove);
+    window.addEventListener("pointerup", stopPointerDrag);
+    window.addEventListener("blur", stopPointerDrag);
     window.addEventListener("keydown", onKeyDown);
     window.addEventListener("keyup", onKeyUp);
 
     return () => {
       window.removeEventListener("nevfim-mobile-move", onMobileMove);
       canvas.removeEventListener("pointerdown", onPointerDown);
-      canvas.removeEventListener("pointermove", onPointerMove);
-      canvas.removeEventListener("pointerup", stopPointerDrag);
-      canvas.removeEventListener("pointercancel", stopPointerDrag);
+      window.removeEventListener("pointermove", onPointerMove);
+      window.removeEventListener("pointerup", stopPointerDrag);
+      window.removeEventListener("blur", stopPointerDrag);
       window.removeEventListener("keydown", onKeyDown);
       window.removeEventListener("keyup", onKeyUp);
 
@@ -466,39 +429,25 @@ function FirstPersonController() {
   }, [camera, gl]);
 
   useFrame((_, delta) => {
-    const safeDelta = Math.min(delta, 0.05);
-    const rotationEase = 1 - Math.exp(-13 * safeDelta);
-
-    yaw.current = THREE.MathUtils.lerp(
-      yaw.current,
-      targetYaw.current,
-      rotationEase,
-    );
-    pitch.current = THREE.MathUtils.lerp(
-      pitch.current,
-      targetPitch.current,
-      rotationEase,
-    );
-
     // Всегда держим камеру ровно, без завала горизонта.
     camera.rotation.order = "YXZ";
     camera.rotation.y = yaw.current;
     camera.rotation.x = pitch.current;
     camera.rotation.z = 0;
 
-    const forward = forwardVector.current.set(
+    const forward = new THREE.Vector3(
       -Math.sin(yaw.current),
       0,
       -Math.cos(yaw.current),
     );
 
-    const right = rightVector.current.set(
+    const right = new THREE.Vector3(
       Math.cos(yaw.current),
       0,
       -Math.sin(yaw.current),
     );
 
-    const move = moveVector.current.set(0, 0, 0);
+    const move = new THREE.Vector3();
 
     if (keys.current.forward) {
       move.add(forward);
@@ -517,7 +466,7 @@ function FirstPersonController() {
     }
 
     if (move.lengthSq() > 0) {
-      move.normalize().multiplyScalar(MOVE_SPEED * safeDelta);
+      move.normalize().multiplyScalar(MOVE_SPEED * delta);
       camera.position.add(move);
     }
 
@@ -592,7 +541,7 @@ export function RoomScene({
       />
 
       {/* Лёгкое освещение без тяжёлых люстр и теней */}
-      <ambientLight intensity={mobileMode ? 0.74 : 1.05} />
+      <ambientLight intensity={mobileMode ? 0.82 : 1.05} />
 
       <hemisphereLight
         intensity={mobileMode ? 0.7 : 0.75}

@@ -9226,49 +9226,170 @@ html {
 
 
 /* =========================================================
-   CONSTRUCTOR MOBILE 3D POLISH V4
+   CONSTRUCTOR MOBILE HEADER — FIXED CORNERS V5
+   Catalog left / title center / menu right
 ========================================================= */
 @media (max-width: 820px) {
-  html,
-  body {
-    min-height: 100%;
-    background: #050707 !important;
-    overscroll-behavior: none;
+  .threeDTopbar.constructorTopbar,
+  .topbar.constructorTopbar {
+    position: relative !important;
+    z-index: 90 !important;
+    display: block !important;
+    width: 100% !important;
+    height: 94px !important;
+    min-height: 94px !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    background: #070909 !important;
+    border-bottom: 1px solid rgba(190, 135, 62, 0.3) !important;
   }
 
-  body,
-  .app,
-  .threeDWorkspaceShell,
+  .constructorCatalogTopButton {
+    position: absolute !important;
+    top: 17px !important;
+    left: 18px !important;
+    z-index: 3 !important;
+    display: inline-flex !important;
+    width: auto !important;
+    min-width: 96px !important;
+    height: 58px !important;
+    padding: 0 17px !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border: 1px solid rgba(201, 151, 73, 0.62) !important;
+    border-radius: 14px !important;
+    background:
+      linear-gradient(145deg, rgba(28, 23, 17, 0.98), rgba(7, 8, 8, 0.98))
+      !important;
+    color: #e8bd72 !important;
+    font-size: 14px !important;
+    font-weight: 800 !important;
+    line-height: 1 !important;
+    box-shadow: 0 7px 20px rgba(0, 0, 0, 0.25) !important;
+    white-space: nowrap !important;
+  }
+
+  .constructorStudioIdentity {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    z-index: 2 !important;
+    display: flex !important;
+    width: min(47vw, 220px) !important;
+    max-width: none !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 9px !important;
+    text-align: left !important;
+    transform: translate(-50%, -50%) !important;
+    pointer-events: none !important;
+  }
+
+  .constructorStudioIdentity .threeDStatusDot {
+    width: 9px !important;
+    height: 9px !important;
+    flex: 0 0 9px !important;
+  }
+
+  .constructorStudioIdentity > div {
+    min-width: 0 !important;
+  }
+
+  .constructorStudioIdentity strong {
+    display: block !important;
+    overflow: visible !important;
+    color: #fff !important;
+    font-size: clamp(15px, 4.2vw, 19px) !important;
+    font-weight: 800 !important;
+    line-height: 1.05 !important;
+    text-overflow: clip !important;
+    white-space: nowrap !important;
+  }
+
+  .constructorStudioIdentity small {
+    display: block !important;
+    margin-top: 5px !important;
+    overflow: hidden !important;
+    color: rgba(255, 255, 255, 0.57) !important;
+    font-size: clamp(8px, 2.4vw, 11px) !important;
+    line-height: 1.15 !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    -webkit-line-clamp: unset !important;
+  }
+
+  .constructorMobileMenuButton {
+    position: absolute !important;
+    top: 14px !important;
+    right: 18px !important;
+    z-index: 3 !important;
+    display: inline-grid !important;
+    width: 62px !important;
+    height: 62px !important;
+    padding: 0 !important;
+    place-items: center !important;
+    border: 1px solid rgba(201, 151, 73, 0.62) !important;
+    border-radius: 15px !important;
+    background:
+      linear-gradient(145deg, rgba(28, 23, 17, 0.98), rgba(7, 8, 8, 0.98))
+      !important;
+    color: #e8bd72 !important;
+    box-shadow: 0 7px 20px rgba(0, 0, 0, 0.25) !important;
+  }
+
+  .constructorDesktopActions {
+    display: none !important;
+  }
+
+  /* Keep the original stable floor/room dimensions. */
   .threeDWorkspace,
   .threeDStage {
-    background-color: #050707;
+    min-height: 0 !important;
   }
 
-  .threeDStage canvas {
-    touch-action: none;
-  }
-
+  /* Controls remain centered, but slightly smaller than before. */
   .mobile3DControls {
-    bottom: max(34px, env(safe-area-inset-bottom)) !important;
-    width: 132px !important;
-    height: 132px !important;
-    gap: 5px !important;
-    pointer-events: none;
+    right: auto !important;
+    bottom: max(26px, env(safe-area-inset-bottom)) !important;
+    left: 50% !important;
+    width: 142px !important;
+    height: 142px !important;
+    transform: translateX(-50%) !important;
   }
 
   .mobile3DControl {
-    width: 43px !important;
-    height: 43px !important;
-    border-radius: 11px !important;
-    box-shadow:
-      0 7px 18px rgba(0, 0, 0, 0.3),
-      inset 0 0 0 1px rgba(221, 176, 98, 0.04) !important;
-    pointer-events: auto;
-    touch-action: none;
-    -webkit-tap-highlight-color: transparent;
+    width: 46px !important;
+    height: 46px !important;
+    border-radius: 12px !important;
+  }
+}
+
+/* Narrow phones: protect the centered title from both corner buttons. */
+@media (max-width: 390px) {
+  .constructorCatalogTopButton {
+    left: 12px !important;
+    min-width: 86px !important;
+    height: 54px !important;
+    padding: 0 13px !important;
+    font-size: 13px !important;
   }
 
-  .mobile3DControl:active {
-    transform: scale(0.94);
+  .constructorMobileMenuButton {
+    top: 16px !important;
+    right: 12px !important;
+    width: 56px !important;
+    height: 56px !important;
+  }
+
+  .constructorStudioIdentity {
+    width: 45vw !important;
+  }
+
+  .constructorStudioIdentity strong {
+    font-size: 14px !important;
+  }
+
+  .constructorStudioIdentity small {
+    font-size: 8px !important;
   }
 }

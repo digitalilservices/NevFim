@@ -5,7 +5,6 @@ import { useEffect, useRef, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import type { Group } from "three";
-import * as THREE from "three";
 import { ChevronDown, ChevronLeft, ChevronRight, ChevronUp, Menu, X } from "lucide-react";
 
 import { ThreeDSidebar } from "./ThreeDSidebar";
@@ -244,7 +243,6 @@ export function ThreeDWorkspace({
               window.dispatchEvent(new CustomEvent("nevfim-open-3d-catalog"))
             }
           >
-            <Menu size={20} />
             <span>{t(language, "catalog")}</span>
           </button>
 
@@ -364,11 +362,11 @@ export function ThreeDWorkspace({
 
         <div className="threeDStage">
           <Canvas
-            dpr={mobileMode ? [1, 1.15] : [1, 1.5]}
+            dpr={mobileMode ? [1, 1.3] : [1, 1.5]}
             frameloop={isActive ? "always" : "demand"}
             shadows={false}
             performance={{
-              min: mobileMode ? 0.72 : 0.5,
+              min: mobileMode ? 0.7 : 0.5,
               max: 1,
               debounce: 250,
             }}
@@ -387,10 +385,6 @@ export function ThreeDWorkspace({
               far: 50,
             }}
             onCreated={({ gl }) => {
-              gl.outputColorSpace = THREE.SRGBColorSpace;
-              gl.toneMapping = THREE.ACESFilmicToneMapping;
-              gl.toneMappingExposure = mobileMode ? 0.92 : 1;
-
               const canvas = gl.domElement;
 
               const handleContextLost = (event: Event) => {
@@ -422,7 +416,7 @@ export function ThreeDWorkspace({
                 onPointerCancel={() => dispatchMobileMove("forward", false)}
                 onPointerLeave={() => dispatchMobileMove("forward", false)}
               >
-                <ChevronUp size={20} />
+                <ChevronUp size={25} />
               </button>
 
               <button
@@ -434,7 +428,7 @@ export function ThreeDWorkspace({
                 onPointerCancel={() => dispatchMobileMove("left", false)}
                 onPointerLeave={() => dispatchMobileMove("left", false)}
               >
-                <ChevronLeft size={20} />
+                <ChevronLeft size={25} />
               </button>
 
               <button
@@ -446,7 +440,7 @@ export function ThreeDWorkspace({
                 onPointerCancel={() => dispatchMobileMove("right", false)}
                 onPointerLeave={() => dispatchMobileMove("right", false)}
               >
-                <ChevronRight size={20} />
+                <ChevronRight size={25} />
               </button>
 
               <button
@@ -458,7 +452,7 @@ export function ThreeDWorkspace({
                 onPointerCancel={() => dispatchMobileMove("backward", false)}
                 onPointerLeave={() => dispatchMobileMove("backward", false)}
               >
-                <ChevronDown size={20} />
+                <ChevronDown size={25} />
               </button>
             </div>
           )}
