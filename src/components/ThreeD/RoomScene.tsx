@@ -92,7 +92,7 @@ const ROOM_DEPTH = 10;
 const ROOM_HEIGHT = 3.4;
 
 const EYE_HEIGHT = 1.65;
-const MOVE_SPEED = 3.1;
+const MOVE_SPEED = 2.15;
 
 function createGrayWoodTexture(mobileMode: boolean) {
   const canvas = document.createElement("canvas");
@@ -173,7 +173,7 @@ function createGrayWoodTexture(mobileMode: boolean) {
   texture.wrapT = THREE.RepeatWrapping;
   texture.repeat.set(2.2, 3.2);
   texture.colorSpace = THREE.SRGBColorSpace;
-  texture.anisotropy = mobileMode ? 2 : 4;
+  texture.anisotropy = mobileMode ? 3 : 4;
 
   return texture;
 }
@@ -278,9 +278,16 @@ function FirstPersonController() {
 
   const yaw = useRef(0);
   const pitch = useRef(0);
+  const targetYaw = useRef(0);
+  const targetPitch = useRef(0);
 
+  const activePointerId = useRef<number | null>(null);
   const isDragging = useRef(false);
   const lastPointer = useRef({ x: 0, y: 0 });
+
+  const forwardVector = useRef(new THREE.Vector3());
+  const rightVector = useRef(new THREE.Vector3());
+  const moveVector = useRef(new THREE.Vector3());
 
   const keys = useRef({
     forward: false,
@@ -295,6 +302,8 @@ function FirstPersonController() {
 
     yaw.current = 0;
     pitch.current = 0;
+    targetYaw.current = 0;
+    targetPitch.current = 0;
 
     // Важно: полностью сбрасываем возможный старый наклон камеры.
     camera.rotation.set(0, 0, 0);
@@ -303,46 +312,68 @@ function FirstPersonController() {
     const canvas = gl.domElement;
 
     const onPointerDown = (event: PointerEvent) => {
-      if (event.button !== 0) {
+      if (event.pointerType === "mouse" && event.button !== 0) {
         return;
       }
 
+      // Камерой управляет только палец, начавший жест на Canvas.
+      // Палец на стрелке не вмешивается в поворот камеры.
+      activePointerId.current = event.pointerId;
       isDragging.current = true;
       lastPointer.current = {
         x: event.clientX,
         y: event.clientY,
       };
 
+      canvas.setPointerCapture?.(event.pointerId);
       canvas.style.cursor = "grabbing";
     };
 
     const onPointerMove = (event: PointerEvent) => {
-      if (!isDragging.current) {
+      if (
+        !isDragging.current ||
+        activePointerId.current !== event.pointerId
+      ) {
         return;
       }
 
-      const deltaX = event.clientX - lastPointer.current.x;
-      const deltaY = event.clientY - lastPointer.current.y;
+      const deltaX = THREE.MathUtils.clamp(
+        event.clientX - lastPointer.current.x,
+        -34,
+        34,
+      );
+      const deltaY = THREE.MathUtils.clamp(
+        event.clientY - lastPointer.current.y,
+        -34,
+        34,
+      );
 
       lastPointer.current = {
         x: event.clientX,
         y: event.clientY,
       };
 
-      const sensitivity = 0.0028;
+      const sensitivity =
+        event.pointerType === "touch" ? 0.00195 : 0.00245;
 
-      yaw.current -= deltaX * sensitivity;
-      pitch.current -= deltaY * sensitivity;
-
-      // Не даём камере смотреть слишком резко вверх/вниз.
-      pitch.current = THREE.MathUtils.clamp(
-        pitch.current,
-        -0.72,
-        0.72,
+      targetYaw.current -= deltaX * sensitivity;
+      targetPitch.current = THREE.MathUtils.clamp(
+        targetPitch.current - deltaY * sensitivity,
+        -0.55,
+        0.55,
       );
     };
 
-    const stopPointerDrag = () => {
+    const stopPointerDrag = (event?: PointerEvent) => {
+      if (
+        event &&
+        activePointerId.current !== null &&
+        event.pointerId !== activePointerId.current
+      ) {
+        return;
+      }
+
+      activePointerId.current = null;
       isDragging.current = false;
       canvas.style.cursor = "grab";
     };
@@ -406,21 +437,23 @@ function FirstPersonController() {
     };
 
     canvas.style.cursor = "grab";
+    canvas.style.touchAction = "none";
 
     window.addEventListener("nevfim-mobile-move", onMobileMove);
     canvas.addEventListener("pointerdown", onPointerDown);
-    window.addEventListener("pointermove", onPointerMove);
-    window.addEventListener("pointerup", stopPointerDrag);
-    window.addEventListener("blur", stopPointerDrag);
+    canvas.addEventListener("pointermove", onPointerMove);
+    canvas.addEventListener("pointerup", stopPointerDrag);
+    canvas.addEventListener("pointercancel", stopPointerDrag);
+    window.addEventListener("blur", () => stopPointerDrag());
     window.addEventListener("keydown", onKeyDown);
     window.addEventListener("keyup", onKeyUp);
 
     return () => {
       window.removeEventListener("nevfim-mobile-move", onMobileMove);
       canvas.removeEventListener("pointerdown", onPointerDown);
-      window.removeEventListener("pointermove", onPointerMove);
-      window.removeEventListener("pointerup", stopPointerDrag);
-      window.removeEventListener("blur", stopPointerDrag);
+      canvas.removeEventListener("pointermove", onPointerMove);
+      canvas.removeEventListener("pointerup", stopPointerDrag);
+      canvas.removeEventListener("pointercancel", stopPointerDrag);
       window.removeEventListener("keydown", onKeyDown);
       window.removeEventListener("keyup", onKeyUp);
 
@@ -429,25 +462,39 @@ function FirstPersonController() {
   }, [camera, gl]);
 
   useFrame((_, delta) => {
+    const safeDelta = Math.min(delta, 0.045);
+    const rotationEase = 1 - Math.exp(-11 * safeDelta);
+
+    yaw.current = THREE.MathUtils.lerp(
+      yaw.current,
+      targetYaw.current,
+      rotationEase,
+    );
+    pitch.current = THREE.MathUtils.lerp(
+      pitch.current,
+      targetPitch.current,
+      rotationEase,
+    );
+
     // Всегда держим камеру ровно, без завала горизонта.
     camera.rotation.order = "YXZ";
     camera.rotation.y = yaw.current;
     camera.rotation.x = pitch.current;
     camera.rotation.z = 0;
 
-    const forward = new THREE.Vector3(
+    const forward = forwardVector.current.set(
       -Math.sin(yaw.current),
       0,
       -Math.cos(yaw.current),
     );
 
-    const right = new THREE.Vector3(
+    const right = rightVector.current.set(
       Math.cos(yaw.current),
       0,
       -Math.sin(yaw.current),
     );
 
-    const move = new THREE.Vector3();
+    const move = moveVector.current.set(0, 0, 0);
 
     if (keys.current.forward) {
       move.add(forward);
@@ -466,7 +513,7 @@ function FirstPersonController() {
     }
 
     if (move.lengthSq() > 0) {
-      move.normalize().multiplyScalar(MOVE_SPEED * delta);
+      move.normalize().multiplyScalar(MOVE_SPEED * safeDelta);
       camera.position.add(move);
     }
 

@@ -362,11 +362,11 @@ export function ThreeDWorkspace({
 
         <div className="threeDStage">
           <Canvas
-            dpr={mobileMode ? [1, 1.3] : [1, 1.5]}
+            dpr={mobileMode ? [1, 1.18] : [1, 1.5]}
             frameloop={isActive ? "always" : "demand"}
             shadows={false}
             performance={{
-              min: mobileMode ? 0.7 : 0.5,
+              min: mobileMode ? 0.62 : 0.5,
               max: 1,
               debounce: 250,
             }}

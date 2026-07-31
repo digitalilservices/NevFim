@@ -1,8 +1,5 @@
-import type { Metadata } from "next";
-import { Suspense } from "react";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-
-import { SiteMotion } from "@/components/Site/SiteMotion";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -15,32 +12,44 @@ const geistMono = Geist_Mono({
   subsets: ["latin", "cyrillic"],
 });
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#050707",
+};
+
 export const metadata: Metadata = {
   title: {
     default: "NevFim.grup",
     template: "%s | NevFim.grup",
   },
   description:
-    "Каталог мебели NevFim и интерактивный 2D/3D-конструктор.",
+    "NevFim — AI-конструктор мебели, каталог, личный кабинет и заказы.",
+  applicationName: "NevFim.grup",
+  icons: {
+    icon: "/images/logo/logo.png",
+    shortcut: "/images/logo/logo.png",
+    apple: "/images/logo/logo.png",
+  },
+  openGraph: {
+    title: "NevFim.grup",
+    description: "AI-конструктор и каталог мебели NevFim.",
+    siteName: "NevFim.grup",
+    type: "website",
+    images: ["/images/logo/logo.png"],
+  },
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html
-      lang="ru"
-      className={`${geistSans.variable} ${geistMono.variable}`}
+      lang="en"
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body>
-        {children}
-
-        <Suspense fallback={null}>
-          <SiteMotion />
-        </Suspense>
-      </body>
+      <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
 }
