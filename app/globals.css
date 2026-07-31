@@ -9223,3 +9223,52 @@ html {
   to { opacity: 1; transform: translateX(0); }
 }
 @keyframes constructorFade { from { opacity: 0; } to { opacity: 1; } }
+
+
+/* =========================================================
+   CONSTRUCTOR MOBILE 3D POLISH V4
+========================================================= */
+@media (max-width: 820px) {
+  html,
+  body {
+    min-height: 100%;
+    background: #050707 !important;
+    overscroll-behavior: none;
+  }
+
+  body,
+  .app,
+  .threeDWorkspaceShell,
+  .threeDWorkspace,
+  .threeDStage {
+    background-color: #050707;
+  }
+
+  .threeDStage canvas {
+    touch-action: none;
+  }
+
+  .mobile3DControls {
+    bottom: max(34px, env(safe-area-inset-bottom)) !important;
+    width: 132px !important;
+    height: 132px !important;
+    gap: 5px !important;
+    pointer-events: none;
+  }
+
+  .mobile3DControl {
+    width: 43px !important;
+    height: 43px !important;
+    border-radius: 11px !important;
+    box-shadow:
+      0 7px 18px rgba(0, 0, 0, 0.3),
+      inset 0 0 0 1px rgba(221, 176, 98, 0.04) !important;
+    pointer-events: auto;
+    touch-action: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .mobile3DControl:active {
+    transform: scale(0.94);
+  }
+}
