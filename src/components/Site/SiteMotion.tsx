@@ -115,7 +115,7 @@ export function SiteMotion() {
     const root = document.querySelector<HTMLElement>("main.sitePage");
     if (!root) return;
 
-    const observed = new WeakSet<HTMLElement>();
+    const prepared = new WeakSet<HTMLElement>();
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -128,61 +128,65 @@ export function SiteMotion() {
         });
       },
       {
+        // sitePage is its own scrolling container, so observe inside it.
+        root,
         threshold: 0.08,
-        rootMargin: "0px 0px -5% 0px",
+        rootMargin: "0px 0px -6% 0px",
       },
     );
 
-    const prepareElements = () => {
+    const prepare = () => {
       const elements = Array.from(
         root.querySelectorAll<HTMLElement>(REVEAL_SELECTOR),
       );
 
       elements.forEach((element, index) => {
-        if (observed.has(element)) return;
+        if (prepared.has(element)) return;
+        prepared.add(element);
 
-        observed.add(element);
+        element.classList.remove("isNevfimVisible");
         element.dataset.nevfimMotion = directionForElement(element, index);
         element.style.setProperty(
           "--nevfim-delay",
-          `${Math.min(index % 4, 3) * 70}ms`,
+          `${Math.min(index % 5, 4) * 75}ms`,
         );
 
-        const isHero =
+        const rect = element.getBoundingClientRect();
+        const rootRect = root.getBoundingClientRect();
+        const alreadyVisible =
+          rect.top < rootRect.bottom * 0.92 && rect.bottom > rootRect.top;
+
+        if (
           element.matches(".siteHeroMedia") ||
           element.matches(".siteHeroContent") ||
-          element.matches(".sitePageHero");
-
-        if (isHero) {
+          element.matches(".sitePageHero") ||
+          alreadyVisible
+        ) {
           requestAnimationFrame(() => {
             requestAnimationFrame(() => {
               element.classList.add("isNevfimVisible");
             });
           });
-          return;
+        } else {
+          observer.observe(element);
         }
-
-        observer.observe(element);
       });
     };
 
-    prepareElements();
+    // Start from top after a public route transition.
+    prepare();
+    const delayed = window.setTimeout(prepare, 180);
+    const finalPass = window.setTimeout(prepare, 700);
 
-    const delayedScan = window.setTimeout(prepareElements, 180);
-    const finalScan = window.setTimeout(prepareElements, 650);
-
-    const mutationObserver = new MutationObserver(() => {
-      prepareElements();
-    });
-
+    const mutationObserver = new MutationObserver(prepare);
     mutationObserver.observe(root, {
       childList: true,
       subtree: true,
     });
 
     return () => {
-      window.clearTimeout(delayedScan);
-      window.clearTimeout(finalScan);
+      window.clearTimeout(delayed);
+      window.clearTimeout(finalPass);
       mutationObserver.disconnect();
       observer.disconnect();
     };

@@ -9478,124 +9478,186 @@ body {
 
 
 /* =========================================================
-   NEVFIM PRECISION FIXES — AUGUST 2026
+   NEVFIM PREMIUM MOTION + ACCOUNT PORTAL V8
 ========================================================= */
 
-/* Desktop constructor: show the Back to site button again. */
-@media (min-width: 821px) {
-  .constructorDesktopActions {
-    display: flex !important;
-  }
-
-  .constructorDesktopActions > a[href="/"] {
-    flex: 0 0 auto;
-  }
-}
-
-/* Home page lower image: keep it clearly visible and correctly cropped. */
-.sitePage .siteSplitMedia {
-  min-height: 560px !important;
-  background-image: url("/images/backgrounds/showroom.jpg") !important;
-  background-position: center 48% !important;
-  background-repeat: no-repeat !important;
-  background-size: cover !important;
-}
-
-.sitePage .siteSplitSection {
-  overflow: hidden;
-}
-
-/* Account dropdown must remain readable on every phone width. */
-@media (max-width: 720px) {
-  .sitePage .accountMenu {
-    position: static !important;
-  }
-
-  .sitePage .accountMenuDropdown {
-    position: fixed !important;
-    z-index: 1600 !important;
-    top: 88px !important;
-    right: 14px !important;
-    left: 14px !important;
-    display: grid !important;
-    width: auto !important;
-    min-width: 0 !important;
-    max-width: none !important;
-    padding: 12px !important;
-    overflow: visible !important;
-    border: 1px solid rgba(205, 157, 79, 0.42) !important;
-    border-radius: 15px !important;
-    background: #111313 !important;
-    color: #ffffff !important;
-    box-shadow: 0 22px 60px rgba(0, 0, 0, 0.56) !important;
-  }
-
-  .sitePage .accountMenuIdentity {
-    display: grid !important;
-    width: 100% !important;
-    min-width: 0 !important;
-    padding: 11px 12px 14px !important;
-  }
-
-  .sitePage .accountMenuIdentity small,
-  .sitePage .accountMenuIdentity strong {
-    display: block !important;
-    width: 100% !important;
-    overflow: hidden !important;
-    white-space: nowrap !important;
-    text-overflow: ellipsis !important;
-  }
-
-  .sitePage .accountMenuIdentity small {
-    color: #9c9c9c !important;
-    font-size: 11px !important;
-  }
-
-  .sitePage .accountMenuIdentity strong {
-    margin-top: 4px !important;
-    color: #ffffff !important;
-    font-size: 13px !important;
-  }
-
-  .sitePage .accountMenuDropdown a {
-    display: flex !important;
-    width: 100% !important;
-    min-height: 46px !important;
-    padding: 11px 12px !important;
-    color: #ffffff !important;
-  }
-
-  .sitePage .siteSplitSection {
-    display: grid !important;
-    grid-template-columns: 1fr !important;
-    min-height: 0 !important;
-  }
-
-  .sitePage .siteSplitMedia {
-    min-height: 390px !important;
-    background-position: center 44% !important;
-  }
-
-  .sitePage .siteSplitContent {
-    min-height: 440px !important;
-  }
-}
-
-/* Restore and strengthen scroll reveal effects. */
+/* The public site scrolls inside main.sitePage. */
 .sitePage [data-nevfim-motion] {
-  opacity: 0;
+  --nevfim-x: 0px;
+  --nevfim-y: 46px;
+  --nevfim-scale: 0.975;
+  --nevfim-delay: 0ms;
+
+  opacity: 0 !important;
   transform:
-    translate3d(var(--nevfim-x, 0), var(--nevfim-y, 34px), 0)
-    scale(var(--nevfim-scale, 0.985));
-  filter: blur(2px);
+    translate3d(var(--nevfim-x), var(--nevfim-y), 0)
+    scale(var(--nevfim-scale)) !important;
+  filter: blur(4px);
   transition:
-    opacity 760ms cubic-bezier(.2,.72,.2,1) var(--nevfim-delay, 0ms),
-    transform 860ms cubic-bezier(.2,.72,.2,1) var(--nevfim-delay, 0ms),
-    filter 620ms ease var(--nevfim-delay, 0ms);
+    opacity 820ms cubic-bezier(.16, 1, .3, 1) var(--nevfim-delay),
+    transform 980ms cubic-bezier(.16, 1, .3, 1) var(--nevfim-delay),
+    filter 760ms ease var(--nevfim-delay) !important;
+  will-change: opacity, transform, filter;
+}
+
+.sitePage [data-nevfim-motion="left"] {
+  --nevfim-x: -72px;
+  --nevfim-y: 8px;
+}
+
+.sitePage [data-nevfim-motion="right"] {
+  --nevfim-x: 72px;
+  --nevfim-y: 8px;
+}
+
+.sitePage [data-nevfim-motion="scale"] {
+  --nevfim-x: 0px;
+  --nevfim-y: 18px;
+  --nevfim-scale: 0.94;
+}
+
+.sitePage [data-nevfim-motion="soft"] {
+  --nevfim-y: 32px;
+  --nevfim-scale: 0.97;
 }
 
 .sitePage [data-nevfim-motion].isNevfimVisible {
-  opacity: 1;
-  transform: translate3d(0, 0, 0) scale(1);
-  filter: blur(0);
+  opacity: 1 !important;
+  transform: translate3d(0, 0, 0) scale(1) !important;
+  filter: blur(0) !important;
+}
+
+.sitePage .siteHeroMedia[data-nevfim-motion] {
+  transition-duration: 1200ms !important;
+}
+
+.sitePage .siteHeroContent[data-nevfim-motion] {
+  transition-duration: 980ms !important;
+}
+
+.sitePage .siteCatalogCategoryCard {
+  contain: paint;
+}
+
+.sitePage .siteCatalogCategoryCard > img[data-nevfim-motion],
+.sitePage .siteCatalogCategoryCard > div[data-nevfim-motion] {
+  transition-duration: 1050ms !important;
+}
+
+/* Never let hover transitions erase reveal transitions. */
+.sitePage .siteProductCard[data-nevfim-motion],
+.sitePage .siteCategoryCard[data-nevfim-motion],
+.sitePage .siteAdvantages article[data-nevfim-motion],
+.sitePage .siteQualityCard[data-nevfim-motion] {
+  transition:
+    opacity 820ms cubic-bezier(.16, 1, .3, 1) var(--nevfim-delay),
+    transform 980ms cubic-bezier(.16, 1, .3, 1) var(--nevfim-delay),
+    filter 760ms ease var(--nevfim-delay),
+    box-shadow 220ms ease,
+    border-color 220ms ease !important;
+}
+
+.accountMenuBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1998;
+  border: 0;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(2px);
+}
+
+.accountMenuDropdownPortal {
+  z-index: 1999 !important;
+  display: grid !important;
+  min-width: 0 !important;
+  max-width: calc(100vw - 28px) !important;
+  padding: 12px !important;
+  overflow: visible !important;
+  border: 1px solid rgba(211, 163, 83, 0.52) !important;
+  border-radius: 16px !important;
+  background:
+    linear-gradient(145deg, rgba(24, 25, 25, 0.995), rgba(9, 10, 10, 0.995)) !important;
+  color: #fff !important;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.62) !important;
+  animation: nevfimAccountOpen 260ms cubic-bezier(.16, 1, .3, 1) both;
+}
+
+.accountMenuDropdownPortal .accountMenuIdentity {
+  width: 100% !important;
+  min-width: 0 !important;
+  padding: 11px 12px 14px !important;
+}
+
+.accountMenuDropdownPortal .accountMenuIdentity small,
+.accountMenuDropdownPortal .accountMenuIdentity strong {
+  display: block !important;
+  width: 100% !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+.accountMenuDropdownPortal .accountMenuIdentity small {
+  color: #9c9c9c !important;
+  font-size: 11px !important;
+}
+
+.accountMenuDropdownPortal .accountMenuIdentity strong {
+  margin-top: 4px !important;
+  color: #fff !important;
+  font-size: 13px !important;
+}
+
+.accountMenuDropdownPortal a {
+  display: flex !important;
+  width: 100% !important;
+  min-height: 48px !important;
+  padding: 12px !important;
+  align-items: center !important;
+  gap: 10px !important;
+  border-radius: 10px !important;
+  color: #fff !important;
+  font-size: 13px !important;
+  font-weight: 750 !important;
+}
+
+.accountMenuDropdownPortal a:hover,
+.accountMenuDropdownPortal a:active {
+  background: rgba(215, 169, 81, 0.11) !important;
+  color: #f0cc7a !important;
+}
+
+@keyframes nevfimAccountOpen {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -12px, 0) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@media (max-width: 720px) {
+  .accountMenuDropdownPortal {
+    max-height: min(360px, calc(100dvh - 180px)) !important;
+    overflow-y: auto !important;
+  }
+
+  .sitePage [data-nevfim-motion="left"] {
+    --nevfim-x: -38px;
+  }
+
+  .sitePage [data-nevfim-motion="right"] {
+    --nevfim-x: 38px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sitePage [data-nevfim-motion] {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+  }
 }

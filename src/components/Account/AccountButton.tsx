@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import { createPortal } from "react-dom";
 import { useEffect, useRef, useState } from "react";
+import type { CSSProperties } from "react";
 import { LogIn, ShoppingCart, UserRound, UserPlus } from "lucide-react";
 
 import { createClient } from "@/lib/supabase/client";
@@ -44,6 +46,9 @@ export function AccountButton({ language }: AccountButtonProps) {
   const [isReady, setIsReady] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement | null>(null);
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const [dropdownStyle, setDropdownStyle] = useState<CSSProperties>({});
   const copy = labels[language];
 
   useEffect(() => {
@@ -66,10 +71,11 @@ export function AccountButton({ language }: AccountButtonProps) {
 
   useEffect(() => {
     const closeOnOutsideClick = (event: MouseEvent) => {
-      if (
-        rootRef.current &&
-        !rootRef.current.contains(event.target as Node)
-      ) {
+      const target = event.target as Node;
+      const clickedButton = rootRef.current?.contains(target);
+      const clickedDropdown = dropdownRef.current?.contains(target);
+
+      if (!clickedButton && !clickedDropdown) {
         setIsOpen(false);
       }
     };
@@ -89,9 +95,52 @@ export function AccountButton({ language }: AccountButtonProps) {
     };
   }, []);
 
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const updatePosition = () => {
+      const button = buttonRef.current;
+      if (!button) return;
+
+      const rect = button.getBoundingClientRect();
+      const isMobile = window.matchMedia("(max-width: 720px)").matches;
+
+      if (isMobile) {
+        const header = document.querySelector<HTMLElement>(".siteHeader");
+        const headerBottom = header?.getBoundingClientRect().bottom ?? rect.bottom;
+
+        setDropdownStyle({
+          position: "fixed",
+          top: Math.max(headerBottom + 10, 96),
+          left: 14,
+          right: 14,
+          width: "auto",
+        });
+      } else {
+        const width = 300;
+        setDropdownStyle({
+          position: "fixed",
+          top: rect.bottom + 9,
+          left: Math.max(12, Math.min(rect.right - width, window.innerWidth - width - 12)),
+          width,
+        });
+      }
+    };
+
+    updatePosition();
+    window.addEventListener("resize", updatePosition);
+    window.addEventListener("scroll", updatePosition, true);
+
+    return () => {
+      window.removeEventListener("resize", updatePosition);
+      window.removeEventListener("scroll", updatePosition, true);
+    };
+  }, [isOpen]);
+
   return (
     <div className="accountMenu" ref={rootRef}>
       <button
+        ref={buttonRef}
         type="button"
         className="accountMenuButton"
         onClick={() => setIsOpen((current) => !current)}
@@ -102,8 +151,20 @@ export function AccountButton({ language }: AccountButtonProps) {
         <span>{email ? email.split("@")[0] : copy.account}</span>
       </button>
 
-      {isOpen && (
-        <div className="accountMenuDropdown" role="menu">
+      {isOpen && typeof document !== "undefined" && createPortal(
+        <>
+          <button
+            type="button"
+            className="accountMenuBackdrop"
+            onClick={() => setIsOpen(false)}
+            aria-label="Close account menu"
+          />
+          <div
+            ref={dropdownRef}
+            className="accountMenuDropdown accountMenuDropdownPortal"
+            role="menu"
+            style={dropdownStyle}
+          >
           {!isReady ? (
             <div className="accountMenuLoading">...</div>
           ) : email ? (
@@ -145,7 +206,9 @@ export function AccountButton({ language }: AccountButtonProps) {
               </Link>
             </>
           )}
-        </div>
+          </div>
+        </>,
+        document.body,
       )}
     </div>
   );

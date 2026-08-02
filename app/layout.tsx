@@ -1,6 +1,8 @@
-import type { Metadata, Viewport } from "next";
+import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { SiteMotion } from "@/components/Site/SiteMotion";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -11,13 +13,6 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin", "cyrillic"],
 });
-
-export const viewport: Viewport = {
-  width: "device-width",
-  initialScale: 1,
-  viewportFit: "cover",
-  themeColor: "#050707",
-};
 
 export const metadata: Metadata = {
   title: {
@@ -49,7 +44,12 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <Suspense fallback={null}>
+          <SiteMotion />
+        </Suspense>
+        {children}
+      </body>
     </html>
   );
 }
