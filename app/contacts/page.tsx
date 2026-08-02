@@ -314,15 +314,28 @@ export default function ContactsPage() {
         </form>
 
         <aside className="siteContactDetails siteContactDetailsPremium">
-          <div className="siteContactBrandMark" aria-hidden="true">
+          <div
+            className="siteContactBrandMark"
+            aria-hidden="true"
+            style={{
+              width: "74px",
+              height: "74px",
+              border: "none",
+              borderRadius: "16px",
+              background: "transparent",
+              overflow: "hidden",
+              display: "grid",
+              placeItems: "center",
+            }}
+          >
             <img
-              src="/images/logo.png"
+              src="/images/logo/logo.png"
               alt=""
-              width={54}
-              height={54}
+              width={68}
+              height={68}
               style={{
-                width: "54px",
-                height: "54px",
+                width: "68px",
+                height: "68px",
                 objectFit: "contain",
                 display: "block",
               }}
