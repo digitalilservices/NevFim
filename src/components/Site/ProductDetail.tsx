@@ -83,6 +83,23 @@ const copy = {
     close: "Закрыть",
     previous: "Предыдущее изображение",
     next: "Следующее изображение",
+    width: "Ширина",
+    height: "Высота",
+    depth: "Глубина",
+    millimeters: "мм",
+    enterSize: "Введите размеры изделия",
+    invalidSize: "Укажите корректные размеры от 100 до 10000 мм.",
+    configurationNote:
+      "Конфигурация изделия, оттенок и размеры уточняются перед запуском в производство.",
+    warrantyValue: "24 мес.",
+    productType: "Тип изделия",
+    manufacture: "Производство",
+    productionValue: "NevFim — индивидуальный заказ",
+    leadTime: "Срок изготовления",
+    country: "Страна производства",
+    countryValue: "Словакия / Чехия",
+    customDescription:
+      "Модель изготавливается индивидуально с возможностью выбора материала, цвета и размеров.",
   },
   cs: {
     back: "Zpět do katalogu",
@@ -120,6 +137,23 @@ const copy = {
     close: "Zavřít",
     previous: "Předchozí obrázek",
     next: "Další obrázek",
+    width: "Šířka",
+    height: "Výška",
+    depth: "Hloubka",
+    millimeters: "mm",
+    enterSize: "Zadejte rozměry výrobku",
+    invalidSize: "Zadejte platné rozměry od 100 do 10000 mm.",
+    configurationNote:
+      "Konfigurace výrobku, odstín a rozměry budou upřesněny před zahájením výroby.",
+    warrantyValue: "24 měsíců",
+    productType: "Typ výrobku",
+    manufacture: "Výroba",
+    productionValue: "NevFim — individuální zakázka",
+    leadTime: "Doba výroby",
+    country: "Země výroby",
+    countryValue: "Slovensko / Česko",
+    customDescription:
+      "Model se vyrábí individuálně s možností volby materiálu, barvy a rozměrů.",
   },
   en: {
     back: "Back to catalog",
@@ -157,6 +191,23 @@ const copy = {
     close: "Close",
     previous: "Previous image",
     next: "Next image",
+    width: "Width",
+    height: "Height",
+    depth: "Depth",
+    millimeters: "mm",
+    enterSize: "Enter product dimensions",
+    invalidSize: "Enter valid dimensions from 100 to 10000 mm.",
+    configurationNote:
+      "The configuration, finish and dimensions are confirmed before production begins.",
+    warrantyValue: "24 months",
+    productType: "Product type",
+    manufacture: "Production",
+    productionValue: "NevFim — custom order",
+    leadTime: "Production time",
+    country: "Country of production",
+    countryValue: "Slovakia / Czechia",
+    customDescription:
+      "The model is made to order with a choice of material, color and dimensions.",
   },
 } as const;
 
@@ -172,8 +223,70 @@ const defaultColors = [
 ];
 const defaultFabrics = ["Велюр", "Букле", "Рогожка"];
 
-function getDefaults(model: FurnitureModel, category: FurnitureCategory) {
+const optionTranslations: Record<
+  Language,
+  Record<string, string>
+> = {
+  ru: {
+    ЛДСП: "ЛДСП",
+    МДФ: "МДФ",
+    Шпон: "Шпон",
+    Фанера: "Фанера",
+    "Массив дерева": "Массив дерева",
+    "Светлый дуб": "Светлый дуб",
+    "Натуральный дуб": "Натуральный дуб",
+    Орех: "Орех",
+    Графит: "Графит",
+    Бежевый: "Бежевый",
+    Велюр: "Велюр",
+    Букле: "Букле",
+    Рогожка: "Рогожка",
+  },
+  cs: {
+    ЛДСП: "Laminovaná DTD",
+    МДФ: "MDF",
+    Шпон: "Dýha",
+    Фанера: "Překližka",
+    "Массив дерева": "Masivní dřevo",
+    "Светлый дуб": "Světlý dub",
+    "Натуральный дуб": "Přírodní dub",
+    Орех: "Ořech",
+    Графит: "Grafit",
+    Бежевый: "Béžová",
+    Велюр: "Velur",
+    Букле: "Buklé",
+    Рогожка: "Rohož",
+  },
+  en: {
+    ЛДСП: "Laminated chipboard",
+    МДФ: "MDF",
+    Шпон: "Veneer",
+    Фанера: "Plywood",
+    "Массив дерева": "Solid wood",
+    "Светлый дуб": "Light oak",
+    "Натуральный дуб": "Natural oak",
+    Орех: "Walnut",
+    Графит: "Graphite",
+    Бежевый: "Beige",
+    Велюр: "Velour",
+    Букле: "Bouclé",
+    Рогожка: "Matting",
+  },
+};
+
+function optionLabel(language: Language, value: string) {
+  return optionTranslations[language]?.[value] ?? value;
+}
+
+function getDefaults(
+  model: FurnitureModel,
+  category: FurnitureCategory,
+  language: Language,
+  translatedCategory: string,
+  translatedDescription: string,
+) {
   const isSoft = softCategories.has(model.categoryId);
+  const c = copy[language];
 
   return {
     images:
@@ -200,15 +313,15 @@ function getDefaults(model: FurnitureModel, category: FurnitureCategory) {
     },
     description:
       model.fullDescription?.trim() ||
-      `${model.description}. ${category.description}. Модель изготавливается индивидуально с возможностью выбора материала, цвета и размеров.`,
+      `${translatedDescription}. ${c.customDescription}`,
     characteristics:
       model.characteristics?.length
         ? model.characteristics
         : [
-            { label: "Тип изделия", value: category.name },
-            { label: "Производство", value: "NevFim — индивидуальный заказ" },
-            { label: "Срок изготовления", value: category.defaultDays },
-            { label: "Страна производства", value: "Словакия / Чехия" },
+            { label: c.productType, value: translatedCategory },
+            { label: c.manufacture, value: c.productionValue },
+            { label: c.leadTime, value: category.defaultDays },
+            { label: c.country, value: c.countryValue },
           ],
   };
 }
@@ -222,10 +335,6 @@ export function ProductDetail({
 }: Props) {
   const router = useRouter();
   const c = copy[language];
-  const defaults = useMemo(
-    () => getDefaults(model, category),
-    [model, category],
-  );
 
   const translatedName = modelName(
     language,
@@ -243,7 +352,28 @@ export function ProductDetail({
     category.name,
   );
 
+  const defaults = useMemo(
+    () =>
+      getDefaults(
+        model,
+        category,
+        language,
+        translatedCategory,
+        translatedDescription,
+      ),
+    [
+      model,
+      category,
+      language,
+      translatedCategory,
+      translatedDescription,
+    ],
+  );
+
   const [activeImage, setActiveImage] = useState(0);
+  const [activeTab, setActiveTab] = useState<
+    "overview" | "description" | "characteristics"
+  >("overview");
   const [selectedMaterial, setSelectedMaterial] = useState(
     defaults.materials[0] ?? "",
   );
@@ -254,6 +384,15 @@ export function ProductDetail({
     defaults.fabrics[0] ?? "",
   );
   const [quantity, setQuantity] = useState(1);
+  const [widthMm, setWidthMm] = useState(
+    defaults.dimensions.widthMm,
+  );
+  const [heightMm, setHeightMm] = useState(
+    defaults.dimensions.heightMm,
+  );
+  const [depthMm, setDepthMm] = useState(
+    defaults.dimensions.depthMm,
+  );
   const [isAdding, setIsAdding] = useState(false);
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState<
@@ -262,6 +401,9 @@ export function ProductDetail({
   const [isZoomOpen, setIsZoomOpen] = useState(false);
 
   const recommendationsRef = useRef<HTMLDivElement | null>(null);
+  const overviewRef = useRef<HTMLDivElement | null>(null);
+  const descriptionRef = useRef<HTMLElement | null>(null);
+  const characteristicsRef = useRef<HTMLElement | null>(null);
 
   const recommendations = useMemo(() => {
     const explicitlyRecommended = model.recommendedIds?.length
@@ -300,6 +442,19 @@ export function ProductDetail({
   }, [allModels, model]);
 
   useEffect(() => {
+    setActiveImage(0);
+    setSelectedMaterial(defaults.materials[0] ?? "");
+    setSelectedColor(defaults.colors[0] ?? "");
+    setSelectedFabric(defaults.fabrics[0] ?? "");
+    setWidthMm(defaults.dimensions.widthMm);
+    setHeightMm(defaults.dimensions.heightMm);
+    setDepthMm(defaults.dimensions.depthMm);
+    setQuantity(1);
+    setMessage("");
+    setActiveTab("overview");
+  }, [model.id, language, defaults]);
+
+  useEffect(() => {
     const elements = Array.from(
       document.querySelectorAll<HTMLElement>("[data-product-reveal]"),
     );
@@ -329,6 +484,41 @@ export function ProductDetail({
     return () => observer.disconnect();
   }, [model.id]);
 
+  const openSection = (
+    section: "overview" | "description" | "characteristics",
+  ) => {
+    setActiveTab(section);
+
+    const target =
+      section === "overview"
+        ? overviewRef.current
+        : section === "description"
+          ? descriptionRef.current
+          : characteristicsRef.current;
+
+    if (!target) return;
+
+    target.classList.add(styles.visible);
+
+    requestAnimationFrame(() => {
+      target.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    });
+  };
+
+  const normalizeDimension = (value: number) =>
+    Number.isFinite(value) ? Math.round(value) : 0;
+
+  const dimensionsAreValid =
+    widthMm >= 100 &&
+    widthMm <= 10000 &&
+    heightMm >= 100 &&
+    heightMm <= 10000 &&
+    depthMm >= 100 &&
+    depthMm <= 10000;
+
   const money = (value: number) =>
     `${value.toLocaleString(locale)} Kč`;
 
@@ -345,6 +535,12 @@ export function ProductDetail({
       setMessage("");
       setMessageType("");
 
+      if (!dimensionsAreValid) {
+        setMessage(c.invalidSize);
+        setMessageType("error");
+        return;
+      }
+
       const result = await addToCart({
         source: "catalog",
         categoryId: category.id,
@@ -353,12 +549,14 @@ export function ProductDetail({
         productCode: model.productCode,
         modelName: translatedName,
         imageUrl: defaults.images[activeImage] ?? model.image,
-        widthMm: defaults.dimensions.widthMm,
-        heightMm: defaults.dimensions.heightMm,
-        depthMm: defaults.dimensions.depthMm,
-        material: selectedMaterial,
-        color: selectedColor,
-        fabric: selectedFabric || undefined,
+        widthMm,
+        heightMm,
+        depthMm,
+        material: optionLabel(language, selectedMaterial),
+        color: optionLabel(language, selectedColor),
+        fabric: selectedFabric
+          ? optionLabel(language, selectedFabric)
+          : undefined,
         customerPrompt: `${c.production}. ${translatedDescription}`,
         price: model.basePrice,
         quantity,
@@ -415,14 +613,42 @@ export function ProductDetail({
 
       <section className={styles.productShell}>
         <div className={styles.tabs} data-product-reveal>
-          <a href="#overview" className={styles.activeTab}>
+          <button
+            type="button"
+            className={
+              activeTab === "overview" ? styles.activeTab : ""
+            }
+            onClick={() => openSection("overview")}
+          >
             {c.allAbout}
-          </a>
-          <a href="#description">{c.description}</a>
-          <a href="#characteristics">{c.characteristics}</a>
+          </button>
+          <button
+            type="button"
+            className={
+              activeTab === "description" ? styles.activeTab : ""
+            }
+            onClick={() => openSection("description")}
+          >
+            {c.description}
+          </button>
+          <button
+            type="button"
+            className={
+              activeTab === "characteristics"
+                ? styles.activeTab
+                : ""
+            }
+            onClick={() => openSection("characteristics")}
+          >
+            {c.characteristics}
+          </button>
         </div>
 
-        <div className={styles.productGrid} id="overview">
+        <div
+          className={styles.productGrid}
+          id="overview"
+          ref={overviewRef}
+        >
           <section className={styles.gallery} data-product-reveal>
             <div className={styles.thumbnails}>
               {defaults.images.map((image, index) => (
@@ -508,7 +734,7 @@ export function ProductDetail({
             <div className={styles.optionBlock}>
               <div className={styles.optionHeading}>
                 <strong>{c.material}</strong>
-                <span>{selectedMaterial}</span>
+                <span>{optionLabel(language, selectedMaterial)}</span>
               </div>
               <div className={styles.optionButtons}>
                 {defaults.materials.map((material) => (
@@ -523,7 +749,7 @@ export function ProductDetail({
                     onClick={() => setSelectedMaterial(material)}
                   >
                     {selectedMaterial === material && <Check size={15} />}
-                    {material}
+                    {optionLabel(language, material)}
                   </button>
                 ))}
               </div>
@@ -532,7 +758,7 @@ export function ProductDetail({
             <div className={styles.optionBlock}>
               <div className={styles.optionHeading}>
                 <strong>{c.color}</strong>
-                <span>{selectedColor}</span>
+                <span>{optionLabel(language, selectedColor)}</span>
               </div>
               <div className={styles.colorButtons}>
                 {defaults.colors.map((color, index) => (
@@ -545,8 +771,8 @@ export function ProductDetail({
                         : ""
                     }
                     onClick={() => setSelectedColor(color)}
-                    title={color}
-                    aria-label={color}
+                    title={optionLabel(language, color)}
+                    aria-label={optionLabel(language, color)}
                     style={{
                       "--swatch-color": [
                         "#d8c6a8",
@@ -567,7 +793,7 @@ export function ProductDetail({
               <div className={styles.optionBlock}>
                 <div className={styles.optionHeading}>
                   <strong>{c.fabric}</strong>
-                  <span>{selectedFabric}</span>
+                  <span>{optionLabel(language, selectedFabric)}</span>
                 </div>
                 <div className={styles.optionButtons}>
                   {defaults.fabrics.map((fabric) => (
@@ -582,7 +808,7 @@ export function ProductDetail({
                       onClick={() => setSelectedFabric(fabric)}
                     >
                       {selectedFabric === fabric && <Check size={15} />}
-                      {fabric}
+                      {optionLabel(language, fabric)}
                     </button>
                   ))}
                 </div>
@@ -590,13 +816,81 @@ export function ProductDetail({
             )}
 
             <div className={styles.sizeRow}>
-              <div>
-                <small>{c.size}</small>
-                <strong>
-                  {defaults.dimensions.widthMm} ×{" "}
-                  {defaults.dimensions.heightMm} ×{" "}
-                  {defaults.dimensions.depthMm} mm
-                </strong>
+              <div className={styles.dimensionEditor}>
+                <small>{c.enterSize}</small>
+                <div className={styles.dimensionFields}>
+                  <label>
+                    <span>{c.width}</span>
+                    <div>
+                      <input
+                        type="number"
+                        inputMode="numeric"
+                        min={100}
+                        max={10000}
+                        step={10}
+                        value={widthMm}
+                        onChange={(event) =>
+                          setWidthMm(
+                            normalizeDimension(
+                              event.currentTarget.valueAsNumber,
+                            ),
+                          )
+                        }
+                      />
+                      <b>{c.millimeters}</b>
+                    </div>
+                  </label>
+
+                  <label>
+                    <span>{c.height}</span>
+                    <div>
+                      <input
+                        type="number"
+                        inputMode="numeric"
+                        min={100}
+                        max={10000}
+                        step={10}
+                        value={heightMm}
+                        onChange={(event) =>
+                          setHeightMm(
+                            normalizeDimension(
+                              event.currentTarget.valueAsNumber,
+                            ),
+                          )
+                        }
+                      />
+                      <b>{c.millimeters}</b>
+                    </div>
+                  </label>
+
+                  <label>
+                    <span>{c.depth}</span>
+                    <div>
+                      <input
+                        type="number"
+                        inputMode="numeric"
+                        min={100}
+                        max={10000}
+                        step={10}
+                        value={depthMm}
+                        onChange={(event) =>
+                          setDepthMm(
+                            normalizeDimension(
+                              event.currentTarget.valueAsNumber,
+                            ),
+                          )
+                        }
+                      />
+                      <b>{c.millimeters}</b>
+                    </div>
+                  </label>
+                </div>
+
+                {!dimensionsAreValid && (
+                  <p className={styles.dimensionError}>
+                    {c.invalidSize}
+                  </p>
+                )}
               </div>
 
               <div className={styles.quantity}>
@@ -643,7 +937,7 @@ export function ProductDetail({
               <button
                 type="button"
                 className={styles.buyButton}
-                disabled={isAdding}
+                disabled={isAdding || !dimensionsAreValid}
                 onClick={() => addProduct(true)}
               >
                 <ShoppingBag size={19} />
@@ -653,7 +947,7 @@ export function ProductDetail({
               <button
                 type="button"
                 className={styles.cartButton}
-                disabled={isAdding}
+                disabled={isAdding || !dimensionsAreValid}
                 onClick={() => addProduct(false)}
               >
                 <ShoppingCart size={19} />
@@ -674,6 +968,7 @@ export function ProductDetail({
 
       <section
         id="description"
+        ref={descriptionRef}
         className={styles.contentSection}
         data-product-reveal
       >
@@ -686,8 +981,7 @@ export function ProductDetail({
           <article>
             <p>{defaults.description}</p>
             <p>
-              {c.production}. Конфигурация изделия, оттенок и размеры
-              уточняются перед запуском в производство.
+              {c.production}. {c.configurationNote}
             </p>
           </article>
 
@@ -697,7 +991,7 @@ export function ProductDetail({
               <span>{c.delivery}</span>
             </div>
             <div>
-              <strong>24 мес.</strong>
+              <strong>{c.warrantyValue}</strong>
               <span>{c.warranty}</span>
             </div>
           </aside>
@@ -706,6 +1000,7 @@ export function ProductDetail({
 
       <section
         id="characteristics"
+        ref={characteristicsRef}
         className={styles.contentSection}
         data-product-reveal
       >
@@ -718,9 +1013,7 @@ export function ProductDetail({
           <div>
             <span>{c.size}</span>
             <strong>
-              {defaults.dimensions.widthMm} ×{" "}
-              {defaults.dimensions.heightMm} ×{" "}
-              {defaults.dimensions.depthMm} mm
+              {widthMm} × {heightMm} × {depthMm} {c.millimeters}
             </strong>
           </div>
 

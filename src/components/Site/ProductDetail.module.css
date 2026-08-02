@@ -60,17 +60,21 @@
   padding: 14px 20px;
 }
 
-.tabs a {
+.tabs button {
   padding: 12px 17px;
   border-radius: 999px;
   color: #333735;
   font-size: 14px;
   font-weight: 700;
   text-decoration: none;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font-family: inherit;
   transition: 180ms ease;
 }
 
-.tabs a:hover,
+.tabs button:hover,
 .tabs .activeTab {
   background: #fff;
   box-shadow: 0 7px 20px rgba(20, 22, 21, 0.08);
@@ -969,5 +973,103 @@
     transform: none;
     filter: none;
     transition: none;
+  }
+}
+
+
+.dimensionEditor {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.dimensionFields {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(112px, 1fr));
+  gap: 9px;
+}
+
+.dimensionFields label {
+  display: grid;
+  gap: 6px;
+}
+
+.dimensionFields label > span {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.dimensionFields label > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  overflow: hidden;
+  border: 1px solid #d8dcda;
+  border-radius: 12px;
+  background: #fff;
+  transition: 180ms ease;
+}
+
+.dimensionFields label > div:focus-within {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(183, 123, 55, 0.12);
+}
+
+.dimensionFields input {
+  width: 100%;
+  min-width: 0;
+  height: 42px;
+  padding: 0 10px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-weight: 800;
+  appearance: textfield;
+}
+
+.dimensionFields input::-webkit-inner-spin-button,
+.dimensionFields input::-webkit-outer-spin-button {
+  margin: 0;
+  appearance: none;
+}
+
+.dimensionFields b {
+  display: grid;
+  padding: 0 10px;
+  border-left: 1px solid #e3e5e4;
+  background: #f4f5f4;
+  color: #7a7f7d;
+  font-size: 11px;
+  place-items: center;
+}
+
+.dimensionError {
+  margin: 8px 0 0;
+  color: #b34134;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* Anchor targets must never remain hidden after a tab click. */
+.contentSection:target,
+.productGrid:target {
+  opacity: 1 !important;
+  transform: none !important;
+  filter: none !important;
+}
+
+@media (max-width: 700px) {
+  .dimensionFields {
+    grid-template-columns: 1fr;
+  }
+
+  .dimensionFields label {
+    grid-template-columns: 82px minmax(0, 1fr);
+    align-items: center;
+  }
+
+  .dimensionFields label > span {
+    font-size: 12px;
   }
 }
