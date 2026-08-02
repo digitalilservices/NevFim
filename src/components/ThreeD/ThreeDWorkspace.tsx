@@ -264,6 +264,10 @@ export function ThreeDWorkspace({
           </button>
 
           <div className="threeDTopbarActions constructorDesktopActions">
+            <Link href="/" style={backToSiteStyle}>
+              ← {backToSiteLabel(language)}
+            </Link>
+
             <div className="languageDropdown">
             <button
               type="button"

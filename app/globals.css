@@ -9475,3 +9475,127 @@ body {
     transform: scale(0.93) !important;
   }
 }
+
+
+/* =========================================================
+   NEVFIM PRECISION FIXES — AUGUST 2026
+========================================================= */
+
+/* Desktop constructor: show the Back to site button again. */
+@media (min-width: 821px) {
+  .constructorDesktopActions {
+    display: flex !important;
+  }
+
+  .constructorDesktopActions > a[href="/"] {
+    flex: 0 0 auto;
+  }
+}
+
+/* Home page lower image: keep it clearly visible and correctly cropped. */
+.sitePage .siteSplitMedia {
+  min-height: 560px !important;
+  background-image: url("/images/backgrounds/showroom.jpg") !important;
+  background-position: center 48% !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+}
+
+.sitePage .siteSplitSection {
+  overflow: hidden;
+}
+
+/* Account dropdown must remain readable on every phone width. */
+@media (max-width: 720px) {
+  .sitePage .accountMenu {
+    position: static !important;
+  }
+
+  .sitePage .accountMenuDropdown {
+    position: fixed !important;
+    z-index: 1600 !important;
+    top: 88px !important;
+    right: 14px !important;
+    left: 14px !important;
+    display: grid !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    padding: 12px !important;
+    overflow: visible !important;
+    border: 1px solid rgba(205, 157, 79, 0.42) !important;
+    border-radius: 15px !important;
+    background: #111313 !important;
+    color: #ffffff !important;
+    box-shadow: 0 22px 60px rgba(0, 0, 0, 0.56) !important;
+  }
+
+  .sitePage .accountMenuIdentity {
+    display: grid !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    padding: 11px 12px 14px !important;
+  }
+
+  .sitePage .accountMenuIdentity small,
+  .sitePage .accountMenuIdentity strong {
+    display: block !important;
+    width: 100% !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .sitePage .accountMenuIdentity small {
+    color: #9c9c9c !important;
+    font-size: 11px !important;
+  }
+
+  .sitePage .accountMenuIdentity strong {
+    margin-top: 4px !important;
+    color: #ffffff !important;
+    font-size: 13px !important;
+  }
+
+  .sitePage .accountMenuDropdown a {
+    display: flex !important;
+    width: 100% !important;
+    min-height: 46px !important;
+    padding: 11px 12px !important;
+    color: #ffffff !important;
+  }
+
+  .sitePage .siteSplitSection {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    min-height: 0 !important;
+  }
+
+  .sitePage .siteSplitMedia {
+    min-height: 390px !important;
+    background-position: center 44% !important;
+  }
+
+  .sitePage .siteSplitContent {
+    min-height: 440px !important;
+  }
+}
+
+/* Restore and strengthen scroll reveal effects. */
+.sitePage [data-nevfim-motion] {
+  opacity: 0;
+  transform:
+    translate3d(var(--nevfim-x, 0), var(--nevfim-y, 34px), 0)
+    scale(var(--nevfim-scale, 0.985));
+  filter: blur(2px);
+  transition:
+    opacity 760ms cubic-bezier(.2,.72,.2,1) var(--nevfim-delay, 0ms),
+    transform 860ms cubic-bezier(.2,.72,.2,1) var(--nevfim-delay, 0ms),
+    filter 620ms ease var(--nevfim-delay, 0ms);
+}
+
+.sitePage [data-nevfim-motion].isNevfimVisible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+  filter: blur(0);
+}

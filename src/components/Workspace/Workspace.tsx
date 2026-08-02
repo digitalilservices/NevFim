@@ -143,6 +143,10 @@ export function Workspace({
         </button>
 
         <div className="topbarActions constructorDesktopActions">
+          <Link href="/" style={backToSiteStyle}>
+            ← {backToSiteLabel(language)}
+          </Link>
+
           <AccountButton language={language} />
 
           <div className="languageDropdown">

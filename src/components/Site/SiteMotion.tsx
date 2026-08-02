@@ -115,54 +115,77 @@ export function SiteMotion() {
     const root = document.querySelector<HTMLElement>("main.sitePage");
     if (!root) return;
 
-    const elements = Array.from(
-      root.querySelectorAll<HTMLElement>(REVEAL_SELECTOR),
-    );
-
-    elements.forEach((element, index) => {
-      element.classList.remove("isNevfimVisible");
-      element.dataset.nevfimMotion = directionForElement(element, index);
-      element.style.setProperty(
-        "--nevfim-delay",
-        `${Math.min(index % 4, 3) * 65}ms`,
-      );
-    });
-
-    const heroElements = elements.filter(
-      (element) =>
-        element.matches(".siteHeroMedia") ||
-        element.matches(".siteHeroContent") ||
-        element.matches(".sitePageHero"),
-    );
-
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        heroElements.forEach((element) =>
-          element.classList.add("isNevfimVisible"),
-        );
-      });
-    });
+    const observed = new WeakSet<HTMLElement>();
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (!entry.isIntersecting) return;
+
           const element = entry.target as HTMLElement;
           element.classList.add("isNevfimVisible");
           observer.unobserve(element);
         });
       },
       {
-        threshold: 0.12,
-        rootMargin: "0px 0px -8% 0px",
+        threshold: 0.08,
+        rootMargin: "0px 0px -5% 0px",
       },
     );
 
-    elements
-      .filter((element) => !heroElements.includes(element))
-      .forEach((element) => observer.observe(element));
+    const prepareElements = () => {
+      const elements = Array.from(
+        root.querySelectorAll<HTMLElement>(REVEAL_SELECTOR),
+      );
 
-    return () => observer.disconnect();
+      elements.forEach((element, index) => {
+        if (observed.has(element)) return;
+
+        observed.add(element);
+        element.dataset.nevfimMotion = directionForElement(element, index);
+        element.style.setProperty(
+          "--nevfim-delay",
+          `${Math.min(index % 4, 3) * 70}ms`,
+        );
+
+        const isHero =
+          element.matches(".siteHeroMedia") ||
+          element.matches(".siteHeroContent") ||
+          element.matches(".sitePageHero");
+
+        if (isHero) {
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              element.classList.add("isNevfimVisible");
+            });
+          });
+          return;
+        }
+
+        observer.observe(element);
+      });
+    };
+
+    prepareElements();
+
+    const delayedScan = window.setTimeout(prepareElements, 180);
+    const finalScan = window.setTimeout(prepareElements, 650);
+
+    const mutationObserver = new MutationObserver(() => {
+      prepareElements();
+    });
+
+    mutationObserver.observe(root, {
+      childList: true,
+      subtree: true,
+    });
+
+    return () => {
+      window.clearTimeout(delayedScan);
+      window.clearTimeout(finalScan);
+      mutationObserver.disconnect();
+      observer.disconnect();
+    };
   }, [routeKey, pathname]);
 
   useEffect(() => {

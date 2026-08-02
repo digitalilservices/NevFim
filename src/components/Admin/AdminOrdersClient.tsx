@@ -171,7 +171,7 @@ export function AdminOrdersClient({
             <Package size={16} />
             Заказы
           </Link>
-          <Link href="/admin/messages">
+          <Link href="/messages">
             <MessageSquareText size={16} />
             Сообщения
           </Link>

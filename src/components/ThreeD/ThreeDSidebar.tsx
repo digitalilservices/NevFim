@@ -428,7 +428,13 @@ export function ThreeDSidebar({
           <button
             type="button"
             className="threeDAddToRoomButton"
-            onClick={onAddToRoom}
+            onClick={() => {
+              onAddToRoom();
+
+              if (window.matchMedia("(max-width: 820px)").matches) {
+                setIsMobileOpen(false);
+              }
+            }}
             disabled={!isModelReady}
           >
             <span>＋</span>
