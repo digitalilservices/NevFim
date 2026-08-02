@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { FormEvent, useMemo, useRef, useState } from "react";
+import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowLeft,
   CheckCircle2,
@@ -12,7 +12,7 @@ import {
   ShoppingCart,
   Trash2,
 } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import type { Language } from "@/i18n/translations";
 
 type CartItem = {
@@ -250,6 +250,7 @@ export function AccountCartClient({
   language,
 }: Props) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const c = copy[language];
   const ordersRef = useRef<HTMLElement | null>(null);
   const [items, setItems] = useState(initialItems);
@@ -270,6 +271,16 @@ export function AccountCartClient({
       ),
     [items],
   );
+
+  useEffect(() => {
+    if (
+      searchParams.get("checkout") === "1" &&
+      items.length > 0
+    ) {
+      setIsCheckoutOpen(true);
+      router.replace("/account", { scroll: false });
+    }
+  }, [items.length, router, searchParams]);
 
   const handleDelete = async (id: string) => {
     try {

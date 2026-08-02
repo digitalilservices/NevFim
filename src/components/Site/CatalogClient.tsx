@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 
+import { ProductDetail } from "@/components/Site/ProductDetail";
+
 import { SiteFooter } from "@/components/Site/SiteFooter";
 import { SiteHeader } from "@/components/Site/SiteHeader";
 import {
@@ -28,9 +30,18 @@ export function CatalogClient() {
   const copy = getSiteCopy(language).catalog;
 
   const categoryId = searchParams.get("category");
+  const modelId = searchParams.get("model");
   const category = furnitureCategories.find(
     (item) => item.id === categoryId,
   );
+  const selectedModel = furnitureModels.find(
+    (item) => item.id === modelId,
+  );
+  const selectedCategory = selectedModel
+    ? furnitureCategories.find(
+        (item) => item.id === selectedModel.categoryId,
+      )
+    : category;
   const models = category
     ? furnitureModels.filter(
         (model) => model.categoryId === category.id,
@@ -48,6 +59,16 @@ export function CatalogClient() {
     <main className="sitePage">
       <SiteHeader />
 
+      {selectedModel && selectedCategory ? (
+        <ProductDetail
+          language={language}
+          model={selectedModel}
+          category={selectedCategory}
+          allModels={furnitureModels}
+          locale={locale}
+        />
+      ) : (
+        <>
       <section className="sitePageHero compact">
         <span>{copy.eyebrow}</span>
         <h1>
@@ -177,6 +198,8 @@ export function CatalogClient() {
             })}
           </div>
         </section>
+      )}
+        </>
       )}
 
       <SiteFooter />
