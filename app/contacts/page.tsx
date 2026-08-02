@@ -315,7 +315,18 @@ export default function ContactsPage() {
 
         <aside className="siteContactDetails siteContactDetailsPremium">
           <div className="siteContactBrandMark" aria-hidden="true">
-            NF
+            <img
+              src="/images/logo.png"
+              alt=""
+              width={54}
+              height={54}
+              style={{
+                width: "54px",
+                height: "54px",
+                objectFit: "contain",
+                display: "block",
+              }}
+            />
           </div>
 
           <div className="siteContactDetailsHeading">
