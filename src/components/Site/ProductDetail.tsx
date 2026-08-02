@@ -24,7 +24,7 @@ import {
   useState,
 } from "react";
 
-import { addToCart } from "@/lib/cart";
+import { addToCart } from "@/lib/cart/cart";
 import type {
   FurnitureCategory,
   FurnitureModel,
