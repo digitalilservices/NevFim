@@ -702,12 +702,12 @@ export const furniture3DModels: Furniture3DModel[] = [
   },
   {
     id: "dressers-01",
-    productCode: "3D-DR-01",
+    productCode: "N-01",
     categoryId: "dressers",
-    name: "Тумба або комод 01",
-    description: "3D модель — тумба або комод 01",
-    modelPath: "/models/furniture/dressers/01.glb",
-    imagePath: "/images/furniture/dressers/01.jpg",
+    name: "No Name",
+    description: "3D",
+    modelPath: "/models/furniture/dressers/No Name.glb",
+    imagePath: "/images/furniture/dressers/No Name.jpg",
   },
   {
     id: "dressers-02",
