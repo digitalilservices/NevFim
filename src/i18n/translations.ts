@@ -252,9 +252,21 @@ export function modelName(
   categoryId: string,
   name: string,
 ): string {
-  const number = name.match(/(\d{1,2})\s*$/)?.[1];
-  if (!number) return name;
-  return `${categoryName(language, categoryId, name)} ${number.padStart(2, "0")}`;
+  const genericModel = name.match(
+    /^(Розпашна шафа|Шафа-купе|Вбудована шафа|Гардеробна система|Ліжко|Диван|Тумба(?: або комод)?|Комод|Розсувна система|Крісло|Вішалка|Стіл|Стілець|Столи та стільці)\s*(\d{1,2})$/i,
+  );
+
+  if (!genericModel) {
+    return name;
+  }
+
+  const translatedCategory = categoryName(
+    language,
+    categoryId,
+    genericModel[1],
+  );
+
+  return `${translatedCategory} ${genericModel[2].padStart(2, "0")}`;
 }
 
 export function modelDescription(
@@ -262,26 +274,24 @@ export function modelDescription(
   categoryId: string,
   description: string,
 ): string {
-  const normalized = description.trim().toLowerCase();
+  const genericDescription = description.match(
+    /(?:модель|model)\s*(\d{1,2})\s*$/i,
+  );
 
-  if (
-    categoryId === "sliding-wardrobe" &&
-    normalized === "тридверна шафа-купе"
-  ) {
-    return language === "en"
-      ? "Three-door sliding wardrobe"
-      : language === "cs"
-        ? "Třídveřová posuvná skříň"
-        : "Трёхдверный шкаф-купе";
+  if (!genericDescription) {
+    return description;
   }
 
-  const number = description.match(/(\d{1,2})\s*$/)?.[1];
-  if (!number) return description;
-  const label = categoryName(language, categoryId, description);
-  const formatted = number.padStart(2, "0");
+  const translatedCategory = categoryName(
+    language,
+    categoryId,
+    description,
+  );
+  const number = genericDescription[1].padStart(2, "0");
+
   return language === "en"
-    ? `${label} — model ${formatted}`
+    ? `${translatedCategory} — model ${number}`
     : language === "cs"
-      ? `${label} — model ${formatted}`
-      : `${label} — модель ${formatted}`;
+      ? `${translatedCategory} — model ${number}`
+      : `${translatedCategory} — модель ${number}`;
 }

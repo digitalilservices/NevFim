@@ -919,7 +919,7 @@ export const furnitureModels: FurnitureModel[] = [
     categoryId: "chairs",
     name: "Elior Plus",
     description: "Стілець Elior Plus",
-    image: "/images/furniture/chairs/Elior Plus.jpg",
+    image: "/images/furniture/chairs/elior-plus.jpg",
     basePrice: 9000,
   },
   {
@@ -928,7 +928,7 @@ export const furnitureModels: FurnitureModel[] = [
     categoryId: "chairs",
     name: "Elior",
     description: "Стілець Elior",
-    image: "/images/furniture/chairs/Elior.jpg",
+    image: "/images/furniture/chairs/elior.jpg",
     basePrice: 10000,
   },
   {
@@ -937,7 +937,7 @@ export const furnitureModels: FurnitureModel[] = [
     categoryId: "chairs",
     name: "Lobo",
     description: "Стілець Lobo",
-    image: "/images/furniture/chairs/Lobo.jpg",
+    image: "/images/furniture/chairs/lobo.jpg",
     basePrice: 11000,
   },
   {
@@ -946,7 +946,7 @@ export const furnitureModels: FurnitureModel[] = [
     categoryId: "chairs",
     name: "Lobo2",
     description: "Стілець Lobo2",
-    image: "/images/furniture/chairs/Lobo2.jpg",
+    image: "/images/furniture/chairs/lobo-2.jpg",
     basePrice: 12000,
   },
   {
@@ -955,7 +955,7 @@ export const furnitureModels: FurnitureModel[] = [
     categoryId: "chairs",
     name: "Milan Plus",
     description: "Стілець Milan Plus",
-    image: "/images/furniture/chairs/Milan Plus.jpg",
+    image: "/images/furniture/chairs/milan-plus.jpg",
     basePrice: 13000,
   },
   {
@@ -964,7 +964,7 @@ export const furnitureModels: FurnitureModel[] = [
     categoryId: "chairs",
     name: "Milan",
     description: "Стілець Milan",
-    image: "/images/furniture/chairs/Milan.jpg",
+    image: "/images/furniture/chairs/milan.jpg",
     basePrice: 14000,
   },
   {
@@ -973,7 +973,7 @@ export const furnitureModels: FurnitureModel[] = [
     categoryId: "chairs",
     name: "Sonia",
     description: "Стілець Sonia",
-    image: "/images/furniture/chairs/Sonia.jpg",
+    image: "/images/furniture/chairs/sonia.jpg",
     basePrice: 15000,
   },
   {
@@ -982,7 +982,7 @@ export const furnitureModels: FurnitureModel[] = [
     categoryId: "chairs",
     name: "Versal",
     description: "Стілець Versal",
-    image: "/images/furniture/chairs/Versal.jpg",
+    image: "/images/furniture/chairs/versal.jpg",
     basePrice: 16000,
   },
   {
@@ -991,7 +991,7 @@ export const furnitureModels: FurnitureModel[] = [
     categoryId: "chairs",
     name: "Versal2",
     description: "Стілець Versal2",
-    image: "/images/furniture/chairs/Versal2.jpg",
+    image: "/images/furniture/chairs/versal-2.jpg",
     basePrice: 17000,
   },
   {
@@ -1000,7 +1000,7 @@ export const furnitureModels: FurnitureModel[] = [
     categoryId: "chairs",
     name: "Zoya",
     description: "Стілець Zoya",
-    image: "/images/furniture/chairs/Zoya.jpg",
+    image: "/images/furniture/chairs/zoya.jpg",
     basePrice: 18000,
   },
   {
