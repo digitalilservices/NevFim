@@ -84,9 +84,17 @@ Requested dimensions:
 - Height: ${height || "standard"} mm
 - Depth: ${depth || "standard"} mm
 
-Material: ${material || "use the reference furniture material"}
-Color: ${color || "preserve the reference furniture color"}
-Fabric: ${fabric || "not applicable"}
+${(material && material.trim()) || (color && color.trim()) || (fabric && fabric.trim()) ? `
+==== CRITICAL APPEARANCE OVERRIDES — HIGHEST PRIORITY ====
+These settings MUST be applied. They override the reference furniture image appearance.
+${material && material.trim() ? `• MATERIAL: The furniture body MUST be rendered in "${material}" material. Do NOT preserve the original material from the reference image.` : ""}
+${color && color.trim() ? `• COLOR: The furniture color MUST be changed to "${color}". ABSOLUTELY DO NOT use the original color from the reference furniture image. If the reference shows a different color, ignore it and use "${color}" exclusively.` : ""}
+${fabric && fabric.trim() ? `• UPHOLSTERY/FABRIC: The soft parts (seat, back, cushions, armrests) MUST use "${fabric}" fabric. Apply ONLY to fabric/upholstery parts. Do NOT apply to wooden legs, metal frames, or hard structural parts.` : ""}
+==========================================================
+` : `
+Material: use the reference furniture material
+Color: preserve the reference furniture color
+`}
 
 Customer placement/request notes:
 ${userPrompt || "Choose the most natural available location in the room."}
@@ -110,8 +118,9 @@ VISUAL CONSISTENCY RULES:
 - Preserve existing furniture unless the customer explicitly asks to replace or remove something.
 - The new furniture must stand naturally on the floor, with correct contact shadows.
 - Match the room's perspective, scale, focal length, lighting direction, color temperature and shadows.
-- Use the second reference image as the primary design reference for the selected furniture.
+- Use the second reference image as the primary design reference for the selected furniture shape and model.
 - Preserve the selected furniture's recognizable shape and design.
+- Apply the CRITICAL APPEARANCE OVERRIDES above to the shape from the reference image.
 - Do not duplicate the selected furniture.
 - Do not add unrelated furniture, decor, text, labels, dimensions or watermarks.
 - The final result should look like a realistic interior designer visualization, not a collage.

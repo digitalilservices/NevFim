@@ -115,9 +115,13 @@ export default function Home() {
 
     setTransitionPhase("cover");
 
-    const switchDelay = isMobile3D ? 420 : 620;
-    const revealDelay = isMobile3D ? 1050 : 1550;
-    const finishDelay = isMobile3D ? 1550 : 2250;
+    // Задержки уменьшены: пользователи жаловались на зависание занавески.
+    // switchDelay — когда переключается режим под занавеской.
+    // revealDelay — когда занавеска начинает уезжать.
+    // finishDelay — когда занавеска полностью убирается (должно совпадать с CSS-анимацией ~480ms).
+    const switchDelay = isMobile3D ? 340 : 460;
+    const revealDelay = isMobile3D ? 660 : 860;
+    const finishDelay = isMobile3D ? 1020 : 1340;
 
     const switchTimer = window.setTimeout(() => {
       if (nextMode === "3d") {

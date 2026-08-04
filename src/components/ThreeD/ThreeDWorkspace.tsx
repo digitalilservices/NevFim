@@ -389,6 +389,10 @@ export function ThreeDWorkspace({
               far: 50,
             }}
             onCreated={({ gl }) => {
+              // Немного повышаем экспозицию, чтобы тёмные GLB (Milan Plus, Milan, Versal2)
+              // корректно отображались без пересвета светлых моделей.
+              gl.toneMappingExposure = 1.2;
+
               const canvas = gl.domElement;
 
               const handleContextLost = (event: Event) => {

@@ -5227,7 +5227,7 @@ body,
 
 .modeTransitionCurtain--cover {
   animation:
-    modeCurtainCover 620ms
+    modeCurtainCover 480ms
     cubic-bezier(0.76, 0, 0.24, 1)
     forwards;
 }
@@ -5238,7 +5238,7 @@ body,
 
 .modeTransitionCurtain--reveal {
   animation:
-    modeCurtainReveal 620ms
+    modeCurtainReveal 480ms
     cubic-bezier(0.76, 0, 0.24, 1)
     forwards;
 }

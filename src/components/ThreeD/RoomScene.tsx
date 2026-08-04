@@ -587,18 +587,25 @@ export function RoomScene({
         args={["#c8c8c6"]}
       />
 
-      {/* Лёгкое освещение без тяжёлых люстр и теней */}
-      <ambientLight intensity={mobileMode ? 0.82 : 1.05} />
+      {/* Освещение: более яркое ambient для тёмных GLB-моделей (Milan Plus, Milan, Versal2) */}
+      <ambientLight intensity={mobileMode ? 1.15 : 1.55} />
 
       <hemisphereLight
-        intensity={mobileMode ? 0.7 : 0.75}
+        intensity={mobileMode ? 0.78 : 0.92}
         color="#ffffff"
-        groundColor="#777777"
+        groundColor="#888888"
       />
 
+      {/* Основной свет сверху-справа */}
       <directionalLight
         position={[4, 6, 3]}
-        intensity={mobileMode ? 0.62 : 0.9}
+        intensity={mobileMode ? 0.72 : 1.05}
+      />
+
+      {/* Заполняющий свет слева — убирает тёмные тени на тёмных материалах */}
+      <directionalLight
+        position={[-3, 5, 2]}
+        intensity={mobileMode ? 0.38 : 0.58}
       />
 
       {/* СЕРЫЙ ДЕРЕВЯННЫЙ ПОЛ */}
