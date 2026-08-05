@@ -29,6 +29,11 @@ export function SiteFooter() {
       </div>
 
       <small>© 2026 NevFim.grup</small>
+
+      <div className="nevfimHashtagLine" aria-label="NevFim hashtags">
+        <span>#byevsi</span>
+        <span>#byevse</span>
+      </div>
     </footer>
   );
 }

@@ -9661,3 +9661,133 @@ body {
     transition: none !important;
   }
 }
+
+
+/* =========================================================
+   NEVFIM HASHTAGS
+========================================================= */
+
+.nevfimHashtagLine,
+.constructorHashtagBar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  color: rgba(240, 204, 122, 0.9);
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  text-transform: lowercase;
+}
+
+.nevfimHashtagLine {
+  grid-column: 1 / -1;
+  width: 100%;
+  margin-top: 4px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(215, 169, 81, 0.14);
+}
+
+.nevfimHashtagLine span,
+.constructorHashtagBar span {
+  transition:
+    color 160ms ease,
+    opacity 160ms ease,
+    transform 160ms ease;
+}
+
+.nevfimHashtagLine span:hover,
+.constructorHashtagBar span:hover {
+  color: #f0cc7a;
+  transform: translateY(-1px);
+}
+
+.constructorHashtagBar {
+  position: relative;
+  z-index: 8;
+  flex: 0 0 28px;
+  min-height: 28px;
+  padding: 4px 14px;
+  border-top: 1px solid rgba(215, 169, 81, 0.17);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(9, 10, 10, 0.98),
+      rgba(4, 5, 5, 0.99)
+    );
+  box-shadow: 0 -5px 16px rgba(0, 0, 0, 0.22);
+}
+
+.constructorHashtagBar3D {
+  flex: 0 0 28px;
+}
+
+@media (max-width: 720px) {
+  .nevfimHashtagLine,
+  .constructorHashtagBar {
+    gap: 11px;
+    font-size: 10px;
+  }
+
+  .nevfimHashtagLine {
+    padding-top: 13px;
+  }
+
+  .constructorHashtagBar {
+    flex-basis: 26px;
+    min-height: 26px;
+    padding:
+      3px
+      max(12px, env(safe-area-inset-right))
+      calc(3px + env(safe-area-inset-bottom))
+      max(12px, env(safe-area-inset-left));
+  }
+}
+
+/* Хештеги внизу общего футера */
+.sitePage .siteFooter {
+  height: auto !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+  grid-auto-rows: auto !important;
+}
+
+.sitePage .siteFooter .nevfimHashtagLine {
+  grid-column: 1 / -1 !important;
+  grid-row: auto !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 18px !important;
+
+  width: 100% !important;
+  margin: 26px 0 0 !important;
+  padding: 18px 0 0 !important;
+
+  border-top: 1px solid rgba(215, 169, 81, 0.25) !important;
+
+  visibility: visible !important;
+  opacity: 1 !important;
+  overflow: visible !important;
+
+  color: #d7a951 !important;
+  font-size: 13px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.08em !important;
+}
+
+.sitePage .siteFooter .nevfimHashtagLine span {
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  color: #d7a951 !important;
+}
+
+.sitePage .siteFooter .nevfimHashtagLine {
+  filter: none !important;
+  transform: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  will-change: auto !important;
+}

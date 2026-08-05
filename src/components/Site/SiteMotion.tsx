@@ -82,7 +82,7 @@ const REVEAL_SELECTOR = [
   ".siteContactDetails",
   ".siteContactMapSection",
   ".siteCta > *",
-  ".siteFooter > *",
+  ".siteFooter > *:not(.nevfimHashtagLine)",
 ].join(",");
 
 export function SiteMotion() {

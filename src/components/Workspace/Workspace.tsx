@@ -380,6 +380,11 @@ export function Workspace({
         )}
       </div>
 
+      <div className="constructorHashtagBar" aria-label="NevFim hashtags">
+        <span>#byevsi</span>
+        <span>#byevse</span>
+      </div>
+
       {isHelpOpen && (
         <div
           className="howItWorksOverlay"

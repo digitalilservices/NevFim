@@ -508,6 +508,12 @@ export function ThreeDWorkspace({
                 </div>
               </div>
             )}
+
+        </div>
+
+        <div className="constructorHashtagBar constructorHashtagBar3D" aria-label="NevFim hashtags">
+          <span>#byevsi</span>
+          <span>#byevse</span>
         </div>
       </section>
     </section>
