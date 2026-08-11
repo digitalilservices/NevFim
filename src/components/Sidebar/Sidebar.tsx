@@ -20,6 +20,7 @@ import {
   X,
 } from "lucide-react";
 import { categoryDescription, categoryName, modelDescription, modelName, t, type Language } from "@/i18n/translations";
+import { FabricPicker } from "@/components/Sidebar/FabricPicker";
 
 type SidebarProps = {
   language: Language;
@@ -39,6 +40,7 @@ type SidebarProps = {
   color: string;
   customColor: string;
   fabric: string;
+  fabricImage: string;
   prompt: string;
 
   estimatedPrice: number;
@@ -54,7 +56,7 @@ type SidebarProps = {
   onMaterialChange: (value: string) => void;
   onColorChange: (value: string) => void;
   onCustomColorChange: (value: string) => void;
-  onFabricChange: (value: string) => void;
+  onFabricSelect: (value: string, image: string) => void;
   onReset: () => void;
   onAddToCart: () => void;
   isAddingToCart: boolean;
@@ -139,6 +141,7 @@ export function Sidebar({
   color,
   customColor,
   fabric,
+  fabricImage,
   prompt,
   estimatedPrice,
   onSelectCategory,
@@ -151,7 +154,7 @@ export function Sidebar({
   onMaterialChange,
   onColorChange,
   onCustomColorChange,
-  onFabricChange,
+  onFabricSelect,
   onReset,
   onAddToCart,
   isAddingToCart,
@@ -441,18 +444,12 @@ export function Sidebar({
             </div>
 
             {isSoftFurniture && (
-              <label>
-                {t(language, "fabric")}
-                <select
-                  value={fabric}
-                  onChange={(event) => onFabricChange(event.target.value)}
-                >
-                  <option value="">{t(language, "chooseFabric")}</option>
-                  <option value="Велюр">{t(language, "velour")}</option>
-                  <option value="Букле">{t(language, "boucle")}</option>
-                  <option value="Рогожка">{t(language, "matting")}</option>
-                </select>
-              </label>
+              <FabricPicker
+                language={language}
+                value={fabric}
+                image={fabricImage}
+                onSelect={onFabricSelect}
+              />
             )}
           </div>
         </section>
@@ -525,7 +522,10 @@ export function Sidebar({
               {isSoftFurniture && (
                 <div>
                   <span>{t(language, "fabric")}</span>
-                  <strong>{fabric || t(language, "notSpecified")}</strong>
+                  <strong className="fabricResultValue">
+                    {fabricImage && <img src={fabricImage} alt="" />}
+                    <span>{fabric || t(language, "notSpecified")}</span>
+                  </strong>
                 </div>
               )}
             </div>

@@ -43,6 +43,7 @@ export default function Home() {
   const [color, setColor] = useState("");
   const [customColor, setCustomColor] = useState("");
   const [fabric, setFabric] = useState("");
+  const [fabricImage, setFabricImage] = useState("");
   const [prompt, setPrompt] = useState("");
 
   const [isGenerating, setIsGenerating] = useState(false);
@@ -194,6 +195,7 @@ export default function Home() {
     setColor("");
     setCustomColor("");
     setFabric("");
+    setFabricImage("");
     setGenerationError("");
   };
 
@@ -264,6 +266,23 @@ export default function Home() {
         color === "Індивідуальний" ? customColor : color,
       );
       formData.append("fabric", fabric);
+
+      if (isSoftFurniture && fabricImage) {
+        const fabricResponse = await fetch(fabricImage);
+
+        if (!fabricResponse.ok) {
+          throw new Error(
+            language === "ru"
+              ? "Не удалось загрузить выбранный образец ткани."
+              : language === "cs"
+                ? "Vybraný vzorek látky se nepodařilo načíst."
+                : "Could not load the selected fabric sample.",
+          );
+        }
+
+        const fabricBlob = await fabricResponse.blob();
+        formData.append("fabricImage", fabricBlob, "fabric-swatch.jpg");
+      }
 
       const response = await fetch("/api/generate", {
         method: "POST",
@@ -404,6 +423,7 @@ export default function Home() {
       color={color}
       customColor={customColor}
       fabric={fabric}
+      fabricImage={fabricImage}
       prompt={prompt}
       estimatedPrice={productPrice}
       onSelectCategory={handleSelectCategory}
@@ -416,7 +436,10 @@ export default function Home() {
       onMaterialChange={setMaterial}
       onColorChange={setColor}
       onCustomColorChange={setCustomColor}
-      onFabricChange={setFabric}
+      onFabricSelect={(value, image) => {
+        setFabric(value);
+        setFabricImage(image);
+      }}
       onReset={handleReset}
       onAddToCart={handleAddToCart}
       isAddingToCart={isAddingToCart}

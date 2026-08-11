@@ -21,6 +21,7 @@ export async function POST(request: Request) {
 
     const roomImage = formData.get("roomImage");
     const furnitureImage = formData.get("furnitureImage");
+    const fabricImage = formData.get("fabricImage");
 
     const userPrompt = String(formData.get("prompt") ?? "");
     const category = String(formData.get("category") ?? "");
@@ -70,9 +71,25 @@ export async function POST(request: Request) {
       },
     );
 
+    const fabricFile =
+      fabricImage instanceof File
+        ? await toFile(
+            Buffer.from(await fabricImage.arrayBuffer()),
+            fabricImage.name || "fabric-swatch.jpg",
+            {
+              type: fabricImage.type || "image/jpeg",
+            },
+          )
+        : null;
+
+    const referenceImages = fabricFile
+      ? [roomFile, furnitureFile, fabricFile]
+      : [roomFile, furnitureFile];
+
     const technicalPrompt = `
 The first reference image is the customer's real room.
 The second reference image is the exact furniture model that must be integrated into that room.
+${fabricFile ? "The third reference image is the EXACT upholstery/fabric swatch selected by the customer. Treat its visible color, texture, weave, pile and pattern as the authoritative upholstery reference." : ""}
 
 Create a photorealistic, professionally staged interior visualization.
 
@@ -88,8 +105,8 @@ ${(material && material.trim()) || (color && color.trim()) || (fabric && fabric.
 ==== CRITICAL APPEARANCE OVERRIDES — HIGHEST PRIORITY ====
 These settings MUST be applied. They override the reference furniture image appearance.
 ${material && material.trim() ? `• MATERIAL: The furniture body MUST be rendered in "${material}" material. Do NOT preserve the original material from the reference image.` : ""}
-${color && color.trim() ? `• COLOR: The furniture color MUST be changed to "${color}". ABSOLUTELY DO NOT use the original color from the reference furniture image. If the reference shows a different color, ignore it and use "${color}" exclusively.` : ""}
-${fabric && fabric.trim() ? `• UPHOLSTERY/FABRIC: The soft parts (seat, back, cushions, armrests) MUST use "${fabric}" fabric. Apply ONLY to fabric/upholstery parts. Do NOT apply to wooden legs, metal frames, or hard structural parts.` : ""}
+${color && color.trim() ? `• COLOR: The furniture color MUST be changed to "${color}". ABSOLUTELY DO NOT use the original color from the reference furniture image. If upholstery fabric is selected, this COLOR rule applies to non-upholstered/hard parts only; the fabric swatch has higher priority for all upholstered parts.` : ""}
+${fabric && fabric.trim() ? `• UPHOLSTERY/FABRIC: The soft parts (seat, back, cushions, armrests) MUST use "${fabric}" fabric. Apply ONLY to fabric/upholstery parts. Do NOT apply to wooden legs, metal frames, or hard structural parts.${fabricFile ? " The THIRD reference image is authoritative and has higher priority than the generic COLOR setting for every upholstered surface. Match it as closely as possible: reproduce its actual visible color, texture, weave/pile and pattern instead of inventing a generic fabric." : ""}` : ""}
 ==========================================================
 ` : `
 Material: use the reference furniture material
@@ -128,7 +145,7 @@ VISUAL CONSISTENCY RULES:
 
     const result = await openai.images.edit({
       model: "gpt-image-2",
-      image: [roomFile, furnitureFile],
+      image: referenceImages,
       prompt: technicalPrompt,
       size: "1536x1024",
       quality: "medium",

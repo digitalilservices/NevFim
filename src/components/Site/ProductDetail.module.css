@@ -1073,3 +1073,108 @@
     font-size: 12px;
   }
 }
+
+/* =========================================================
+   V2 MOBILE STABILITY — product detail
+========================================================= */
+.page {
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+.page img,
+.page video,
+.page svg {
+  max-width: 100%;
+}
+
+.productShell,
+.productGrid,
+.gallery,
+.info,
+.contentSection,
+.descriptionGrid,
+.recommendations,
+.recommendationsTrack,
+.dimensionEditor,
+.dimensionFields {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.infoHeading > div,
+.priceRow > div,
+.sizeRow > div,
+.recommendationsHeading > div {
+  min-width: 0;
+}
+
+.infoHeading h1,
+.infoHeading p,
+.optionButtons button,
+.characteristicsTable strong,
+.recommendationCard h3 {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 700px) {
+  .page {
+    width: calc(100% - 16px);
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  .tabs button {
+    flex: 0 0 auto;
+    padding: 10px 12px;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  .infoHeading,
+  .priceRow,
+  .recommendationsHeading {
+    min-width: 0;
+  }
+
+  .infoHeading {
+    gap: 12px;
+  }
+
+  .infoHeading h1 {
+    max-width: 100%;
+    font-size: clamp(29px, 9vw, 34px);
+  }
+
+  .recommendationsHeading > div:last-child {
+    flex: 0 0 auto;
+  }
+
+  .mainImage,
+  .mainImage > img {
+    max-width: 100%;
+  }
+
+  .actions > *,
+  .optionButtons > *,
+  .dimensionFields > * {
+    min-width: 0;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 390px) {
+  .page {
+    width: calc(100% - 12px);
+  }
+
+  .info {
+    padding-right: 13px;
+    padding-left: 13px;
+  }
+
+  .contentSection {
+    padding-right: 14px;
+    padding-left: 14px;
+  }
+}
