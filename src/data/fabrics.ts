@@ -4,12 +4,24 @@ export type FabricCollection = {
   folder: string;
 };
 
+export type FabricManifestEntry = {
+  slot: number;
+  number: number;
+  file: string;
+  image: string;
+};
+
+export type FabricManifest = Record<string, FabricManifestEntry[]>;
+
 export type FabricSwatch = {
   id: string;
+  slot: number;
   number: number;
   label: string;
   image: string;
 };
+
+export const FABRIC_MANIFEST_URL = "/images/fabrics/manifest.json";
 
 export const fabricCollections: FabricCollection[] = [
   { id: "navi", name: "Navi", folder: "navi" },
@@ -25,32 +37,28 @@ export const fabricCollections: FabricCollection[] = [
   { id: "diamant", name: "Diamant", folder: "diamant" },
 ];
 
-export function getFabricSwatches(collection: FabricCollection): FabricSwatch[] {
-  return Array.from({ length: 9 }, (_, index) => {
-    const number = index + 1;
-    const fileNumber = String(number).padStart(2, "0");
-
-    return {
-      id: `${collection.id}-${fileNumber}`,
-      number,
-      label: `${collection.name} · №${number}`,
-      image: `/images/fabrics/${collection.folder}/${fileNumber}.jpg`,
-    };
-  });
-}
-
-export function getFabricImageCandidates(
+export function getFabricSwatches(
   collection: FabricCollection,
-  number: number,
-): string[] {
-  const padded = String(number).padStart(2, "0");
-  const plain = String(number);
-  const bases = padded === plain ? [padded] : [padded, plain];
-  const extensions = ["jpg", "png", "jpeg", "webp"];
+  manifest: FabricManifest,
+): FabricSwatch[] {
+  const entries = manifest[collection.folder] ?? [];
 
-  return extensions.flatMap((extension) =>
-    bases.map(
-      (base) => `/images/fabrics/${collection.folder}/${base}.${extension}`,
-    ),
-  );
+  return entries
+    .filter(
+      (entry) =>
+        Number.isInteger(entry.slot) &&
+        entry.slot >= 1 &&
+        entry.slot <= 20 &&
+        Number.isInteger(entry.number) &&
+        entry.number >= 1 &&
+        Boolean(entry.image),
+    )
+    .sort((a, b) => a.slot - b.slot)
+    .map((entry) => ({
+      id: `${collection.id}-${entry.slot}-${entry.number}`,
+      slot: entry.slot,
+      number: entry.number,
+      label: `${collection.name} · №${entry.number}`,
+      image: entry.image,
+    }));
 }

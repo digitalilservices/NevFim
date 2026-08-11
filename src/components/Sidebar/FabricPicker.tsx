@@ -3,12 +3,12 @@
 import { useEffect, useMemo, useState } from "react";
 import { Check, ChevronDown, Layers3, Palette } from "lucide-react";
 import {
+  FABRIC_MANIFEST_URL,
   fabricCollections,
-  getFabricImageCandidates,
   getFabricSwatches,
 } from "@/data/fabrics";
 import type { Language } from "@/i18n/translations";
-import type { FabricCollection, FabricSwatch } from "@/data/fabrics";
+import type { FabricManifest } from "@/data/fabrics";
 
 type FabricPickerProps = {
   language: Language;
@@ -18,75 +18,36 @@ type FabricPickerProps = {
   variant?: "constructor" | "site";
 };
 
-
-type FabricSwatchImageProps = {
-  collection: FabricCollection;
-  swatch: FabricSwatch;
-  onResolved: (id: string, image: string) => void;
-  onMissing: (id: string) => void;
-};
-
-function FabricSwatchImage({
-  collection,
-  swatch,
-  onResolved,
-  onMissing,
-}: FabricSwatchImageProps) {
-  const candidates = useMemo(
-    () => getFabricImageCandidates(collection, swatch.number),
-    [collection, swatch.number],
-  );
-  const [candidateIndex, setCandidateIndex] = useState(0);
-  const src = candidates[candidateIndex] ?? swatch.image;
-
-  useEffect(() => {
-    setCandidateIndex(0);
-  }, [collection.id, swatch.id]);
-
-  return (
-    <img
-      src={src}
-      alt={swatch.label}
-      onLoad={() => onResolved(swatch.id, src)}
-      onError={() => {
-        if (candidateIndex < candidates.length - 1) {
-          setCandidateIndex((current) => current + 1);
-          return;
-        }
-
-        onMissing(swatch.id);
-      }}
-    />
-  );
-}
-
 const copy = {
   en: {
     title: "Fabric",
     trigger: "Choose fabric",
     collection: "Fabric collection",
     swatch: "Choose a color sample",
-    helper: "Select a collection, then the exact fabric sample.",
+    helper: "Select a collection, then the exact fabric color number.",
     selected: "Selected",
-    unavailable: "Add image",
+    loading: "Loading samples…",
+    empty: "No samples have been added to this collection yet.",
   },
   cs: {
     title: "Látka",
     trigger: "Vybrat látku",
     collection: "Kolekce látky",
     swatch: "Vyberte vzorek barvy",
-    helper: "Vyberte kolekci a potom přesný vzorek látky.",
+    helper: "Vyberte kolekci a potom přesné číslo barvy látky.",
     selected: "Vybráno",
-    unavailable: "Přidat obrázek",
+    loading: "Načítání vzorků…",
+    empty: "V této kolekci zatím nejsou žádné vzorky.",
   },
   ru: {
     title: "Ткань",
     trigger: "Выбрать ткань",
     collection: "Коллекция ткани",
     swatch: "Выберите образец цвета",
-    helper: "Сначала выберите коллекцию, затем точный образец ткани.",
+    helper: "Сначала выберите коллекцию, затем точный номер цвета ткани.",
     selected: "Выбрано",
-    unavailable: "Добавьте фото",
+    loading: "Загружаем образцы…",
+    empty: "В этой коллекции пока нет образцов.",
   },
 } satisfies Record<Language, Record<string, string>>;
 
@@ -102,13 +63,45 @@ export function FabricPicker({
   const [activeCollectionId, setActiveCollectionId] = useState(
     fabricCollections[0]?.id ?? "",
   );
+  const [manifest, setManifest] = useState<FabricManifest>({});
+  const [isManifestLoading, setIsManifestLoading] = useState(true);
   const [brokenSwatches, setBrokenSwatches] = useState<Set<string>>(new Set());
-  const [resolvedSwatches, setResolvedSwatches] = useState<Record<string, string>>({});
 
   useEffect(() => {
-    if (!image) {
-      return;
+    let cancelled = false;
+
+    async function loadManifest() {
+      try {
+        const response = await fetch(FABRIC_MANIFEST_URL, { cache: "no-store" });
+        if (!response.ok) {
+          throw new Error(`Fabric manifest: ${response.status}`);
+        }
+
+        const data = (await response.json()) as FabricManifest;
+        if (!cancelled) {
+          setManifest(data ?? {});
+        }
+      } catch (error) {
+        console.error("Failed to load fabric manifest", error);
+        if (!cancelled) {
+          setManifest({});
+        }
+      } finally {
+        if (!cancelled) {
+          setIsManifestLoading(false);
+        }
+      }
     }
+
+    loadManifest();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!image) return;
 
     const match = fabricCollections.find((collection) =>
       image.includes(`/images/fabrics/${collection.folder}/`),
@@ -124,15 +117,18 @@ export function FabricPicker({
     fabricCollections[0];
 
   const swatches = useMemo(
-    () => (activeCollection ? getFabricSwatches(activeCollection) : []),
-    [activeCollection],
+    () =>
+      activeCollection
+        ? getFabricSwatches(activeCollection, manifest).filter(
+            (swatch) => !brokenSwatches.has(swatch.id),
+          )
+        : [],
+    [activeCollection, manifest, brokenSwatches],
   );
 
   return (
     <div
-      className={`fabricPicker fabricPicker--${variant} ${
-        isOpen ? "isOpen" : ""
-      }`}
+      className={`fabricPicker fabricPicker--${variant} ${isOpen ? "isOpen" : ""}`}
     >
       <span className="fieldTitle">{text.title}</span>
 
@@ -180,7 +176,10 @@ export function FabricPicker({
                 className={
                   collection.id === activeCollectionId ? "active" : undefined
                 }
-                onClick={() => setActiveCollectionId(collection.id)}
+                onClick={() => {
+                  setActiveCollectionId(collection.id);
+                  setBrokenSwatches(new Set());
+                }}
                 aria-pressed={collection.id === activeCollectionId}
               >
                 {collection.name}
@@ -195,73 +194,59 @@ export function FabricPicker({
                   <small>{text.swatch}</small>
                   <strong>{activeCollection.name}</strong>
                 </div>
-                <span>9</span>
+                <span>{swatches.length}</span>
               </div>
 
-              <div className="fabricSwatchGrid">
-                {swatches.map((swatch) => {
-                  const isBroken = brokenSwatches.has(swatch.id);
-                  const resolvedImage = resolvedSwatches[swatch.id] ?? "";
-                  const isSelected = Boolean(
-                    image && resolvedImage && image === resolvedImage,
-                  );
+              {isManifestLoading ? (
+                <span className="fabricMissingPreview" style={{ position: "relative", minHeight: 88 }}>
+                  <small>{text.loading}</small>
+                </span>
+              ) : swatches.length > 0 ? (
+                <div className="fabricSwatchGrid">
+                  {swatches.map((swatch) => {
+                    const isSelected = image === swatch.image;
 
-                  return (
-                    <button
-                      type="button"
-                      key={swatch.id}
-                      className={`fabricSwatch ${isSelected ? "active" : ""} ${
-                        isBroken ? "isMissing" : ""
-                      }`}
-                      onClick={() => {
-                        if (!isBroken && resolvedImage) {
-                          onSelect(swatch.label, resolvedImage);
+                    return (
+                      <button
+                        type="button"
+                        key={swatch.id}
+                        className={`fabricSwatch ${isSelected ? "active" : ""}`}
+                        onClick={() => {
+                          onSelect(swatch.label, swatch.image);
                           setIsOpen(false);
-                        }
-                      }}
-                      disabled={isBroken || !resolvedImage}
-                      title={swatch.label}
-                      aria-pressed={isSelected}
-                    >
-                      {!isBroken ? (
-                        <FabricSwatchImage
-                          collection={activeCollection}
-                          swatch={swatch}
-                          onResolved={(id, resolvedImage) => {
-                            setResolvedSwatches((current) =>
-                              current[id] === resolvedImage
-                                ? current
-                                : { ...current, [id]: resolvedImage },
-                            );
-                          }}
-                          onMissing={(id) => {
+                        }}
+                        title={swatch.label}
+                        aria-label={`${activeCollection.name}, №${swatch.number}`}
+                        aria-pressed={isSelected}
+                      >
+                        <img
+                          src={swatch.image}
+                          alt={`${activeCollection.name} №${swatch.number}`}
+                          onError={() => {
                             setBrokenSwatches((current) => {
                               const next = new Set(current);
-                              next.add(id);
+                              next.add(swatch.id);
                               return next;
                             });
                           }}
                         />
-                      ) : (
-                        <span className="fabricMissingPreview">
-                          <small>{text.unavailable}</small>
-                          <b>{String(swatch.number).padStart(2, "0")}.jpg</b>
-                        </span>
-                      )}
 
-                      <span className="fabricSwatchNumber">
-                        {String(swatch.number).padStart(2, "0")}
-                      </span>
+                        <span className="fabricSwatchNumber">№{swatch.number}</span>
 
-                      {isSelected && (
-                        <span className="fabricSwatchCheck">
-                          <Check size={14} strokeWidth={3} />
-                        </span>
-                      )}
-                    </button>
-                  );
-                })}
-              </div>
+                        {isSelected && (
+                          <span className="fabricSwatchCheck">
+                            <Check size={14} strokeWidth={3} />
+                          </span>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              ) : (
+                <span className="fabricMissingPreview" style={{ position: "relative", minHeight: 88 }}>
+                  <small>{text.empty}</small>
+                </span>
+              )}
             </div>
           )}
         </div>
