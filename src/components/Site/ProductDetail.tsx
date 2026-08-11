@@ -35,6 +35,7 @@ import {
   modelName,
   type Language,
 } from "@/i18n/translations";
+import { FabricPicker } from "@/components/Sidebar/FabricPicker";
 
 import styles from "./ProductDetail.module.css";
 
@@ -100,6 +101,8 @@ const copy = {
     countryValue: "Словакия / Чехия",
     customDescription:
       "Модель изготавливается индивидуально с возможностью выбора материала, цвета и размеров.",
+    softCustomDescription:
+      "Модель изготавливается индивидуально с возможностью выбора материала, ткани и размеров.",
   },
   cs: {
     back: "Zpět do katalogu",
@@ -154,6 +157,8 @@ const copy = {
     countryValue: "Slovensko / Česko",
     customDescription:
       "Model se vyrábí individuálně s možností volby materiálu, barvy a rozměrů.",
+    softCustomDescription:
+      "Model se vyrábí individuálně s možností volby materiálu, látky a rozměrů.",
   },
   en: {
     back: "Back to catalog",
@@ -208,10 +213,12 @@ const copy = {
     countryValue: "Slovakia / Czechia",
     customDescription:
       "The model is made to order with a choice of material, color and dimensions.",
+    softCustomDescription:
+      "The model is made to order with a choice of material, fabric and dimensions.",
   },
 } as const;
 
-const softCategories = new Set(["beds", "sofas", "armchairs", "chairs"]);
+const softCategories = new Set(["beds", "sofas", "armchairs", "hangers"]);
 
 const defaultMaterials = ["ЛДСП", "МДФ", "Шпон"];
 const defaultColors = [
@@ -221,8 +228,6 @@ const defaultColors = [
   "Графит",
   "Бежевый",
 ];
-const defaultFabrics = ["Велюр", "Букле", "Рогожка"];
-
 const optionTranslations: Record<
   Language,
   Record<string, string>
@@ -238,9 +243,6 @@ const optionTranslations: Record<
     Орех: "Орех",
     Графит: "Графит",
     Бежевый: "Бежевый",
-    Велюр: "Велюр",
-    Букле: "Букле",
-    Рогожка: "Рогожка",
   },
   cs: {
     ЛДСП: "Laminovaná DTD",
@@ -253,9 +255,6 @@ const optionTranslations: Record<
     Орех: "Ořech",
     Графит: "Grafit",
     Бежевый: "Béžová",
-    Велюр: "Velur",
-    Букле: "Buklé",
-    Рогожка: "Rohož",
   },
   en: {
     ЛДСП: "Laminated chipboard",
@@ -268,9 +267,6 @@ const optionTranslations: Record<
     Орех: "Walnut",
     Графит: "Graphite",
     Бежевый: "Beige",
-    Велюр: "Velour",
-    Букле: "Bouclé",
-    Рогожка: "Matting",
   },
 };
 
@@ -299,13 +295,11 @@ function getDefaults(
         : isSoft
           ? ["МДФ", "Фанера", "Массив дерева"]
           : defaultMaterials,
-    colors: model.colors?.length ? model.colors : defaultColors,
-    fabrics:
-      isSoft
-        ? model.fabrics?.length
-          ? model.fabrics
-          : defaultFabrics
-        : [],
+    colors: isSoft
+      ? []
+      : model.colors?.length
+        ? model.colors
+        : defaultColors,
     dimensions: {
       widthMm: model.dimensions?.widthMm ?? (isSoft ? 1800 : 1600),
       heightMm: model.dimensions?.heightMm ?? (isSoft ? 1100 : 2200),
@@ -313,7 +307,9 @@ function getDefaults(
     },
     description:
       model.fullDescription?.trim() ||
-      `${translatedDescription}. ${c.customDescription}`,
+      `${translatedDescription}. ${
+        isSoft ? c.softCustomDescription : c.customDescription
+      }`,
     characteristics:
       model.characteristics?.length
         ? model.characteristics
@@ -351,6 +347,7 @@ export function ProductDetail({
     category.id,
     category.name,
   );
+  const isSoftFurniture = softCategories.has(model.categoryId);
 
   const defaults = useMemo(
     () =>
@@ -380,9 +377,8 @@ export function ProductDetail({
   const [selectedColor, setSelectedColor] = useState(
     defaults.colors[0] ?? "",
   );
-  const [selectedFabric, setSelectedFabric] = useState(
-    defaults.fabrics[0] ?? "",
-  );
+  const [selectedFabric, setSelectedFabric] = useState("");
+  const [selectedFabricImage, setSelectedFabricImage] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [widthMm, setWidthMm] = useState(
     defaults.dimensions.widthMm,
@@ -445,7 +441,8 @@ export function ProductDetail({
     setActiveImage(0);
     setSelectedMaterial(defaults.materials[0] ?? "");
     setSelectedColor(defaults.colors[0] ?? "");
-    setSelectedFabric(defaults.fabrics[0] ?? "");
+    setSelectedFabric("");
+    setSelectedFabricImage("");
     setWidthMm(defaults.dimensions.widthMm);
     setHeightMm(defaults.dimensions.heightMm);
     setDepthMm(defaults.dimensions.depthMm);
@@ -553,9 +550,11 @@ export function ProductDetail({
         heightMm,
         depthMm,
         material: optionLabel(language, selectedMaterial),
-        color: optionLabel(language, selectedColor),
-        fabric: selectedFabric
-          ? optionLabel(language, selectedFabric)
+        color: isSoftFurniture
+          ? undefined
+          : optionLabel(language, selectedColor),
+        fabric: isSoftFurniture && selectedFabric
+          ? selectedFabric
           : undefined,
         customerPrompt: `${c.production}. ${translatedDescription}`,
         price: model.basePrice,
@@ -755,63 +754,54 @@ export function ProductDetail({
               </div>
             </div>
 
-            <div className={styles.optionBlock}>
-              <div className={styles.optionHeading}>
-                <strong>{c.color}</strong>
-                <span>{optionLabel(language, selectedColor)}</span>
-              </div>
-              <div className={styles.colorButtons}>
-                {defaults.colors.map((color, index) => (
-                  <button
-                    type="button"
-                    key={color}
-                    className={
-                      selectedColor === color
-                        ? styles.selectedColor
-                        : ""
-                    }
-                    onClick={() => setSelectedColor(color)}
-                    title={optionLabel(language, color)}
-                    aria-label={optionLabel(language, color)}
-                    style={{
-                      "--swatch-color": [
-                        "#d8c6a8",
-                        "#b98d5f",
-                        "#765039",
-                        "#4d5052",
-                        "#d4c5ae",
-                      ][index % 5],
-                    } as React.CSSProperties}
-                  >
-                    {selectedColor === color && <Check size={15} />}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {defaults.fabrics.length > 0 && (
+            {!isSoftFurniture && (
               <div className={styles.optionBlock}>
                 <div className={styles.optionHeading}>
-                  <strong>{c.fabric}</strong>
-                  <span>{optionLabel(language, selectedFabric)}</span>
+                  <strong>{c.color}</strong>
+                  <span>{optionLabel(language, selectedColor)}</span>
                 </div>
-                <div className={styles.optionButtons}>
-                  {defaults.fabrics.map((fabric) => (
+                <div className={styles.colorButtons}>
+                  {defaults.colors.map((color, index) => (
                     <button
                       type="button"
-                      key={fabric}
+                      key={color}
                       className={
-                        selectedFabric === fabric
-                          ? styles.selectedOption
+                        selectedColor === color
+                          ? styles.selectedColor
                           : ""
                       }
-                      onClick={() => setSelectedFabric(fabric)}
+                      onClick={() => setSelectedColor(color)}
+                      title={optionLabel(language, color)}
+                      aria-label={optionLabel(language, color)}
+                      style={{
+                        "--swatch-color": [
+                          "#d8c6a8",
+                          "#b98d5f",
+                          "#765039",
+                          "#4d5052",
+                          "#d4c5ae",
+                        ][index % 5],
+                      } as React.CSSProperties}
                     >
-                      {selectedFabric === fabric && <Check size={15} />}
-                      {optionLabel(language, fabric)}
+                      {selectedColor === color && <Check size={15} />}
                     </button>
                   ))}
                 </div>
+              </div>
+            )}
+
+            {isSoftFurniture && (
+              <div className={styles.optionBlock}>
+                <FabricPicker
+                  language={language}
+                  value={selectedFabric}
+                  image={selectedFabricImage}
+                  onSelect={(value, image) => {
+                    setSelectedFabric(value);
+                    setSelectedFabricImage(image);
+                  }}
+                  variant="site"
+                />
               </div>
             )}
 

@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import type { Language } from "@/i18n/translations";
 
 import { AccountCartClient } from "@/components/Account/AccountCartClient";
+import { isAdminEmail } from "@/lib/admin";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function AccountPage() {
@@ -77,7 +78,7 @@ export default async function AccountPage() {
       initialItems={cartItems ?? []}
       initialOrders={orders ?? []}
       initialError={cartError?.message ?? ordersError?.message ?? ""}
-      isAdmin={user.email === "illypanferov15@gmail.com"}
+      isAdmin={isAdminEmail(user.email)}
       language={language}
     />
   );

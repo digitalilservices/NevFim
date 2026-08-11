@@ -33,7 +33,7 @@ export function getFabricSwatches(collection: FabricCollection): FabricSwatch[] 
     return {
       id: `${collection.id}-${fileNumber}`,
       number,
-      label: `${collection.name} ${number}`,
+      label: `${collection.name} · №${number}`,
       image: `/images/fabrics/${collection.folder}/${fileNumber}.jpg`,
     };
   });

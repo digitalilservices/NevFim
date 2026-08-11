@@ -98,6 +98,41 @@ export default function Home() {
     }
   }, []);
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const categoryId = params.get("category");
+    const modelId = params.get("model");
+
+    if (!categoryId && !modelId) {
+      return;
+    }
+
+    const matchedModel = modelId
+      ? furnitureModels.find((model) => model.id === modelId)
+      : undefined;
+    const matchedCategory = furnitureCategories.find(
+      (category) => category.id === (matchedModel?.categoryId ?? categoryId),
+    );
+
+    if (!matchedCategory) {
+      return;
+    }
+
+    setViewMode("2d");
+    setSelectedCategory(matchedCategory);
+    setSelectedModel(
+      matchedModel?.categoryId === matchedCategory.id ? matchedModel : null,
+    );
+    setMaterial("");
+    setColor("");
+    setCustomColor("");
+    setFabric("");
+    setFabricImage("");
+    setGeneratedImage(null);
+    setIsGenerated(false);
+    setGenerationError("");
+  }, []);
+
   const handleLanguageChange = (nextLanguage: Language) => {
     setLanguage(nextLanguage);
     window.localStorage.setItem("nevfim-language", nextLanguage);
@@ -263,7 +298,11 @@ export default function Home() {
       formData.append("material", isSoftFurniture ? "" : material);
       formData.append(
         "color",
-        color === "Індивідуальний" ? customColor : color,
+        isSoftFurniture
+          ? ""
+          : color === "Індивідуальний"
+            ? customColor
+            : color,
       );
       formData.append("fabric", fabric);
 
@@ -325,8 +364,9 @@ export default function Home() {
       return;
     }
 
-    const selectedColor =
-      color === "Індивідуальний"
+    const selectedColor = isSoftFurniture
+      ? ""
+      : color === "Індивідуальний"
         ? customColor.trim()
         : color;
 

@@ -392,56 +392,58 @@ export function Sidebar({
               </label>
             )}
 
-            <div className="colorSection">
-              <span className="fieldTitle">{t(language, "color")}</span>
+            {!isSoftFurniture && (
+              <div className="colorSection">
+                <span className="fieldTitle">{t(language, "color")}</span>
 
-              <div className="colorGrid">
-                {colors.map(({ name, hex }) => (
-                  <button
-                    key={name}
-                    className={`colorOption ${
-                      color === name ? "active" : ""
-                    }`}
-                    onClick={() => {
-                      onColorChange(name);
-                      onCustomColorChange("");
-                    }}
-                    type="button"
-                  >
-                    <span
-                      className="colorPreview"
-                      style={{ background: hex }}
+                <div className="colorGrid">
+                  {colors.map(({ name, hex }) => (
+                    <button
+                      key={name}
+                      className={`colorOption ${
+                        color === name ? "active" : ""
+                      }`}
+                      onClick={() => {
+                        onColorChange(name);
+                        onCustomColorChange("");
+                      }}
+                      type="button"
+                    >
+                      <span
+                        className="colorPreview"
+                        style={{ background: hex }}
+                      />
+
+                      <small>{({ "Світлий дуб": t(language, "lightOak"), "Натуральний дуб": t(language, "naturalOak"), "Горіх": t(language, "walnut"), "Чорний дуб": t(language, "blackOak"), "Бежевий": t(language, "beige"), "Графіт": t(language, "graphite") } as Record<string, string>)[name] ?? name}</small>
+                    </button>
+                  ))}
+                </div>
+
+                <button
+                  className={`customColorButton ${
+                    color === "Індивідуальний" ? "active" : ""
+                  }`}
+                  onClick={() => onColorChange("Індивідуальний")}
+                  type="button"
+                >
+                  + {t(language, "customColor")}
+                </button>
+
+                {color === "Індивідуальний" && (
+                  <label className="customColorField">
+                    {t(language, "specifyColor")}
+                    <input
+                      type="text"
+                      value={customColor}
+                      onChange={(event) =>
+                        onCustomColorChange(event.target.value)
+                      }
+                      placeholder={t(language, "customColorPlaceholder")}
                     />
-
-                    <small>{({ "Світлий дуб": t(language, "lightOak"), "Натуральний дуб": t(language, "naturalOak"), "Горіх": t(language, "walnut"), "Чорний дуб": t(language, "blackOak"), "Бежевий": t(language, "beige"), "Графіт": t(language, "graphite") } as Record<string, string>)[name] ?? name}</small>
-                  </button>
-                ))}
+                  </label>
+                )}
               </div>
-
-              <button
-                className={`customColorButton ${
-                  color === "Індивідуальний" ? "active" : ""
-                }`}
-                onClick={() => onColorChange("Індивідуальний")}
-                type="button"
-              >
-                + {t(language, "customColor")}
-              </button>
-
-              {color === "Індивідуальний" && (
-                <label className="customColorField">
-                  {t(language, "specifyColor")}
-                  <input
-                    type="text"
-                    value={customColor}
-                    onChange={(event) =>
-                      onCustomColorChange(event.target.value)
-                    }
-                    placeholder={t(language, "customColorPlaceholder")}
-                  />
-                </label>
-              )}
-            </div>
+            )}
 
             {isSoftFurniture && (
               <FabricPicker
@@ -514,10 +516,12 @@ export function Sidebar({
                 </div>
               )}
 
-              <div>
-                <span>{t(language, "color")}</span>
-                <strong>{displayedColor}</strong>
-              </div>
+              {!isSoftFurniture && (
+                <div>
+                  <span>{t(language, "color")}</span>
+                  <strong>{displayedColor}</strong>
+                </div>
+              )}
 
               {isSoftFurniture && (
                 <div>

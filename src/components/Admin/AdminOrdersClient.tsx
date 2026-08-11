@@ -293,11 +293,17 @@ export function AdminOrdersClient({
                         {item.width_mm ?? "—"} × {item.height_mm ?? "—"} ×{" "}
                         {item.depth_mm ?? "—"} мм
                       </p>
-                      <p>
-                        Материал: {item.material || "—"} · Цвет:{" "}
-                        {item.color || "—"}
-                        {item.fabric ? ` · Ткань: ${item.fabric}` : ""}
-                      </p>
+                      {(item.material || item.color || item.fabric) && (
+                        <p>
+                          {[
+                            item.material ? `Материал: ${item.material}` : "",
+                            item.color ? `Цвет: ${item.color}` : "",
+                            item.fabric ? `Ткань: ${item.fabric}` : "",
+                          ]
+                            .filter(Boolean)
+                            .join(" · ")}
+                        </p>
+                      )}
 
                       {item.customer_prompt && (
                         <blockquote>{item.customer_prompt}</blockquote>

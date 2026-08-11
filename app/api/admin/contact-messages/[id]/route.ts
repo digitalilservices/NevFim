@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
 
+import { isAdminEmail } from "@/lib/admin";
 import { createClient } from "@/lib/supabase/server";
-
-const ADMIN_EMAIL = "illypanferov15@gmail.com";
 
 type RouteContext = {
   params: Promise<{ id: string }>;
@@ -14,7 +13,7 @@ async function adminClient() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user || user.email !== ADMIN_EMAIL) {
+  if (!user || !isAdminEmail(user.email)) {
     return { supabase, authorized: false } as const;
   }
 

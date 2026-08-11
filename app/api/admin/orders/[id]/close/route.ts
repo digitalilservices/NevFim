@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
 
+import { isAdminEmail } from "@/lib/admin";
 import { createClient } from "@/lib/supabase/server";
-
-const ADMIN_EMAIL = "illypanferov15@gmail.com";
 
 export async function PATCH(
   request: Request,
@@ -26,7 +25,7 @@ export async function PATCH(
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user || user.email !== ADMIN_EMAIL) {
+  if (!user || !isAdminEmail(user.email)) {
     return NextResponse.json(
       { error: "Нет доступа." },
       { status: 403 },
@@ -60,7 +59,7 @@ export async function DELETE(
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user || user.email !== ADMIN_EMAIL) {
+  if (!user || !isAdminEmail(user.email)) {
     return NextResponse.json({ error: "Нет доступа." }, { status: 403 });
   }
 

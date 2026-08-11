@@ -1,9 +1,8 @@
 import { redirect } from "next/navigation";
 
 import { AdminMessagesClient } from "@/components/Admin/AdminMessagesClient";
+import { isAdminEmail } from "@/lib/admin";
 import { createClient } from "@/lib/supabase/server";
-
-const ADMIN_EMAIL = "illypanferov15@gmail.com";
 
 export default async function AdminMessagesPage() {
   const supabase = await createClient();
@@ -11,7 +10,7 @@ export default async function AdminMessagesPage() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user || user.email !== ADMIN_EMAIL) {
+  if (!user || !isAdminEmail(user.email)) {
     redirect("/account");
   }
 

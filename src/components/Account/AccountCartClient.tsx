@@ -456,12 +456,16 @@ export function AccountCartClient({
                           {valueOrDash(item.depth_mm)} mm
                         </b>
                       </span>
-                      <span>
-                        {c.material}: <b>{valueOrDash(item.material)}</b>
-                      </span>
-                      <span>
-                        {c.color}: <b>{valueOrDash(item.color)}</b>
-                      </span>
+                      {item.material && (
+                        <span>
+                          {c.material}: <b>{item.material}</b>
+                        </span>
+                      )}
+                      {item.color && (
+                        <span>
+                          {c.color}: <b>{item.color}</b>
+                        </span>
+                      )}
                       {item.fabric && (
                         <span>
                           {c.fabric}: <b>{item.fabric}</b>
@@ -603,13 +607,23 @@ export function AccountCartClient({
                                   {valueOrDash(item.height_mm)} ×{" "}
                                   {valueOrDash(item.depth_mm)} mm
                                 </p>
-                                <p>
-                                  {c.material}: {valueOrDash(item.material)} ·{" "}
-                                  {c.color}: {valueOrDash(item.color)}
-                                  {item.fabric
-                                    ? ` · ${c.fabric}: ${item.fabric}`
-                                    : ""}
-                                </p>
+                                {(item.material || item.color || item.fabric) && (
+                                  <p>
+                                    {[
+                                      item.material
+                                        ? `${c.material}: ${item.material}`
+                                        : "",
+                                      item.color
+                                        ? `${c.color}: ${item.color}`
+                                        : "",
+                                      item.fabric
+                                        ? `${c.fabric}: ${item.fabric}`
+                                        : "",
+                                    ]
+                                      .filter(Boolean)
+                                      .join(" · ")}
+                                  </p>
+                                )}
                               </div>
 
                               <strong>

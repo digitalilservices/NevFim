@@ -15,6 +15,7 @@ type FabricPickerProps = {
   value: string;
   image: string;
   onSelect: (value: string, image: string) => void;
+  variant?: "constructor" | "site";
 };
 
 
@@ -94,6 +95,7 @@ export function FabricPicker({
   value,
   image,
   onSelect,
+  variant = "constructor",
 }: FabricPickerProps) {
   const text = copy[language];
   const [isOpen, setIsOpen] = useState(false);
@@ -127,7 +129,11 @@ export function FabricPicker({
   );
 
   return (
-    <div className={`fabricPicker ${isOpen ? "isOpen" : ""}`}>
+    <div
+      className={`fabricPicker fabricPicker--${variant} ${
+        isOpen ? "isOpen" : ""
+      }`}
+    >
       <span className="fieldTitle">{text.title}</span>
 
       <button
@@ -175,6 +181,7 @@ export function FabricPicker({
                   collection.id === activeCollectionId ? "active" : undefined
                 }
                 onClick={() => setActiveCollectionId(collection.id)}
+                aria-pressed={collection.id === activeCollectionId}
               >
                 {collection.name}
               </button>
@@ -209,10 +216,12 @@ export function FabricPicker({
                       onClick={() => {
                         if (!isBroken && resolvedImage) {
                           onSelect(swatch.label, resolvedImage);
+                          setIsOpen(false);
                         }
                       }}
                       disabled={isBroken || !resolvedImage}
                       title={swatch.label}
+                      aria-pressed={isSelected}
                     >
                       {!isBroken ? (
                         <FabricSwatchImage

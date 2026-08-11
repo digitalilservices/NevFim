@@ -9828,7 +9828,6 @@ body {
     box-shadow 180ms ease;
 }
 
-.fabricPickerTrigger:hover,
 .fabricPickerTrigger.hasValue,
 .fabricPicker.isOpen .fabricPickerTrigger {
   border-color: rgba(240, 204, 122, 0.62);
@@ -9838,10 +9837,6 @@ body {
   box-shadow:
     0 13px 30px rgba(0, 0, 0, 0.32),
     0 0 22px rgba(215, 169, 81, 0.055);
-}
-
-.fabricPickerTrigger:hover {
-  transform: translateY(-1px);
 }
 
 .fabricPickerTriggerIcon {
@@ -9999,15 +9994,10 @@ body {
     transform 160ms ease;
 }
 
-.fabricCollectionGrid button:hover,
 .fabricCollectionGrid button.active {
   border-color: rgba(240, 204, 122, 0.55);
   background: rgba(215, 169, 81, 0.105);
   color: #f0cc7a;
-}
-
-.fabricCollectionGrid button:hover {
-  transform: translateY(-1px);
 }
 
 .fabricSwatchSection {
@@ -10074,13 +10064,6 @@ body {
     box-shadow 170ms ease;
 }
 
-.fabricSwatch:not(:disabled):hover {
-  z-index: 2;
-  border-color: rgba(240, 204, 122, 0.58);
-  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.35);
-  transform: translateY(-2px) scale(1.015);
-}
-
 .fabricSwatch.active {
   border-color: #f0cc7a;
   box-shadow:
@@ -10095,8 +10078,42 @@ body {
   transition: transform 260ms ease;
 }
 
-.fabricSwatch:not(:disabled):hover img {
-  transform: scale(1.055);
+.fabricCollectionGrid button,
+.fabricSwatch,
+.fabricPickerTrigger {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .fabricPickerTrigger:hover {
+    border-color: rgba(240, 204, 122, 0.62);
+    background:
+      linear-gradient(135deg, rgba(215, 169, 81, 0.13), transparent 60%),
+      #101213;
+    box-shadow:
+      0 13px 30px rgba(0, 0, 0, 0.32),
+      0 0 22px rgba(215, 169, 81, 0.055);
+    transform: translateY(-1px);
+  }
+
+  .fabricCollectionGrid button:hover {
+    border-color: rgba(240, 204, 122, 0.55);
+    background: rgba(215, 169, 81, 0.105);
+    color: #f0cc7a;
+    transform: translateY(-1px);
+  }
+
+  .fabricSwatch:not(:disabled):hover {
+    z-index: 2;
+    border-color: rgba(240, 204, 122, 0.58);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.35);
+    transform: translateY(-2px) scale(1.015);
+  }
+
+  .fabricSwatch:not(:disabled):hover img {
+    transform: scale(1.055);
+  }
 }
 
 .fabricSwatchNumber {
@@ -10477,4 +10494,152 @@ body {
 .fabricResultValue span {
   min-width: 0;
   overflow-wrap: anywhere;
+}
+
+/* =========================================================
+   V10 — PRODUCT PAGE FABRIC PICKER
+   Same fabric library as the 2D constructor, adapted to the
+   light catalog product page. Touch devices keep only one
+   visibly selected collection (no sticky hover state).
+========================================================= */
+
+.fabricPicker--site {
+  width: 100%;
+}
+
+.fabricPicker--site .fieldTitle {
+  color: #171918;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.fabricPicker--site .fabricPickerTrigger {
+  min-height: 62px;
+  border-color: #d6d9d7;
+  background:
+    linear-gradient(135deg, rgba(190, 126, 50, 0.08), transparent 58%),
+    #ffffff;
+  color: #171918;
+  box-shadow: 0 8px 24px rgba(22, 24, 23, 0.06);
+}
+
+.fabricPicker--site .fabricPickerTrigger.hasValue,
+.fabricPicker--site.isOpen .fabricPickerTrigger {
+  border-color: #c98535;
+  background:
+    linear-gradient(135deg, rgba(201, 133, 53, 0.11), transparent 62%),
+    #fffdf9;
+  box-shadow:
+    0 0 0 1px rgba(201, 133, 53, 0.08),
+    0 10px 28px rgba(22, 24, 23, 0.07);
+}
+
+.fabricPicker--site .fabricPickerTriggerIcon {
+  border-color: rgba(201, 133, 53, 0.28);
+  background: rgba(201, 133, 53, 0.09);
+  color: #b8732a;
+}
+
+.fabricPicker--site .fabricPickerTriggerText small {
+  color: #8a8f8c;
+}
+
+.fabricPicker--site .fabricPickerTriggerText strong {
+  color: #171918;
+  font-size: 13px;
+}
+
+.fabricPicker--site .fabricPickerChevron {
+  color: #b8732a;
+}
+
+.fabricPicker--site .fabricPickerPanel {
+  border-color: #dedfdc;
+  background:
+    radial-gradient(circle at 92% 0%, rgba(201, 133, 53, 0.09), transparent 30%),
+    linear-gradient(160deg, #fffefb, #f7f7f4 70%);
+  box-shadow: 0 20px 46px rgba(25, 28, 26, 0.1);
+}
+
+.fabricPicker--site .fabricPickerPanelHead > span {
+  background: rgba(201, 133, 53, 0.1);
+  color: #b8732a;
+}
+
+.fabricPicker--site .fabricPickerPanelHead strong,
+.fabricPicker--site .fabricSwatchHeading strong {
+  color: #171918;
+}
+
+.fabricPicker--site .fabricPickerPanelHead small,
+.fabricPicker--site .fabricSwatchHeading small {
+  color: #858a87;
+}
+
+.fabricPicker--site .fabricCollectionGrid button {
+  border-color: #dedfdc;
+  background: #ffffff;
+  color: #555b58;
+}
+
+.fabricPicker--site .fabricCollectionGrid button.active {
+  border-color: #c98535;
+  background: rgba(201, 133, 53, 0.1);
+  color: #9a5e20;
+  box-shadow: inset 0 0 0 1px rgba(201, 133, 53, 0.06);
+}
+
+.fabricPicker--site .fabricSwatchHeading > span {
+  border-color: rgba(201, 133, 53, 0.24);
+  color: #a26626;
+}
+
+.fabricPicker--site .fabricSwatch {
+  border-color: #dedfdc;
+  background: #eceeeb;
+  box-shadow: 0 6px 16px rgba(26, 29, 27, 0.08);
+}
+
+.fabricPicker--site .fabricSwatch.active {
+  border-color: #c98535;
+  box-shadow:
+    0 0 0 2px rgba(201, 133, 53, 0.14),
+    0 10px 24px rgba(26, 29, 27, 0.1);
+}
+
+.fabricPicker--site .fabricSwatchCheck {
+  background: #c98535;
+  color: #ffffff;
+}
+
+.fabricPicker--site .fabricMissingPreview {
+  background:
+    linear-gradient(135deg, rgba(201, 133, 53, 0.05), transparent),
+    #f4f4f1;
+  color: #8d918e;
+}
+
+.fabricPicker--site .fabricMissingPreview b {
+  color: #a26626;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .fabricPicker--site .fabricPickerTrigger:hover {
+    border-color: #c98535;
+    background:
+      linear-gradient(135deg, rgba(201, 133, 53, 0.1), transparent 62%),
+      #fffdf9;
+    box-shadow: 0 10px 28px rgba(22, 24, 23, 0.08);
+  }
+
+  .fabricPicker--site .fabricCollectionGrid button:hover {
+    border-color: #c98535;
+    background: rgba(201, 133, 53, 0.08);
+    color: #9a5e20;
+  }
+
+  .fabricPicker--site .fabricSwatch:not(:disabled):hover {
+    border-color: #c98535;
+    box-shadow: 0 11px 24px rgba(26, 29, 27, 0.12);
+  }
 }
