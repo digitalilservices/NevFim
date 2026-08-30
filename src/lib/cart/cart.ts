@@ -1,7 +1,7 @@
 import { createClient } from "@/lib/supabase/client";
 
 export type AddToCartInput = {
-  source: "2d" | "3d" | "catalog";
+  source: "2d" | "catalog";
   categoryId?: string;
   categoryName?: string;
   modelId: string;

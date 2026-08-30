@@ -1,0 +1,68 @@
+{
+  "navi": [],
+  "ice-cream-nev": [
+    {
+      "slot": 1,
+      "number": 1,
+      "file": "1-1.jpg",
+      "image": "/images/fabrics/ice-cream-nev/1-1.jpg"
+    },
+    {
+      "slot": 2,
+      "number": 2,
+      "file": "2-2.jpg",
+      "image": "/images/fabrics/ice-cream-nev/2-2.jpg"
+    },
+    {
+      "slot": 3,
+      "number": 3,
+      "file": "3-3.jpg",
+      "image": "/images/fabrics/ice-cream-nev/3-3.jpg"
+    },
+    {
+      "slot": 4,
+      "number": 4,
+      "file": "4-4.jpg",
+      "image": "/images/fabrics/ice-cream-nev/4-4.jpg"
+    },
+    {
+      "slot": 5,
+      "number": 12,
+      "file": "5-12.jpg",
+      "image": "/images/fabrics/ice-cream-nev/5-12.jpg"
+    },
+    {
+      "slot": 6,
+      "number": 13,
+      "file": "6-13.jpg",
+      "image": "/images/fabrics/ice-cream-nev/6-13.jpg"
+    },
+    {
+      "slot": 7,
+      "number": 14,
+      "file": "7-14.jpg",
+      "image": "/images/fabrics/ice-cream-nev/7-14.jpg"
+    },
+    {
+      "slot": 8,
+      "number": 15,
+      "file": "8-15.jpg",
+      "image": "/images/fabrics/ice-cream-nev/8-15.jpg"
+    },
+    {
+      "slot": 9,
+      "number": 16,
+      "file": "9-16.jpg",
+      "image": "/images/fabrics/ice-cream-nev/9-16.jpg"
+    }
+  ],
+  "a-869-flora": [],
+  "ottimo": [],
+  "bibtex-beta": [],
+  "marko": [],
+  "oliver": [],
+  "komo": [],
+  "lori": [],
+  "lutos": [],
+  "diamant": []
+}

@@ -350,10 +350,14 @@ export function Sidebar({
             <label>
               {t(language, "widthMm")}
               <input
+                type="number"
                 value={width}
                 onChange={(event) => onWidthChange(event.target.value)}
-                placeholder="2400"
+                placeholder={selectedCategory.id === "beds" ? "1600" : "2400"}
                 inputMode="numeric"
+                min={100}
+                max={10000}
+                step={selectedCategory.id === "beds" ? 200 : 10}
               />
             </label>
 

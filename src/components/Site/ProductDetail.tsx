@@ -25,6 +25,7 @@ import {
 } from "react";
 
 import { addToCart } from "@/lib/cart/cart";
+import { calculateFurniturePrice } from "@/lib/pricing";
 import type {
   FurnitureCategory,
   FurnitureModel,
@@ -301,7 +302,9 @@ function getDefaults(
         ? model.colors
         : defaultColors,
     dimensions: {
-      widthMm: model.dimensions?.widthMm ?? (isSoft ? 1800 : 1600),
+      widthMm:
+        model.dimensions?.widthMm ??
+        (model.categoryId === "beds" ? 1600 : isSoft ? 1800 : 1600),
       heightMm: model.dimensions?.heightMm ?? (isSoft ? 1100 : 2200),
       depthMm: model.dimensions?.depthMm ?? (isSoft ? 2100 : 600),
     },
@@ -380,13 +383,13 @@ export function ProductDetail({
   const [selectedFabric, setSelectedFabric] = useState("");
   const [selectedFabricImage, setSelectedFabricImage] = useState("");
   const [quantity, setQuantity] = useState(1);
-  const [widthMm, setWidthMm] = useState(
+  const [widthMm, setWidthMm] = useState<number | "">(
     defaults.dimensions.widthMm,
   );
-  const [heightMm, setHeightMm] = useState(
+  const [heightMm, setHeightMm] = useState<number | "">(
     defaults.dimensions.heightMm,
   );
-  const [depthMm, setDepthMm] = useState(
+  const [depthMm, setDepthMm] = useState<number | "">(
     defaults.dimensions.depthMm,
   );
   const [isAdding, setIsAdding] = useState(false);
@@ -505,16 +508,32 @@ export function ProductDetail({
     });
   };
 
-  const normalizeDimension = (value: number) =>
-    Number.isFinite(value) ? Math.round(value) : 0;
+  const normalizeDimension = (value: string) => {
+    if (value === "") return "" as const;
+
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? Math.round(parsed) : "";
+  };
+
+  const widthValue = widthMm === "" ? Number.NaN : widthMm;
+  const heightValue = heightMm === "" ? Number.NaN : heightMm;
+  const depthValue = depthMm === "" ? Number.NaN : depthMm;
 
   const dimensionsAreValid =
-    widthMm >= 100 &&
-    widthMm <= 10000 &&
-    heightMm >= 100 &&
-    heightMm <= 10000 &&
-    depthMm >= 100 &&
-    depthMm <= 10000;
+    Number.isFinite(widthValue) &&
+    widthValue >= 100 &&
+    widthValue <= 10000 &&
+    Number.isFinite(heightValue) &&
+    heightValue >= 100 &&
+    heightValue <= 10000 &&
+    Number.isFinite(depthValue) &&
+    depthValue >= 100 &&
+    depthValue <= 10000;
+
+  const currentPrice = calculateFurniturePrice(
+    model,
+    Number.isFinite(widthValue) ? widthValue : 0,
+  );
 
   const money = (value: number) =>
     `${value.toLocaleString(locale)} Kč`;
@@ -546,9 +565,9 @@ export function ProductDetail({
         productCode: model.productCode,
         modelName: translatedName,
         imageUrl: defaults.images[activeImage] ?? model.image,
-        widthMm,
-        heightMm,
-        depthMm,
+        widthMm: widthValue,
+        heightMm: heightValue,
+        depthMm: depthValue,
         material: optionLabel(language, selectedMaterial),
         color: isSoftFurniture
           ? undefined
@@ -557,7 +576,7 @@ export function ProductDetail({
           ? selectedFabric
           : undefined,
         customerPrompt: `${c.production}. ${translatedDescription}`,
-        price: model.basePrice,
+        price: currentPrice,
         quantity,
       });
 
@@ -727,7 +746,7 @@ export function ProductDetail({
 
             <div className={styles.priceRow}>
               <span>{c.price}</span>
-              <strong>{money(model.basePrice)}</strong>
+              <strong>{money(currentPrice)}</strong>
             </div>
 
             <div className={styles.optionBlock}>
@@ -817,13 +836,11 @@ export function ProductDetail({
                         inputMode="numeric"
                         min={100}
                         max={10000}
-                        step={10}
+                        step={model.categoryId === "beds" ? 200 : 10}
                         value={widthMm}
                         onChange={(event) =>
                           setWidthMm(
-                            normalizeDimension(
-                              event.currentTarget.valueAsNumber,
-                            ),
+                            normalizeDimension(event.currentTarget.value),
                           )
                         }
                       />
@@ -843,9 +860,7 @@ export function ProductDetail({
                         value={heightMm}
                         onChange={(event) =>
                           setHeightMm(
-                            normalizeDimension(
-                              event.currentTarget.valueAsNumber,
-                            ),
+                            normalizeDimension(event.currentTarget.value),
                           )
                         }
                       />
@@ -865,9 +880,7 @@ export function ProductDetail({
                         value={depthMm}
                         onChange={(event) =>
                           setDepthMm(
-                            normalizeDimension(
-                              event.currentTarget.valueAsNumber,
-                            ),
+                            normalizeDimension(event.currentTarget.value),
                           )
                         }
                       />
@@ -1003,7 +1016,7 @@ export function ProductDetail({
           <div>
             <span>{c.size}</span>
             <strong>
-              {widthMm} × {heightMm} × {depthMm} {c.millimeters}
+              {widthMm === "" ? "—" : widthMm} × {heightMm === "" ? "—" : heightMm} × {depthMm === "" ? "—" : depthMm} {c.millimeters}
             </strong>
           </div>
 

@@ -1,19 +1,41 @@
-import { NextResponse } from "next/server";
+import type { EmailOtpType } from "@supabase/supabase-js";
+import { NextResponse, type NextRequest } from "next/server";
 
 import { createClient } from "@/lib/supabase/server";
 
-export async function GET(request: Request) {
-  const requestUrl = new URL(request.url);
+function safeNext(value: string | null) {
+  return value?.startsWith("/") && !value.startsWith("//") ? value : "/account";
+}
 
-  const code = requestUrl.searchParams.get("code");
+export async function GET(request: NextRequest) {
+  const url = request.nextUrl.clone();
+  const code = url.searchParams.get("code");
+  const tokenHash = url.searchParams.get("token_hash");
+  const type = url.searchParams.get("type") as EmailOtpType | null;
+  const next = safeNext(url.searchParams.get("next"));
+  const supabase = await createClient();
+
+  let error: Error | null = null;
 
   if (code) {
-    const supabase = await createClient();
-
-    await supabase.auth.exchangeCodeForSession(code);
+    const result = await supabase.auth.exchangeCodeForSession(code);
+    error = result.error;
+  } else if (tokenHash && type) {
+    const result = await supabase.auth.verifyOtp({
+      token_hash: tokenHash,
+      type,
+    });
+    error = result.error;
+  } else {
+    error = new Error("Missing auth confirmation token.");
   }
 
-  return NextResponse.redirect(
-    new URL("/account", requestUrl.origin),
-  );
+  url.search = "";
+  url.pathname = error ? "/login" : next;
+
+  if (error) {
+    url.searchParams.set("error", "confirmation_failed");
+  }
+
+  return NextResponse.redirect(url);
 }

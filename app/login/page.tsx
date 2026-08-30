@@ -12,7 +12,7 @@ const copy = {
     back: "Back to site",
     account: "Personal account",
     title: "Log in",
-    description: "Log in to view your cart and order history.",
+    description: "Log in with your email and password to view your cart and order history.",
     password: "Password",
     loading: "Logging in...",
     submit: "Log in",
@@ -20,13 +20,12 @@ const copy = {
     register: "Register",
     fallbackError: "Could not log in.",
     invalidCredentials: "Incorrect email or password.",
-    emailNotConfirmed: "Confirm your email with the six-digit code before logging in.",
   },
   cs: {
     back: "Zpět na web",
     account: "Osobní účet",
     title: "Přihlášení",
-    description: "Přihlaste se a zobrazte svůj košík a historii objednávek.",
+    description: "Přihlaste se pomocí emailu a hesla a zobrazte svůj košík a historii objednávek.",
     password: "Heslo",
     loading: "Přihlašování...",
     submit: "Přihlásit se",
@@ -34,13 +33,12 @@ const copy = {
     register: "Registrovat",
     fallbackError: "Přihlášení se nezdařilo.",
     invalidCredentials: "Nesprávný email nebo heslo.",
-    emailNotConfirmed: "Před přihlášením potvrďte email šestimístným kódem.",
   },
   ru: {
     back: "Вернуться на сайт",
     account: "Личный кабинет",
     title: "Вход",
-    description: "Войдите в аккаунт, чтобы просматривать корзину и историю заказов.",
+    description: "Войдите по email и паролю, чтобы просматривать корзину и историю заказов.",
     password: "Пароль",
     loading: "Входим...",
     submit: "Войти",
@@ -48,7 +46,6 @@ const copy = {
     register: "Зарегистрироваться",
     fallbackError: "Не удалось войти.",
     invalidCredentials: "Неверный email или пароль.",
-    emailNotConfirmed: "Перед входом подтвердите email шестизначным кодом.",
   },
 } as const;
 
@@ -60,13 +57,6 @@ function authError(message: string, language: keyof typeof copy) {
     normalized.includes("invalid credentials")
   ) {
     return copy[language].invalidCredentials;
-  }
-
-  if (
-    normalized.includes("email not confirmed") ||
-    normalized.includes("email_not_confirmed")
-  ) {
-    return copy[language].emailNotConfirmed;
   }
 
   return message || copy[language].fallbackError;
@@ -91,13 +81,19 @@ export default function LoginPage() {
 
       const supabase = createClient();
       const { error: loginError } = await supabase.auth.signInWithPassword({
-        email: email.trim(),
+        email: email.trim().toLowerCase(),
         password,
       });
 
       if (loginError) throw loginError;
 
-      router.push("/account");
+      const requestedNext = new URLSearchParams(window.location.search).get("next");
+      const safeNext =
+        requestedNext?.startsWith("/") && !requestedNext.startsWith("//")
+          ? requestedNext
+          : "/account";
+
+      router.push(safeNext);
       router.refresh();
     } catch (err) {
       const message = err instanceof Error ? err.message : c.fallbackError;

@@ -4,9 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { ChangeEvent } from "react";
 import {
-  Box,
   ImagePlus,
-  Maximize2,
   MessageSquareText,
   Palette,
   Ruler,
@@ -54,7 +52,6 @@ type WorkspaceProps = {
   onRoomImageChange: (event: ChangeEvent<HTMLInputElement>) => void;
   onPromptChange: (value: string) => void;
   onGenerate: () => void;
-  onOpen3D: () => void;
 };
 
 export function Workspace({
@@ -69,7 +66,6 @@ export function Workspace({
   onRoomImageChange,
   onPromptChange,
   onGenerate,
-  onOpen3D,
 }: WorkspaceProps) {
   const [isHelpOpen, setIsHelpOpen] = useState(false);
 
@@ -126,7 +122,7 @@ export function Workspace({
         </button>
 
         <div className="constructorStudioIdentity">
-          <span className="threeDStatusDot" />
+          <span className="constructorStatusDot" />
           <div>
             <strong>NevFim 2D Studio</strong>
             <small>{t(language, "roomConstructor")}</small>
@@ -191,14 +187,6 @@ export function Workspace({
             )}
           </div>
 
-          <button
-            className="open3DButton"
-            type="button"
-            onClick={onOpen3D}
-          >
-            <span>3D</span>
-            {t(language, "go3d")}
-          </button>
 
           <button
             className="helpButton"
@@ -234,9 +222,6 @@ export function Workspace({
               {t(language, "howWorks")}
             </button>
 
-            <button type="button" className="constructorMenuLink" onClick={() => { onOpen3D(); setIsMobileMenuOpen(false); }}>
-              3D · {t(language, "go3d")}
-            </button>
 
             <div className="constructorMenuSection">
               <span>{language === "ru" ? "Язык" : language === "cs" ? "Jazyk" : "Language"}</span>
@@ -493,73 +478,7 @@ export function Workspace({
                 </div>
               </article>
 
-              <article className="howItWorksCard howItWorksCard3D">
-                <div className="howItWorksCardTop">
-                  <span className="howItWorksNumber">3D</span>
 
-                  <div>
-                    <h3>NevFim 3D Studio</h3>
-                    <p>{t(language, "studio3dDesc")}</p>
-                  </div>
-                </div>
-
-                <div className="howItWorksSteps">
-                  <div className="howItWorksStep">
-                    <span>
-                      <Box size={20} />
-                    </span>
-
-                    <div>
-                      <strong>{t(language, "choose3dStep")}</strong>
-                      <p>{t(language, "choose3dStepDesc")}</p>
-                    </div>
-                  </div>
-
-                  <div className="howItWorksStep">
-                    <span>
-                      <Sparkles size={20} />
-                    </span>
-
-                    <div>
-                      <strong>{t(language, "waitLoadStep")}</strong>
-                      <p>{t(language, "waitLoadStepDesc")}</p>
-                    </div>
-                  </div>
-
-                  <div className="howItWorksStep">
-                    <span>
-                      <Box size={20} />
-                    </span>
-
-                    <div>
-                      <strong>{t(language, "addRoomStep")}</strong>
-                      <p>{t(language, "addRoomStepDesc")}</p>
-                    </div>
-                  </div>
-
-                  <div className="howItWorksStep">
-                    <span>
-                      <Maximize2 size={20} />
-                    </span>
-
-                    <div>
-                      <strong>{t(language, "viewAnglesStep")}</strong>
-                      <p>{t(language, "viewAnglesStepDesc")}</p>
-                    </div>
-                  </div>
-
-                  <div className="howItWorksStep">
-                    <span>
-                      <Box size={20} />
-                    </span>
-
-                    <div>
-                      <strong>{t(language, "switchModelStep")}</strong>
-                      <p>{t(language, "switchModelStepDesc")}</p>
-                    </div>
-                  </div>
-                </div>
-              </article>
             </div>
 
             <div className="howItWorksSummary">
@@ -568,10 +487,7 @@ export function Workspace({
                 <span>{t(language, "summary2d")}</span>
               </div>
 
-              <div>
-                <strong>3D</strong>
-                <span>{t(language, "summary3d")}</span>
-              </div>
+
             </div>
 
             <button

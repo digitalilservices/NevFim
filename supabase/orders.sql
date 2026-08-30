@@ -34,7 +34,7 @@ create table if not exists public.order_items (
     on delete cascade,
 
   source text not null
-    check (source in ('2d', '3d', 'catalog')),
+    check (source in ('2d', 'catalog')),
 
   category_id text,
   category_name text,

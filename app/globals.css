@@ -2842,1349 +2842,39 @@ body,
     color:#d7a951;
 }
 
-/* =========================================================
-   2D / 3D SWITCH
-========================================================= */
-
 .topbarActions {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.open3DButton {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  min-height: 38px;
-  padding: 7px 14px 7px 8px;
-  border: 1px solid rgba(215, 169, 81, 0.6);
-  border-radius: 8px;
-  background:
-    linear-gradient(
-      180deg,
-      rgba(215, 169, 81, 0.13),
-      rgba(215, 169, 81, 0.035)
-    ),
-    #0c0e0f;
-  color: #f5f0e7;
-  font-size: 11px;
-  font-weight: 700;
-  box-shadow:
-    0 8px 22px rgba(0, 0, 0, 0.28),
-    0 0 16px rgba(215, 169, 81, 0.07);
-  transition: 180ms ease;
-}
-
-.open3DButton > span {
-  display: grid;
-  place-items: center;
-  min-width: 33px;
-  height: 25px;
-  border-radius: 5px;
-  background: linear-gradient(180deg, #f0cc7a, #a87831);
-  color: #090a0b;
-  font-size: 10px;
-  font-weight: 900;
-}
-
-.open3DButton:hover {
-  border-color: #f0cc7a;
-  color: #f0cc7a;
-  transform: translateY(-1px);
-  box-shadow:
-    0 10px 26px rgba(0, 0, 0, 0.38),
-    0 0 22px rgba(215, 169, 81, 0.12);
-}
-
-/* =========================================================
-   3D WORKSPACE
-========================================================= */
-
-.threeDMode {
-  animation: threeDModeEnter 420ms ease both;
-}
-
-@keyframes threeDModeEnter {
-  from {
-    opacity: 0;
-    transform: scale(0.985);
-    filter: blur(5px);
-  }
-
-  to {
-    opacity: 1;
-    transform: scale(1);
-    filter: blur(0);
-  }
-}
-
-.threeDWorkspace {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  min-width: 0;
-  height: 100vh;
-  overflow: hidden;
-  background: #3b3d40;
-}
-
-.threeDTopbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-height: 68px;
-  padding: 0 20px;
-  border-bottom: 1px solid rgba(215, 169, 81, 0.24);
-  background:
-    linear-gradient(
-      110deg,
-      rgba(7, 8, 8, 0.99),
-      rgba(14, 16, 17, 0.97)
-    );
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.42);
-}
-
-.threeDStudioTitle {
-  display: flex;
-  align-items: center;
-  gap: 11px;
-}
-
-.threeDStudioTitle > div {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.threeDStudioTitle strong {
-  color: #f5f0e7;
-  font-size: 13px;
-}
-
-.threeDStudioTitle small {
-  color: #a9a39a;
-  font-size: 9px;
-}
-
-.threeDStatusDot {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: #d7a951;
-  box-shadow:
-    0 0 0 5px rgba(215, 169, 81, 0.1),
-    0 0 15px rgba(215, 169, 81, 0.5);
-}
-
-.backTo2DButton {
-  min-height: 38px;
-  padding: 8px 14px;
-  border: 1px solid rgba(215, 169, 81, 0.5);
-  border-radius: 8px;
-  background: #0d0f10;
-  color: #f0cc7a;
-  font-size: 10px;
-  font-weight: 700;
-}
-
-.backTo2DButton:hover {
-  border-color: #f0cc7a;
-  background: rgba(215, 169, 81, 0.08);
-}
-
-.threeDStage {
-  position: relative;
-  flex: 1;
-  min-height: 0;
-  overflow: hidden;
-  background:
-    radial-gradient(
-      circle at center,
-      #515357 0%,
-      #383a3d 58%,
-      #282a2d 100%
-    );
-}
-
-.threeDStage canvas {
-  display: block;
-  width: 100% !important;
-  height: 100% !important;
-}
-
-.threeDInstructions {
-  position: absolute;
-  bottom: 18px;
-  left: 18px;
-  display: flex;
-  gap: 8px;
-  padding: 8px;
-  border: 1px solid rgba(215, 169, 81, 0.25);
-  border-radius: 10px;
-  background: rgba(8, 9, 9, 0.8);
-  backdrop-filter: blur(8px);
-}
-
-.threeDInstructions > div {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding: 7px 10px;
-  border-right: 1px solid rgba(215, 169, 81, 0.14);
-}
-
-.threeDInstructions > div:last-child {
-  border-right: 0;
-}
-
-.threeDInstructions strong {
-  color: #f0cc7a;
-  font-size: 9px;
-}
-
-.threeDInstructions span {
-  color: #a9a39a;
-  font-size: 8px;
-}
-
-/* =========================================================
-   3D MODEL PREVIEW
-========================================================= */
-
-.furniture3dPreview {
-  position: absolute;
-  z-index: 10;
-  top: 18px;
-  right: 18px;
-  width: 270px;
-  overflow: hidden;
-  border: 1px solid rgba(215, 169, 81, 0.45);
-  border-radius: 12px;
-  background: rgba(9, 10, 11, 0.92);
-  box-shadow:
-    0 18px 45px rgba(0, 0, 0, 0.45),
-    0 0 22px rgba(215, 169, 81, 0.07);
-  backdrop-filter: blur(10px);
-}
-
-.furniture3dPreviewHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 11px 12px;
-  border-bottom: 1px solid rgba(215, 169, 81, 0.18);
-}
-
-.furniture3dPreviewHeader > div {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.furniture3dPreviewHeader strong {
-  color: #f5f0e7;
-  font-size: 11px;
-}
-
-.furniture3dPreviewHeader span {
-  color: #9d978e;
-  font-size: 8px;
-}
-
-.preview3dBadge {
-  padding: 4px 7px;
-  border: 1px solid rgba(215, 169, 81, 0.4);
-  border-radius: 5px;
-  color: #f0cc7a !important;
-}
-
-.furniture3dPreviewCanvas {
-  height: 220px;
-  background: #3f4144;
-}
-
-.furniture3dPreview p {
-  margin: 0;
-  padding: 9px 12px;
-  color: #99938a;
-  font-size: 8px;
-  text-align: center;
-}
-
 @media (max-width: 950px) {
-  .open3DButton {
-    padding-right: 9px;
-  }
-
-  .open3DButton {
-    font-size: 0;
-  }
-
-  .open3DButton > span {
-    font-size: 10px;
-  }
-
-  .furniture3dPreview {
-    width: 220px;
-  }
-
-  .furniture3dPreviewCanvas {
-    height: 180px;
-  }
-}
-
-.model3DPreview {
-  width: 100%;
-  height: 180px;
-  overflow: hidden;
-  background: #3f4042;
-  border-radius: 10px 10px 0 0;
-}
-
-.model3DPreview canvas {
-  width: 100% !important;
-  height: 100% !important;
-  display: block;
-}
-
-.threeDModelGrid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.threeDModelCard {
-  padding: 0;
-  overflow: hidden;
-  border: 1px solid rgba(196, 150, 54, 0.35);
-  border-radius: 12px;
-  background: #080909;
-  color: #fff;
-  cursor: pointer;
-  text-align: left;
-}
-
-.threeDModelCard:hover {
-  border-color: #d6a83f;
-  box-shadow: 0 0 20px rgba(214, 168, 63, 0.15);
-}
-
-.threeDModelInfo {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 12px;
-}
-
-.threeDModelInfo strong {
-  color: #fff;
-  font-size: 14px;
-}
-
-.threeDModelInfo small {
-  color: #b59a63;
-  font-size: 11px;
-}
-
-.threeDWorkspaceShell {
-  display: flex;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-  background: #3b3d40;
-}
-
-.threeDSidebar {
-  width: 360px;
-  min-width: 360px;
-  height: 100vh;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: 20px;
-  background:
-    linear-gradient(
-      180deg,
-      rgba(5, 6, 6, 0.99),
-      rgba(2, 3, 3, 0.99)
-    );
-  border-right: 1px solid rgba(215, 169, 81, 0.25);
-  color: #fff;
-}
-
-.threeDWorkspace {
-  flex: 1;
-  min-width: 0;
-}
-
-.threeDAddedModelInfo {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-
-  min-width: 180px;
-  padding: 14px;
-
-  border: 1px solid rgba(215, 169, 81, 0.45);
-  border-radius: 10px;
-
-  background: rgba(7, 8, 8, 0.9);
-  color: white;
-
-  backdrop-filter: blur(10px);
-}
-
-.threeDAddedModelInfo small {
-  color: #9e978d;
-}
-
-.threeDAddedModelInfo strong {
-  color: #f0cc7a;
-  font-size: 14px;
-}
-
-.threeDAddedModelInfo span {
-  color: #c3bcb2;
-  font-size: 10px;
-}
-
-/* =========================================================
-   3D MODE — ISOLATED BLACK & GOLD THEME
-   Працює тільки всередині .threeDWorkspaceShell
-========================================================= */
-
-.threeDWorkspaceShell {
-  --3d-gold: #d7a951;
-  --3d-gold-light: #f0cc7a;
-  --3d-gold-dark: #8f682e;
-  --3d-bg: #050606;
-  --3d-card: #0d0f10;
-  --3d-card-hover: #121416;
-  --3d-text: #f5f0e7;
-  --3d-muted: #aaa397;
-  --3d-line: rgba(215, 169, 81, 0.22);
-  --3d-line-strong: rgba(215, 169, 81, 0.58);
-
-  display: flex;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-  background: #3f4144;
-  color: var(--3d-text);
-}
-
-/* 3D SIDEBAR */
-
-.threeDWorkspaceShell .threeDSidebar {
-  position: relative;
-  width: 360px;
-  min-width: 360px;
-  height: 100vh;
-  padding: 18px 18px 28px;
-  overflow-x: hidden;
-  overflow-y: auto;
-  background:
-    linear-gradient(
-      135deg,
-      transparent 0 20%,
-      rgba(215, 169, 81, 0.065) 20.2% 20.4%,
-      transparent 20.6% 55%,
-      rgba(215, 169, 81, 0.05) 55.2% 55.4%,
-      transparent 55.6% 100%
-    ),
-    linear-gradient(180deg, rgba(7, 8, 8, 0.995), rgba(4, 5, 5, 0.995));
-  border-right: 1px solid var(--3d-line);
-  box-shadow:
-    10px 0 34px rgba(0, 0, 0, 0.55),
-    inset -1px 0 0 rgba(215, 169, 81, 0.06);
-  scrollbar-width: thin;
-  scrollbar-color: rgba(215, 169, 81, 0.42) transparent;
-}
-
-.threeDWorkspaceShell .threeDSidebar::-webkit-scrollbar {
-  width: 5px;
-}
-
-.threeDWorkspaceShell .threeDSidebar::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.threeDWorkspaceShell .threeDSidebar::-webkit-scrollbar-thumb {
-  border-radius: 20px;
-  background: rgba(215, 169, 81, 0.42);
 }
 
 /* BRAND */
 
-.threeDWorkspaceShell .threeDBrand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  min-height: 72px;
-  padding: 0 4px 17px;
-  border-bottom: 1px solid var(--3d-line);
-}
-
-.threeDWorkspaceShell .threeDBrandLogo {
-  display: block;
-  width: 52px !important;
-  height: 52px !important;
-  max-width: 52px !important;
-  flex: 0 0 52px;
-  object-fit: cover;
-  border: 1px solid var(--3d-line-strong);
-  border-radius: 10px;
-  background: #0a0b0c;
-  box-shadow:
-    0 0 20px rgba(215, 169, 81, 0.1),
-    inset 0 0 12px rgba(215, 169, 81, 0.05);
-}
-
-.threeDWorkspaceShell .threeDBrandText {
-  min-width: 0;
-}
-
-.threeDWorkspaceShell .threeDBrandText h1,
-.threeDWorkspaceShell .threeDBrand h1 {
-  margin: 0;
-  font-size: 18px;
-  font-weight: 800;
-  line-height: 1;
-}
-
-.threeDWorkspaceShell .threeDBrandWhite,
-.threeDWorkspaceShell .threeDBrand h1 > span:first-child {
-  color: #ffffff;
-}
-
-.threeDWorkspaceShell .threeDBrandGold,
-.threeDWorkspaceShell .threeDBrand h1 > b {
-  color: var(--3d-gold);
-}
-
-.threeDWorkspaceShell .threeDBrandText p,
-.threeDWorkspaceShell .threeDBrand p {
-  margin: 5px 0 0;
-  color: var(--3d-muted);
-  font-size: 10px;
-}
-
 /* CONTENT */
-
-.threeDWorkspaceShell .threeDSidebarContent {
-  padding-top: 2px;
-}
-
-.threeDWorkspaceShell .threeDSectionHeader {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  margin: 20px 0 14px;
-}
-
-.threeDWorkspaceShell .threeDStep {
-  display: grid;
-  place-items: center;
-  width: 29px;
-  height: 29px;
-  flex-shrink: 0;
-  border: 1px solid var(--3d-line);
-  border-radius: 7px;
-  background: rgba(215, 169, 81, 0.08);
-  color: var(--3d-gold-light);
-  font-size: 10px;
-  font-weight: 700;
-}
-
-.threeDWorkspaceShell .threeDSectionHeader h2 {
-  margin: 0;
-  color: var(--3d-text);
-  font-size: 17px;
-  font-weight: 700;
-}
-
-.threeDWorkspaceShell .threeDSectionHeader p {
-  margin: 4px 0 0;
-  color: var(--3d-muted);
-  font-size: 10px;
-}
 
 /* BACK BUTTON */
 
-.threeDWorkspaceShell .threeDBackButton {
-  width: 100%;
-  min-height: 42px;
-  margin: 12px 0 10px;
-  padding: 10px 12px;
-  border: 1px solid var(--3d-line);
-  border-radius: 8px;
-  background: rgba(10, 12, 13, 0.95);
-  color: var(--3d-muted);
-  font-size: 11px;
-  font-weight: 600;
-  text-align: left;
-  transition:
-    border-color 160ms ease,
-    background 160ms ease,
-    color 160ms ease,
-    transform 160ms ease;
-}
-
-.threeDWorkspaceShell .threeDBackButton:hover {
-  border-color: var(--3d-line-strong);
-  background: rgba(215, 169, 81, 0.07);
-  color: var(--3d-gold-light);
-  transform: translateX(2px);
-}
-
 /* CATEGORIES */
-
-.threeDWorkspaceShell .threeDCategoryList {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.threeDWorkspaceShell .threeDCategoryCard {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  min-height: 64px;
-  padding: 10px 12px;
-  border: 1px solid rgba(215, 169, 81, 0.14);
-  border-radius: 9px;
-  background:
-    linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.012),
-      rgba(215, 169, 81, 0.018)
-    ),
-    rgba(10, 12, 13, 0.96);
-  color: var(--3d-text);
-  text-align: left;
-  box-shadow:
-    0 8px 22px rgba(0, 0, 0, 0.28),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.01);
-  transition:
-    border-color 160ms ease,
-    background 160ms ease,
-    transform 160ms ease,
-    box-shadow 160ms ease;
-}
-
-.threeDWorkspaceShell .threeDCategoryCard:hover,
-.threeDWorkspaceShell .threeDCategoryCard.active {
-  border-color: var(--3d-line-strong);
-  background:
-    linear-gradient(
-      135deg,
-      rgba(215, 169, 81, 0.11),
-      rgba(255, 255, 255, 0.01)
-    ),
-    #0c0e0f;
-  transform: translateX(3px);
-  box-shadow:
-    0 10px 26px rgba(0, 0, 0, 0.42),
-    0 0 20px rgba(215, 169, 81, 0.07);
-}
-
-.threeDWorkspaceShell .threeDCategoryIcon {
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  margin-right: 10px;
-  flex-shrink: 0;
-  border: 1px solid rgba(215, 169, 81, 0.28);
-  border-radius: 7px;
-  background: rgba(215, 169, 81, 0.035);
-  color: var(--3d-gold-light);
-  font-size: 20px;
-}
-
-.threeDWorkspaceShell .threeDCategoryText {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  gap: 3px;
-  min-width: 0;
-}
-
-.threeDWorkspaceShell .threeDCategoryText strong {
-  overflow: hidden;
-  color: var(--3d-text);
-  font-size: 13px;
-  font-weight: 700;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.threeDWorkspaceShell .threeDCategoryText small {
-  display: -webkit-box;
-  overflow: hidden;
-  color: var(--3d-muted);
-  font-size: 9px;
-  line-height: 1.35;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-}
-
-.threeDWorkspaceShell .threeDCategoryArrow {
-  margin-left: auto;
-  color: var(--3d-gold-light);
-  font-size: 20px;
-}
 
 /* MODEL GRID */
 
-.threeDWorkspaceShell .threeDModelGrid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 11px;
-  padding-bottom: 25px;
-}
-
-.threeDWorkspaceShell .threeDModelCard {
-  min-width: 0;
-  padding: 0;
-  overflow: hidden;
-  border: 1px solid rgba(215, 169, 81, 0.18);
-  border-radius: 9px;
-  background: var(--3d-card);
-  color: var(--3d-text);
-  text-align: left;
-  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.32);
-  transition:
-    border-color 180ms ease,
-    transform 180ms ease,
-    box-shadow 180ms ease;
-}
-
-.threeDWorkspaceShell .threeDModelCard:hover,
-.threeDWorkspaceShell .threeDModelCard.active {
-  border-color: var(--3d-line-strong);
-  transform: translateY(-3px);
-  box-shadow:
-    0 14px 30px rgba(0, 0, 0, 0.5),
-    0 0 20px rgba(215, 169, 81, 0.1);
-}
-
-.threeDWorkspaceShell .threeDModelPreview,
-.threeDWorkspaceShell .threeDModelPlaceholder {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  width: 100%;
-  height: 145px;
-  overflow: hidden;
-  background:
-    radial-gradient(
-      circle at center,
-      #4a4c4f 0%,
-      #333538 60%,
-      #292b2e 100%
-    );
-  border-bottom: 1px solid rgba(215, 169, 81, 0.12);
-  color: var(--3d-gold-light);
-}
-
-.threeDWorkspaceShell .threeDModelPreview canvas {
-  display: block;
-  width: 100% !important;
-  height: 100% !important;
-}
-
-.threeDWorkspaceShell .threeDModelPlaceholder > span {
-  font-size: 25px;
-  font-weight: 800;
-}
-
-.threeDWorkspaceShell .threeDModelPlaceholder > small {
-  margin-top: 5px;
-  color: var(--3d-muted);
-  font-size: 9px;
-}
-
-.threeDWorkspaceShell .threeDModelCardInfo,
-.threeDWorkspaceShell .threeDModelInfo {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 10px;
-}
-
-.threeDWorkspaceShell .threeDModelCardInfo strong,
-.threeDWorkspaceShell .threeDModelInfo strong {
-  color: var(--3d-text);
-  font-size: 12px;
-}
-
-.threeDWorkspaceShell .threeDModelCardInfo small,
-.threeDWorkspaceShell .threeDModelInfo small {
-  color: var(--3d-muted);
-  font-size: 9px;
-  line-height: 1.35;
-}
-
 /* EMPTY STATE */
-
-.threeDWorkspaceShell .threeDEmptyModels {
-  grid-column: 1 / -1;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  padding: 18px;
-  border: 1px dashed var(--3d-line);
-  border-radius: 9px;
-  background: rgba(10, 12, 13, 0.75);
-}
-
-.threeDWorkspaceShell .threeDEmptyModels strong {
-  color: var(--3d-text);
-  font-size: 12px;
-}
-
-.threeDWorkspaceShell .threeDEmptyModels span {
-  color: var(--3d-muted);
-  font-size: 9px;
-}
 
 /* SELECTED MODEL */
 
-.threeDWorkspaceShell .threeDSelectedPreview {
-  overflow: hidden;
-  margin-bottom: 14px;
-  border: 1px solid rgba(215, 169, 81, 0.22);
-  border-radius: 10px;
-  background: var(--3d-card);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.38);
-}
-
-.threeDWorkspaceShell .threeDSelectedPlaceholder {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  width: 100%;
-  height: 210px;
-  background:
-    radial-gradient(
-      circle at center,
-      #505255,
-      #303235
-    );
-  color: var(--3d-gold-light);
-}
-
-.threeDWorkspaceShell .threeDSelectedPlaceholder > span {
-  font-size: 28px;
-  font-weight: 800;
-}
-
-.threeDWorkspaceShell .threeDSelectedPlaceholder > small {
-  margin-top: 5px;
-  color: var(--3d-muted);
-  font-size: 9px;
-}
-
-.threeDWorkspaceShell .threeDSelectedInfo {
-  padding: 11px;
-  border-top: 1px solid rgba(215, 169, 81, 0.12);
-}
-
-.threeDWorkspaceShell .threeDSelectedInfo small {
-  color: var(--3d-muted);
-  font-size: 9px;
-}
-
-.threeDWorkspaceShell .threeDSelectedInfo strong {
-  display: block;
-  margin-top: 3px;
-  color: var(--3d-text);
-  font-size: 14px;
-}
-
-.threeDWorkspaceShell .threeDSelectedInfo span {
-  display: block;
-  margin-top: 4px;
-  color: var(--3d-muted);
-  font-size: 9px;
-}
-
 /* MATERIAL */
-
-.threeDWorkspaceShell .threeDField {
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
-  margin-top: 14px;
-}
-
-.threeDWorkspaceShell .threeDField label {
-  color: var(--3d-gold-light);
-  font-size: 11px;
-  font-weight: 700;
-}
-
-.threeDWorkspaceShell .threeDField select {
-  width: 100%;
-  height: 44px;
-  padding: 0 12px;
-  border: 1px solid rgba(215, 169, 81, 0.24);
-  border-radius: 8px;
-  outline: none;
-  background: #121416;
-  color: var(--3d-text);
-  font-size: 11px;
-}
-
-.threeDWorkspaceShell .threeDField select:focus {
-  border-color: var(--3d-gold);
-  box-shadow: 0 0 0 3px rgba(215, 169, 81, 0.1);
-}
-
-.threeDWorkspaceShell .threeDField select option {
-  background: #0d0f10;
-  color: #ffffff;
-}
 
 /* COLORS */
 
-.threeDWorkspaceShell .threeDColorGrid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px;
-  margin-top: 8px;
-}
-
-.threeDWorkspaceShell .threeDColorOption {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 48px;
-  padding: 7px;
-  border: 1px solid rgba(215, 169, 81, 0.17);
-  border-radius: 8px;
-  background: var(--3d-card);
-  color: var(--3d-text);
-  text-align: left;
-  transition:
-    border-color 150ms ease,
-    background 150ms ease,
-    box-shadow 150ms ease;
-}
-
-.threeDWorkspaceShell .threeDColorOption:hover,
-.threeDWorkspaceShell .threeDColorOption.active {
-  border-color: var(--3d-line-strong);
-  background: rgba(215, 169, 81, 0.07);
-  box-shadow: 0 0 16px rgba(215, 169, 81, 0.07);
-}
-
-.threeDWorkspaceShell .threeDColorPreview {
-  display: block;
-  width: 34px;
-  height: 34px;
-  flex-shrink: 0;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 6px;
-}
-
-.threeDWorkspaceShell .threeDColorOption small {
-  color: var(--3d-text);
-  font-size: 9px;
-}
-
 /* ADD TO ROOM */
-
-.threeDWorkspaceShell .threeDAddToRoomButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 100%;
-  min-height: 48px;
-  margin-top: 18px;
-  padding: 10px 16px;
-  border: 1px solid var(--3d-gold);
-  border-radius: 8px;
-  background:
-    linear-gradient(
-      180deg,
-      rgba(215, 169, 81, 0.18),
-      rgba(215, 169, 81, 0.04)
-    ),
-    #0c0e0f;
-  color: var(--3d-gold-light);
-  font-size: 11px;
-  font-weight: 700;
-  transition:
-    background 180ms ease,
-    color 180ms ease,
-    transform 180ms ease,
-    box-shadow 180ms ease;
-  box-shadow:
-    0 9px 24px rgba(0, 0, 0, 0.4),
-    inset 0 0 14px rgba(215, 169, 81, 0.04);
-}
-
-.threeDWorkspaceShell .threeDAddToRoomButton:hover {
-  background: linear-gradient(180deg, #d7a951, #9b7130);
-  color: #090a0b;
-  transform: translateY(-2px);
-  box-shadow:
-    0 12px 28px rgba(0, 0, 0, 0.5),
-    0 0 24px rgba(215, 169, 81, 0.15);
-}
-
-/* 3D WORKSPACE */
-
-.threeDWorkspaceShell .threeDWorkspace {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  min-width: 0;
-  height: 100vh;
-  background: #3f4144;
-}
-
-.threeDWorkspaceShell .threeDTopbar {
-  position: relative;
-  z-index: 3;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-height: 68px;
-  padding: 0 20px;
-  border-bottom: 1px solid var(--3d-line);
-  background:
-    linear-gradient(
-      110deg,
-      rgba(7, 8, 8, 0.99),
-      rgba(14, 16, 17, 0.97)
-    );
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.42);
-}
-
-.threeDWorkspaceShell .threeDStudioTitle {
-  display: flex;
-  align-items: center;
-  gap: 11px;
-}
-
-.threeDWorkspaceShell .threeDStudioTitle > div {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.threeDWorkspaceShell .threeDStudioTitle strong {
-  color: var(--3d-text);
-  font-size: 13px;
-}
-
-.threeDWorkspaceShell .threeDStudioTitle small {
-  color: var(--3d-muted);
-  font-size: 9px;
-}
-
-.threeDWorkspaceShell .threeDStatusDot {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: var(--3d-gold);
-  box-shadow:
-    0 0 0 5px rgba(215, 169, 81, 0.1),
-    0 0 15px rgba(215, 169, 81, 0.5);
-}
-
-.threeDWorkspaceShell .backTo2DButton {
-  min-height: 38px;
-  padding: 8px 14px;
-  border: 1px solid rgba(215, 169, 81, 0.5);
-  border-radius: 8px;
-  background: #0d0f10;
-  color: var(--3d-gold-light);
-  font-size: 10px;
-  font-weight: 700;
-}
-
-.threeDWorkspaceShell .backTo2DButton:hover {
-  border-color: var(--3d-gold-light);
-  background: rgba(215, 169, 81, 0.08);
-}
-
-.threeDWorkspaceShell .threeDStage {
-  position: relative;
-  flex: 1;
-  min-height: 0;
-  overflow: hidden;
-  background:
-    radial-gradient(
-      circle at center,
-      #515357 0%,
-      #383a3d 58%,
-      #282a2d 100%
-    );
-}
-
-.threeDWorkspaceShell .threeDStage canvas {
-  display: block;
-  width: 100% !important;
-  height: 100% !important;
-}
-
-.threeDWorkspaceShell .threeDInstructions {
-  position: absolute;
-  bottom: 18px;
-  left: 18px;
-  z-index: 5;
-  display: flex;
-  gap: 8px;
-  padding: 8px;
-  border: 1px solid rgba(215, 169, 81, 0.25);
-  border-radius: 10px;
-  background: rgba(8, 9, 9, 0.8);
-  backdrop-filter: blur(8px);
-}
-
-.threeDWorkspaceShell .threeDInstructions > div {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding: 7px 10px;
-  border-right: 1px solid rgba(215, 169, 81, 0.14);
-}
-
-.threeDWorkspaceShell .threeDInstructions > div:last-child {
-  border-right: 0;
-}
-
-.threeDWorkspaceShell .threeDInstructions strong {
-  color: var(--3d-gold-light);
-  font-size: 9px;
-}
-
-.threeDWorkspaceShell .threeDInstructions span {
-  color: var(--3d-muted);
-  font-size: 8px;
-}
-
-.threeDWorkspaceShell .threeDAddedModelInfo {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  z-index: 5;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  min-width: 180px;
-  padding: 14px;
-  border: 1px solid rgba(215, 169, 81, 0.45);
-  border-radius: 10px;
-  background: rgba(7, 8, 8, 0.9);
-  color: #ffffff;
-  backdrop-filter: blur(10px);
-}
-
-.threeDWorkspaceShell .threeDAddedModelInfo small {
-  color: var(--3d-muted);
-}
-
-.threeDWorkspaceShell .threeDAddedModelInfo strong {
-  color: var(--3d-gold-light);
-  font-size: 14px;
-}
-
-.threeDWorkspaceShell .threeDAddedModelInfo span {
-  color: #c3bcb2;
-  font-size: 10px;
-}
 
 /* RESPONSIVE */
 
 @media (max-width: 1000px) {
-  .threeDWorkspaceShell .threeDSidebar {
-    width: 330px;
-    min-width: 330px;
-  }
-
-  .threeDWorkspaceShell .threeDModelGrid {
-    grid-template-columns: 1fr;
-  }
 }
-
-.threeDWorkspaceShell .threeDCategoryIcon svg {
-  width: 22px;
-  height: 22px;
-  color: #f0cc7a;
-  stroke: currentColor;
-  stroke-width: 1.7;
-}
-
-.threeDWorkspaceShell .threeDCategoryArrow {
-  display: grid;
-  place-items: center;
-  margin-left: auto;
-  color: #f0cc7a;
-}
-
-.threeDWorkspaceShell .threeDCategoryArrow svg {
-  width: 18px;
-  height: 18px;
-  stroke: currentColor;
-}
-
-/* =========================================================
-   3D MODEL LOADING OVERLAY
-   Кімната залишається видимою під час завантаження GLB
-========================================================= */
-
-.threeDLoadingOverlay {
-  position: absolute;
-  inset: 0;
-  z-index: 20;
-
-  display: grid;
-  place-items: center;
-
-  pointer-events: none;
-
-  background:
-    radial-gradient(
-      circle at center,
-      rgba(0, 0, 0, 0.16),
-      rgba(0, 0, 0, 0.38)
-    );
-  backdrop-filter: blur(2px);
-}
-
-.threeDLoadingCard {
-  width: min(420px, calc(100% - 40px));
-  overflow: hidden;
-
-  border: 1px solid rgba(215, 169, 81, 0.5);
-  border-radius: 16px;
-
-  background: rgba(7, 8, 8, 0.94);
-
-  box-shadow:
-    0 25px 70px rgba(0, 0, 0, 0.45),
-    0 0 40px rgba(215, 169, 81, 0.08);
-}
-
-.threeDLoadingImage {
-  display: block;
-  width: 100%;
-  height: 190px;
-  object-fit: cover;
-}
-
-.threeDLoadingContent {
-  display: flex;
-  flex-direction: column;
-  gap: 9px;
-  padding: 18px;
-}
-
-.threeDLoadingEyebrow {
-  color: #d7a951;
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-.threeDLoadingContent strong {
-  color: #ffffff;
-  font-size: 19px;
-}
-
-.threeDLoadingContent small {
-  color: #d7a951;
-  font-size: 11px;
-  text-align: right;
-}
-
-.threeDLoadingBar,
-.threeDSidebarLoadBar {
-  width: 100%;
-  height: 7px;
-  overflow: hidden;
-
-  border-radius: 999px;
-
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.threeDLoadingBar span,
-.threeDSidebarLoadBar span {
-  display: block;
-  height: 100%;
-
-  border-radius: inherit;
-
-  background:
-    linear-gradient(
-      90deg,
-      #8f6729,
-      #d7a951,
-      #f2d489
-    );
-
-  transition: width 0.22s ease;
-}
-
-.threeDSidebarLoadStatus {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-
-  margin-top: 14px;
-  padding: 12px;
-
-  border: 1px solid rgba(215, 169, 81, 0.22);
-  border-radius: 9px;
-
-  background: rgba(215, 169, 81, 0.04);
-}
-
-.threeDSidebarLoadStatus > div:first-child {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-
-  color: #aaa397;
-  font-size: 10px;
-}
-
-.threeDSidebarLoadStatus strong {
-  color: #d7a951;
-}
-
-.threeDAddToRoomButton:disabled {
-  cursor: not-allowed;
-  opacity: 0.48;
-}
-
-.threeDModelLoadError {
-  margin: 12px 0 0;
-  color: #ff8b8b;
-  font-size: 10px;
-  line-height: 1.45;
-}
-
-
-/* =========================================================
-   MOBILE DRAWER — 2D + 3D
-   Десктоп не змінюється
-========================================================= */
 
 .mobileSidebarToggle,
 .mobileSidebarClose,
@@ -4410,119 +3100,7 @@ body,
     min-height: 46px;
   }
 
-  /* =========================
-     3D DRAWER
-  ========================= */
-
-  .threeDWorkspaceShell {
-    position: relative;
-    display: block !important;
-    width: 100%;
-    height: 100dvh;
-    min-height: 100dvh;
-    overflow: hidden;
-  }
-
-  .threeDWorkspaceShell .threeDSidebar {
-    position: fixed !important;
-    z-index: 10040;
-    top: 0;
-    left: 0;
-
-    width: min(88vw, 360px) !important;
-    min-width: 0 !important;
-    height: 100dvh !important;
-    max-height: 100dvh !important;
-
-    padding-bottom: 30px;
-    overflow-x: hidden !important;
-    overflow-y: auto !important;
-
-    transform: translateX(-105%);
-    transition:
-      transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
-      box-shadow 260ms ease;
-
-    visibility: hidden;
-    pointer-events: none;
-  }
-
-  .threeDWorkspaceShell .threeDSidebar.mobileDrawerOpen {
-    transform: translateX(0);
-    visibility: visible;
-    pointer-events: auto;
-
-    box-shadow:
-      22px 0 55px rgba(0, 0, 0, 0.62),
-      inset -1px 0 0 rgba(215, 169, 81, 0.08);
-  }
-
-  .threeDWorkspaceShell .threeDBrand {
-    padding-right: 48px;
-  }
-
-  .mobileSidebarToggle3D {
-    top: 76px;
-  }
-
-  .threeDWorkspaceShell .threeDWorkspace {
-    width: 100% !important;
-    height: 100dvh !important;
-    min-width: 0 !important;
-  }
-
-  .threeDWorkspaceShell .threeDTopbar {
-    height: 64px;
-    min-height: 64px;
-    padding: 0 10px;
-  }
-
-  .threeDWorkspaceShell .threeDStudioTitle strong {
-    font-size: 11px;
-  }
-
-  .threeDWorkspaceShell .threeDStudioTitle small {
-    font-size: 8px;
-  }
-
-  .threeDWorkspaceShell .backTo2DButton {
-    padding: 8px 9px;
-    font-size: 9px;
-  }
-
-  .threeDWorkspaceShell .threeDStage {
-    width: 100%;
-    height: calc(100dvh - 64px) !important;
-    min-height: 0;
-  }
-
-  .threeDWorkspaceShell .threeDStage canvas {
-    width: 100% !important;
-    height: 100% !important;
-  }
-
-  .threeDModelGrid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 9px !important;
-  }
-
-  .threeDModelImageWrap {
-    height: 120px !important;
-  }
-
-  .threeDSelectedPreview {
-    height: 190px !important;
-  }
-
   /* Загрузочный экран не выходит за границы телефона */
-  .threeDLoadingCard {
-    width: calc(100% - 28px) !important;
-    max-width: 420px;
-  }
-
-  .threeDLoadingImage {
-    height: 165px !important;
-  }
 }
 
 @media (max-width: 480px) {
@@ -4534,19 +3112,16 @@ body,
     font-size: 10px;
   }
 
-  .sidebar,
-  .threeDWorkspaceShell .threeDSidebar {
+  .sidebar {
     width: 92vw !important;
   }
 
-  .modelGrid,
-  .threeDModelGrid {
+  .modelGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     gap: 8px;
   }
 
-  .modelCard img,
-  .threeDModelImageWrap {
+  .modelCard img {
     height: 108px !important;
   }
 
@@ -4589,7 +3164,7 @@ body,
 .howItWorksModal {
   position: relative;
 
-  width: min(980px, 96vw);
+  width: min(680px, 94vw);
   max-height: 90vh;
   overflow-y: auto;
 
@@ -4703,7 +3278,7 @@ body,
 
 .howItWorksModes {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: 1fr;
   gap: 16px;
 
   margin-top: 24px;
@@ -4740,16 +3315,6 @@ body,
 
   content: "";
   pointer-events: none;
-}
-
-.howItWorksCard3D {
-  background:
-    linear-gradient(
-      145deg,
-      rgba(215, 169, 81, 0.07),
-      rgba(255, 255, 255, 0.01)
-    ),
-    rgba(8, 10, 11, 0.98);
 }
 
 .howItWorksCardTop {
@@ -4849,7 +3414,7 @@ body,
 
 .howItWorksSummary {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: 1fr;
   gap: 10px;
 
   margin-top: 16px;
@@ -5067,8 +3632,7 @@ body,
 /* =========================================================
    LANGUAGE SWITCHER
 ========================================================= */
-.languageSelectWrap,
-.threeDTopbarActions {
+.languageSelectWrap {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -5090,7 +3654,7 @@ body,
 .languageSelect option { background: #101213; color: #f5f0e7; }
 @media (max-width: 760px) {
   .languageSelect { min-height: 34px; max-width: 88px; padding-left: 8px; font-size: 9px; }
-  .topbarActions, .threeDTopbarActions { gap: 5px; }
+  .topbarActions { gap: 5px; }
 }
 
 /* PNG flag language dropdown */
@@ -5125,57 +3689,9 @@ body,
   .languageFlag { width: 20px; height: 14px; }
 }
 
-/* =========================================================
-   PRELOADED 2D / 3D MODE LAYERS
-   Both modes stay mounted. Hidden 3D pauses its render loop.
-========================================================= */
-
-.modeHost {
-  position: relative;
-  overflow: hidden;
-}
-
-.modeLayer {
-  position: absolute;
-  inset: 0;
-
-  /* ВАЖНО:
-     внутри слоя находятся Sidebar + Workspace / ThreeDWorkspace.
-     Поэтому сам слой тоже должен быть flex-контейнером,
-     иначе Workspace падает под Sidebar и справа получается чёрный экран. */
-  display: flex;
-
-  width: 100%;
-  height: 100%;
-  min-width: 0;
-  min-height: 0;
-
-  overflow: hidden;
-
-  transition: opacity 120ms ease;
-}
-
-.modeLayer--active {
-  z-index: 2;
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-}
-
-.modeLayer--hidden {
-  z-index: 1;
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-}
-
 /* На телефонах сохраняем старую мобильную компоновку:
    Sidebar сверху, Workspace ниже. */
 @media (max-width: 800px) {
-  .modeLayer {
-    flex-direction: column;
-    overflow: auto;
-  }
 }
 
 /* Важно: не используем display:none, иначе Canvas может получить размер 0x0. */
@@ -5184,116 +3700,6 @@ body,
 /* =========================================================
    LIGHTWEIGHT SEMI-TRANSPARENT TRANSITION CURTAIN
 ========================================================= */
-
-.modeTransitionCurtain {
-  position: fixed;
-  inset: 0;
-  z-index: 99999;
-
-  display: grid;
-  place-items: center;
-
-  /* Затемнение без backdrop-filter:
-     blur полноэкранного WebGL Canvas сам может давать фриз. */
-  background: rgba(0, 0, 0, 0.72);
-
-  pointer-events: all;
-  will-change: transform;
-}
-
-.modeTransitionCurtain::before,
-.modeTransitionCurtain::after {
-  position: absolute;
-  left: 0;
-  width: 100%;
-  height: 1px;
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      rgba(215, 169, 81, 0.82),
-      transparent
-    );
-  content: "";
-}
-
-.modeTransitionCurtain::before {
-  top: 0;
-}
-
-.modeTransitionCurtain::after {
-  bottom: 0;
-}
-
-.modeTransitionCurtain--cover {
-  animation:
-    modeCurtainCover 480ms
-    cubic-bezier(0.76, 0, 0.24, 1)
-    forwards;
-}
-
-.modeTransitionCurtain--hold {
-  transform: translateY(0);
-}
-
-.modeTransitionCurtain--reveal {
-  animation:
-    modeCurtainReveal 480ms
-    cubic-bezier(0.76, 0, 0.24, 1)
-    forwards;
-}
-
-.modeTransitionBrand {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 9px;
-  padding: 24px 30px;
-  text-align: center;
-}
-
-.modeTransitionCurtain--cover .modeTransitionBrand {
-  animation:
-    modeTransitionBrandIn 380ms
-    120ms ease both;
-}
-
-.modeTransitionCurtain--hold .modeTransitionBrand {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-}
-
-.modeTransitionCurtain--reveal .modeTransitionBrand {
-  animation:
-    modeTransitionBrandOut 260ms
-    ease forwards;
-}
-
-.modeTransitionLogo {
-  display: flex;
-  align-items: baseline;
-  font-size: clamp(34px, 5vw, 64px);
-  font-weight: 800;
-  line-height: 1;
-  letter-spacing: -0.04em;
-  text-shadow: 0 10px 28px rgba(0, 0, 0, 0.5);
-}
-
-.modeTransitionWhite {
-  color: #ffffff;
-}
-
-.modeTransitionGold {
-  color: #b8894f;
-}
-
-.modeTransitionBrand p {
-  margin: 0;
-  color: rgba(255, 255, 255, 0.78);
-  font-size: clamp(11px, 1.3vw, 16px);
-  font-weight: 500;
-  letter-spacing: 0.04em;
-}
 
 @keyframes modeCurtainCover {
   from { transform: translateY(-100%); }
@@ -5305,44 +3711,7 @@ body,
   to { transform: translateY(100%); }
 }
 
-@keyframes modeTransitionBrandIn {
-  from {
-    opacity: 0;
-    transform: translateY(-12px) scale(0.98);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes modeTransitionBrandOut {
-  from {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-
-  to {
-    opacity: 0;
-    transform: translateY(12px) scale(0.98);
-  }
-}
-
 @media (max-width: 760px) {
-  .modeTransitionBrand {
-    padding: 18px 20px;
-  }
-
-  .modeTransitionLogo {
-    font-size: clamp(30px, 11vw, 48px);
-  }
-
-  .modeTransitionBrand p {
-    max-width: 260px;
-    font-size: 12px;
-    line-height: 1.45;
-  }
 }
 
 /* =========================================================
@@ -6899,7 +5268,6 @@ body,
 
 /* STAGE 2 FIXES */
 .accountOrderSummaryRight{display:flex;align-items:center;gap:14px;}
-.threeDProductCode{display:block;margin-bottom:3px;color:#f0cc7a!important;font-size:9px!important;font-weight:800;letter-spacing:.8px;}
 .priceCard strong{text-transform:none;}
 
 
@@ -8470,11 +6838,6 @@ html {
   }
 }
 
-
-/* =========================================================
-   NEVFIM MOBILE UX V2 — SITE + 2D/3D CONSTRUCTOR
-========================================================= */
-
 .siteMobileMenuBackdrop,
 .siteMobileMenuHead,
 .siteMobileLanguage {
@@ -8483,10 +6846,6 @@ html {
 
 .siteMobileMenuLinks {
   display: contents;
-}
-
-.mobile3DControls {
-  display: none;
 }
 
 @media (max-width: 900px) {
@@ -8726,8 +7085,7 @@ html {
   }
 
   /* ---------- Constructor headers ---------- */
-  .topbar,
-  .threeDTopbar {
+  .topbar {
     position: relative !important;
     z-index: 50;
     display: grid !important;
@@ -8739,55 +7097,12 @@ html {
     background: rgba(7, 9, 9, 0.98) !important;
   }
 
-  .topbar .threeDStudioTitle,
-  .threeDTopbar .threeDStudioTitle {
-    display: grid !important;
-    grid-template-columns: auto 8px minmax(0, 1fr) !important;
-    align-items: center !important;
-    gap: 9px !important;
-    width: 100%;
-  }
-
-  .topbar .threeDStudioTitle > a,
-  .threeDTopbar .threeDStudioTitle > a {
-    min-height: 40px !important;
-    padding: 0 11px !important;
-    font-size: 11px !important;
-  }
-
-  .topbar .threeDStudioTitle strong,
-  .threeDTopbar .threeDStudioTitle strong {
-    display: block;
-    overflow: hidden;
-    color: #fff;
-    font-size: 15px !important;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .topbar .threeDStudioTitle small,
-  .threeDTopbar .threeDStudioTitle small {
-    display: block;
-    margin-top: 2px;
-    overflow: hidden;
-    color: #9e9e9e;
-    font-size: 10px !important;
-    line-height: 1.25;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .topbarActions,
-  .threeDTopbarActions {
+  .topbarActions {
     display: grid !important;
     grid-template-columns: auto minmax(0, 1fr) auto auto !important;
     align-items: center;
     gap: 7px !important;
     width: 100%;
-  }
-
-  .threeDTopbarActions {
-    grid-template-columns: minmax(0, 1fr) auto !important;
   }
 
   .languageDropdown,
@@ -8807,9 +7122,7 @@ html {
     white-space: nowrap;
   }
 
-  .open3DButton,
-  .helpButton,
-  .backTo2DButton {
+  .helpButton {
     min-height: 42px !important;
     padding: 0 11px !important;
     font-size: 10px !important;
@@ -8832,39 +7145,28 @@ html {
     box-shadow: 0 12px 28px rgba(0,0,0,.28) !important;
   }
 
-  .threeDMode .mobileSidebarToggle,
-  .mobileSidebarToggle3D {
-    top: 130px !important;
-  }
-
-  .sidebar,
-  .threeDSidebar {
+  .sidebar {
     width: min(92vw, 390px) !important;
     max-width: 390px !important;
   }
 
   .modelCard img,
-  .threeDModelImage,
-  .selectedModelCard img,
-  .threeDSelectedImage {
+  .selectedModelCard img {
     object-fit: contain !important;
     object-position: center !important;
     background: #111312 !important;
   }
 
-  .modelCard img,
-  .threeDModelImage {
+  .modelCard img {
     height: 150px !important;
   }
 
-  .selectedModelCard img,
-  .threeDSelectedImage {
+  .selectedModelCard img {
     height: auto !important;
     max-height: 360px !important;
     aspect-ratio: 4 / 3;
   }
 
-  .threeDSelectedPreview,
   .selectedModelImageButton {
     background: #111312 !important;
   }
@@ -8887,61 +7189,6 @@ html {
     max-height: 58dvh !important;
     object-fit: contain !important;
     background: #101212;
-  }
-
-  /* ---------- 3D quality and controls ---------- */
-  .threeDStage {
-    min-height: calc(100dvh - 132px) !important;
-    touch-action: none;
-  }
-
-  .threeDStage canvas {
-    image-rendering: auto !important;
-  }
-
-  .mobile3DControls {
-    position: absolute;
-    right: 16px;
-    bottom: 22px;
-    z-index: 35;
-    display: grid;
-    grid-template-columns: repeat(3, 54px);
-    grid-template-rows: repeat(3, 54px);
-    gap: 6px;
-    pointer-events: none;
-    user-select: none;
-    -webkit-user-select: none;
-  }
-
-  .mobile3DControl {
-    display: grid;
-    place-items: center;
-    width: 54px;
-    height: 54px;
-    padding: 0;
-    border: 1px solid rgba(220, 177, 103, .58);
-    border-radius: 16px;
-    background: rgba(8, 10, 10, .78);
-    color: #e7bd79;
-    box-shadow: 0 10px 26px rgba(0,0,0,.3);
-    backdrop-filter: blur(8px);
-    pointer-events: auto;
-    touch-action: none;
-  }
-
-  .mobile3DControl:active {
-    transform: scale(.94);
-    background: rgba(183, 131, 67, .28);
-  }
-
-  .mobile3DControlUp { grid-column: 2; grid-row: 1; }
-  .mobile3DControlLeft { grid-column: 1; grid-row: 2; }
-  .mobile3DControlRight { grid-column: 3; grid-row: 2; }
-  .mobile3DControlDown { grid-column: 2; grid-row: 3; }
-
-  .threeDLoadingImage {
-    object-fit: contain !important;
-    background: #101212 !important;
   }
 }
 
@@ -8967,35 +7214,8 @@ html {
     width: 100%;
   }
 
-  .topbarActions .open3DButton {
-    min-width: 58px !important;
-  }
-
-  .threeDTopbarActions {
-    grid-template-columns: minmax(0, 1fr) auto !important;
-  }
-
-  .mobileSidebarToggle,
-  .threeDMode .mobileSidebarToggle,
-  .mobileSidebarToggle3D {
+  .mobileSidebarToggle {
     top: 170px !important;
-  }
-
-  .threeDStage {
-    min-height: calc(100dvh - 170px) !important;
-  }
-
-  .mobile3DControls {
-    right: 12px;
-    bottom: 16px;
-    grid-template-columns: repeat(3, 48px);
-    grid-template-rows: repeat(3, 48px);
-  }
-
-  .mobile3DControl {
-    width: 48px;
-    height: 48px;
-    border-radius: 14px;
   }
 }
 
@@ -9042,8 +7262,7 @@ html {
 .constructorMobileMenu { display: none; }
 
 @media (max-width: 820px) {
-  .topbar.constructorTopbar,
-  .threeDTopbar.constructorTopbar {
+  .topbar.constructorTopbar {
     position: relative;
     z-index: 80;
     display: grid !important;
@@ -9198,24 +7417,9 @@ html {
   .constructorMenuAccount { margin-top: auto; }
 
   /* Старую плавающую кнопку каталога убираем — каталог теперь в шапке */
-  .mobileSidebarToggle,
-  .mobileSidebarToggle3D { display: none !important; }
+  .mobileSidebarToggle { display: none !important; }
 
   /* Стрелки строго по центру снизу */
-  .mobile3DControls {
-    position: absolute !important;
-    right: auto !important;
-    bottom: max(24px, env(safe-area-inset-bottom)) !important;
-    left: 50% !important;
-    width: 176px !important;
-    height: 176px !important;
-    transform: translateX(-50%) !important;
-  }
-
-  .mobile3DControl {
-    width: 58px !important;
-    height: 58px !important;
-  }
 }
 
 @keyframes constructorSlide {
@@ -9230,7 +7434,6 @@ html {
    Catalog left / title center / menu right
 ========================================================= */
 @media (max-width: 820px) {
-  .threeDTopbar.constructorTopbar,
   .topbar.constructorTopbar {
     position: relative !important;
     z-index: 90 !important;
@@ -9285,12 +7488,6 @@ html {
     pointer-events: none !important;
   }
 
-  .constructorStudioIdentity .threeDStatusDot {
-    width: 9px !important;
-    height: 9px !important;
-    flex: 0 0 9px !important;
-  }
-
   .constructorStudioIdentity > div {
     min-width: 0 !important;
   }
@@ -9342,26 +7539,8 @@ html {
   }
 
   /* Keep the original stable floor/room dimensions. */
-  .threeDWorkspace,
-  .threeDStage {
-    min-height: 0 !important;
-  }
 
   /* Controls remain centered, but slightly smaller than before. */
-  .mobile3DControls {
-    right: auto !important;
-    bottom: max(26px, env(safe-area-inset-bottom)) !important;
-    left: 50% !important;
-    width: 142px !important;
-    height: 142px !important;
-    transform: translateX(-50%) !important;
-  }
-
-  .mobile3DControl {
-    width: 46px !important;
-    height: 46px !important;
-    border-radius: 12px !important;
-  }
 }
 
 /* Narrow phones: protect the centered title from both corner buttons. */
@@ -9407,10 +7586,7 @@ body {
   html,
   body,
   .app,
-  .workspace,
-  .threeDWorkspaceShell,
-  .threeDWorkspace,
-  .threeDStage {
+  .workspace {
     background: #050707 !important;
   }
 
@@ -9421,59 +7597,7 @@ body {
     overscroll-behavior: none;
   }
 
-  .threeDStage canvas {
-    touch-action: none !important;
-  }
-
-  /* Orange dot near both 2D and 3D titles. */
-  .constructorStudioIdentity .threeDStatusDot {
-    display: block !important;
-    width: 10px !important;
-    height: 10px !important;
-    flex: 0 0 10px !important;
-    border-radius: 999px !important;
-    background: #d79f3f !important;
-    box-shadow:
-      0 0 0 6px rgba(215, 159, 63, 0.12),
-      0 0 18px rgba(215, 159, 63, 0.72) !important;
-    opacity: 1 !important;
-  }
-
   /* Smaller movement buttons. */
-  .mobile3DControls {
-    right: auto !important;
-    bottom: max(30px, env(safe-area-inset-bottom)) !important;
-    left: 50% !important;
-    width: 120px !important;
-    height: 120px !important;
-    transform: translateX(-50%) !important;
-    gap: 4px !important;
-    pointer-events: none !important;
-  }
-
-  .mobile3DControl {
-    width: 38px !important;
-    height: 38px !important;
-    min-width: 38px !important;
-    min-height: 38px !important;
-    border-radius: 10px !important;
-    border-width: 1px !important;
-    pointer-events: auto !important;
-    touch-action: none !important;
-    -webkit-tap-highlight-color: transparent;
-    box-shadow:
-      0 5px 13px rgba(0, 0, 0, 0.28),
-      inset 0 0 0 1px rgba(225, 178, 91, 0.03) !important;
-  }
-
-  .mobile3DControl svg {
-    width: 17px !important;
-    height: 17px !important;
-  }
-
-  .mobile3DControl:active {
-    transform: scale(0.93) !important;
-  }
 }
 
 
@@ -9716,10 +7840,6 @@ body {
       rgba(4, 5, 5, 0.99)
     );
   box-shadow: 0 -5px 16px rgba(0, 0, 0, 0.22);
-}
-
-.constructorHashtagBar3D {
-  flex: 0 0 28px;
 }
 
 @media (max-width: 720px) {
@@ -10188,11 +8308,7 @@ body {
 
 .sitePage,
 .app,
-.modeHost,
-.modeLayer,
 .workspace,
-.threeDWorkspaceShell,
-.threeDWorkspace,
 .accountPageScrollable,
 .adminPage,
 .authPage {
@@ -10220,11 +8336,9 @@ body {
 .adminShell,
 .authCard,
 .sidebar,
-.threeDSidebar,
 .canvas,
 .promptPanel,
-.topbar,
-.threeDTopbar {
+.topbar {
   min-width: 0;
   max-width: 100%;
 }
@@ -10642,4 +8756,15 @@ body {
     border-color: #c98535;
     box-shadow: 0 11px 24px rgba(26, 29, 27, 0.12);
   }
+}
+
+
+/* 2D constructor status indicator */
+.constructorStatusDot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #d7a951;
+  box-shadow: 0 0 0 5px rgba(215, 169, 81, 0.1), 0 0 15px rgba(215, 169, 81, 0.5);
+  flex: 0 0 auto;
 }

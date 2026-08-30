@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import type { ChangeEvent } from "react";
 import { categoryName, modelName, t, type Language } from "@/i18n/translations";
 import { addToCart } from "@/lib/cart/cart";
+import { calculateFurniturePrice } from "@/lib/pricing";
 
 import { Sidebar } from "@/components/Sidebar/Sidebar";
-import { ThreeDWorkspace } from "@/components/ThreeD/ThreeDWorkspace";
 import { Workspace } from "@/components/Workspace/Workspace";
 import {
   furnitureCategories,
@@ -23,7 +23,6 @@ type GenerateResponse = {
   error?: string;
 };
 
-type ViewMode = "2d" | "3d";
 
 export default function Home() {
   const [selectedCategory, setSelectedCategory] =
@@ -49,42 +48,12 @@ export default function Home() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [generationError, setGenerationError] = useState("");
   const [isGenerated, setIsGenerated] = useState(false);
-  const [viewMode, setViewMode] = useState<ViewMode>("2d");
-  const [is3DMounted, setIs3DMounted] = useState(false);
-  const [isMobile3D, setIsMobile3D] = useState(false);
+
   const [language, setLanguage] = useState<Language>("en");
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const [cartMessage, setCartMessage] = useState("");
   const [cartError, setCartError] = useState(false);
 
-  const [transitionPhase, setTransitionPhase] =
-    useState<"cover" | "hold" | "reveal" | null>(null);
-
-  const transitionTimers = useRef<number[]>([]);
-
-  useEffect(() => {
-    return () => {
-      transitionTimers.current.forEach((timer) =>
-        window.clearTimeout(timer),
-      );
-    };
-  }, []);
-
-
-  useEffect(() => {
-    const media = window.matchMedia("(max-width: 820px), (pointer: coarse)");
-
-    const updateDeviceMode = () => {
-      setIsMobile3D(media.matches);
-    };
-
-    updateDeviceMode();
-    media.addEventListener?.("change", updateDeviceMode);
-
-    return () => {
-      media.removeEventListener?.("change", updateDeviceMode);
-    };
-  }, []);
 
   useEffect(() => {
     const savedLanguage = window.localStorage.getItem("nevfim-language");
@@ -118,7 +87,6 @@ export default function Home() {
       return;
     }
 
-    setViewMode("2d");
     setSelectedCategory(matchedCategory);
     setSelectedModel(
       matchedModel?.categoryId === matchedCategory.id ? matchedModel : null,
@@ -139,56 +107,6 @@ export default function Home() {
     document.cookie = `nevfim-language=${nextLanguage}; path=/; max-age=31536000; SameSite=Lax`;
   };
 
-  const startViewTransition = (nextMode: ViewMode) => {
-    if (transitionPhase || nextMode === viewMode) {
-      return;
-    }
-
-    transitionTimers.current.forEach((timer) =>
-      window.clearTimeout(timer),
-    );
-    transitionTimers.current = [];
-
-    setTransitionPhase("cover");
-
-    // Задержки уменьшены: пользователи жаловались на зависание занавески.
-    // switchDelay — когда переключается режим под занавеской.
-    // revealDelay — когда занавеска начинает уезжать.
-    // finishDelay — когда занавеска полностью убирается (должно совпадать с CSS-анимацией ~480ms).
-    const switchDelay = isMobile3D ? 340 : 460;
-    const revealDelay = isMobile3D ? 660 : 860;
-    const finishDelay = isMobile3D ? 1020 : 1340;
-
-    const switchTimer = window.setTimeout(() => {
-      if (nextMode === "3d") {
-        setIs3DMounted(true);
-      }
-
-      setViewMode(nextMode);
-      setTransitionPhase("hold");
-    }, switchDelay);
-
-    const revealTimer = window.setTimeout(() => {
-      setTransitionPhase("reveal");
-    }, revealDelay);
-
-    const finishTimer = window.setTimeout(() => {
-      setTransitionPhase(null);
-
-      // На телефоне полностью освобождаем WebGL и GLB-память,
-      // когда пользователь возвращается в 2D.
-      if (nextMode === "2d" && isMobile3D) {
-        setIs3DMounted(false);
-      }
-    }, finishDelay);
-
-    transitionTimers.current.push(
-      switchTimer,
-      revealTimer,
-      finishTimer,
-    );
-  };
-
   const isSoftFurniture = [
     "beds",
     "sofas",
@@ -196,9 +114,11 @@ export default function Home() {
     "hangers",
   ].includes(selectedCategory?.id ?? "");
 
-  // Цена товара берётся только из basePrice, который ты укажешь в furniture.ts.
-  // Размеры, материал, цвет и ткань цену больше не изменяют.
-  const productPrice = selectedModel?.basePrice ?? 0;
+  // Для ліжок basePrice відповідає ширині 1600 мм. Кожні 200 мм = ±500 Kč.
+  const productPrice = calculateFurniturePrice(
+    selectedModel,
+    width ? Number(width) : null,
+  );
 
   const handleRoomImage = (
     event: ChangeEvent<HTMLInputElement>,
@@ -489,72 +409,22 @@ export default function Home() {
   );
 
   return (
-    <main className={`app modeHost ${viewMode === "3d" ? "threeDMode" : ""}`}>
-      {/* 2D остаётся смонтированным, чтобы при возврате не было повторной тяжёлой инициализации */}
-      <div
-        className={`modeLayer ${
-          viewMode === "2d" ? "modeLayer--active" : "modeLayer--hidden"
-        }`}
-        aria-hidden={viewMode !== "2d"}
-      >
-        {sidebar}
+    <main className="app">
+      {sidebar}
 
-        <Workspace
-          language={language}
-          onLanguageChange={handleLanguageChange}
-          roomImage={roomImage}
-          generatedImage={generatedImage}
-          isGenerated={isGenerated}
-          isGenerating={isGenerating}
-          generationError={generationError}
-          prompt={prompt}
-          onRoomImageChange={handleRoomImage}
-          onPromptChange={setPrompt}
-          onGenerate={handleGenerate}
-          onOpen3D={() => startViewTransition("3d")}
-        />
-      </div>
-
-      {/* На телефоне 3D создаётся только после нажатия кнопки.
-          При возврате в 2D Canvas полностью удаляется и освобождает память. */}
-      {is3DMounted && (
-        <div
-          className={`modeLayer ${
-            viewMode === "3d" ? "modeLayer--active" : "modeLayer--hidden"
-          }`}
-          aria-hidden={viewMode !== "3d"}
-        >
-          <ThreeDWorkspace
-            language={language}
-            onLanguageChange={handleLanguageChange}
-            onBackTo2D={() => startViewTransition("2d")}
-            isActive={viewMode === "3d"}
-            mobileMode={isMobile3D}
-          />
-        </div>
-      )}
-
-      {transitionPhase && (
-        <div
-          className={`modeTransitionCurtain modeTransitionCurtain--${transitionPhase}`}
-          aria-hidden="true"
-        >
-          <div className="modeTransitionBrand">
-            <div className="modeTransitionLogo">
-              <span className="modeTransitionWhite">NevFim</span>
-              <span className="modeTransitionGold">.grup</span>
-            </div>
-
-            <p>
-              {language === "ru"
-                ? "AI-конструктор мебели"
-                : language === "cs"
-                  ? "AI návrhář nábytku"
-                  : "AI furniture constructor"}
-            </p>
-          </div>
-        </div>
-      )}
+      <Workspace
+        language={language}
+        onLanguageChange={handleLanguageChange}
+        roomImage={roomImage}
+        generatedImage={generatedImage}
+        isGenerated={isGenerated}
+        isGenerating={isGenerating}
+        generationError={generationError}
+        prompt={prompt}
+        onRoomImageChange={handleRoomImage}
+        onPromptChange={setPrompt}
+        onGenerate={handleGenerate}
+      />
     </main>
   );
 }
