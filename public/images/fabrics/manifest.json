@@ -56,7 +56,92 @@
       "image": "/images/fabrics/ice-cream-nev/9-16.jpg"
     }
   ],
-  "a-869-flora": [],
+  "a-869-flora": [
+    {
+      "slot": 1,
+      "number": 1,
+      "file": "1-1.png",
+      "image": "/images/fabrics/a-869-flora/1-1.png"
+    },
+    {
+      "slot": 3,
+      "number": 3,
+      "file": "3-3.png",
+      "image": "/images/fabrics/a-869-flora/3-3.png"
+    },
+    {
+      "slot": 5,
+      "number": 5,
+      "file": "5-5.png",
+      "image": "/images/fabrics/a-869-flora/5-5.png"
+    },
+    {
+      "slot": 7,
+      "number": 7,
+      "file": "7-7.png",
+      "image": "/images/fabrics/a-869-flora/7-7.png"
+    },
+    {
+      "slot": 9,
+      "number": 9,
+      "file": "9-9.png",
+      "image": "/images/fabrics/a-869-flora/9-9.png"
+    },
+    {
+      "slot": 13,
+      "number": 13,
+      "file": "13-13.png",
+      "image": "/images/fabrics/a-869-flora/13-13.png"
+    },
+    {
+      "slot": 14,
+      "number": 14,
+      "file": "14-14.png",
+      "image": "/images/fabrics/a-869-flora/14-14.png"
+    },
+    {
+      "slot": 15,
+      "number": 15,
+      "file": "15-15.png",
+      "image": "/images/fabrics/a-869-flora/15-15.png"
+    },
+    {
+      "slot": 26,
+      "number": 26,
+      "file": "26-26.png",
+      "image": "/images/fabrics/a-869-flora/26-26.png"
+    },
+    {
+      "slot": 29,
+      "number": 29,
+      "file": "29-29.png",
+      "image": "/images/fabrics/a-869-flora/29-29.png"
+    },
+    {
+      "slot": 34,
+      "number": 34,
+      "file": "34-34.png",
+      "image": "/images/fabrics/a-869-flora/34-34.png"
+    },
+    {
+      "slot": 35,
+      "number": 35,
+      "file": "35-35.png",
+      "image": "/images/fabrics/a-869-flora/35-35.png"
+    },
+    {
+      "slot": 36,
+      "number": 36,
+      "file": "36-36.png",
+      "image": "/images/fabrics/a-869-flora/36-36.png"
+    },
+    {
+      "slot": 40,
+      "number": 40,
+      "file": "40-40.png",
+      "image": "/images/fabrics/a-869-flora/40-40.png"
+    }
+  ],
   "ottimo": [
     {
       "slot": 1,
@@ -155,9 +240,144 @@
       "image": "/images/fabrics/ottimo/16-16.png"
     }
   ],
-  "bibtex-beta": [],
-  "marko": [],
-  "oliver": [],
+  "bibtex-beta": [
+    {
+      "slot": 1,
+      "number": 1,
+      "file": "1-1.png",
+      "image": "/images/fabrics/bibtex-beta/1-1.png"
+    },
+    {
+      "slot": 2,
+      "number": 2,
+      "file": "2-2.png",
+      "image": "/images/fabrics/bibtex-beta/2-2.png"
+    },
+    {
+      "slot": 3,
+      "number": 3,
+      "file": "3-3.png",
+      "image": "/images/fabrics/bibtex-beta/3-3.png"
+    },
+    {
+      "slot": 4,
+      "number": 4,
+      "file": "4-4.png",
+      "image": "/images/fabrics/bibtex-beta/4-4.png"
+    },
+    {
+      "slot": 5,
+      "number": 5,
+      "file": "5-5.png",
+      "image": "/images/fabrics/bibtex-beta/5-5.png"
+    },
+    {
+      "slot": 6,
+      "number": 6,
+      "file": "6-6.png",
+      "image": "/images/fabrics/bibtex-beta/6-6.png"
+    },
+    {
+      "slot": 7,
+      "number": 7,
+      "file": "7-7.png",
+      "image": "/images/fabrics/bibtex-beta/7-7.png"
+    },
+    {
+      "slot": 8,
+      "number": 8,
+      "file": "8-8.png",
+      "image": "/images/fabrics/bibtex-beta/8-8.png"
+    },
+    {
+      "slot": 9,
+      "number": 9,
+      "file": "9-9.png",
+      "image": "/images/fabrics/bibtex-beta/9-9.png"
+    },
+    {
+      "slot": 10,
+      "number": 10,
+      "file": "10-10.png",
+      "image": "/images/fabrics/bibtex-beta/10-10.png"
+    },
+    {
+      "slot": 11,
+      "number": 11,
+      "file": "11-11.png",
+      "image": "/images/fabrics/bibtex-beta/11-11.png"
+    },
+    {
+      "slot": 12,
+      "number": 12,
+      "file": "12-12.png",
+      "image": "/images/fabrics/bibtex-beta/12-12.png"
+    }
+  ],
+  "marko": [
+    {
+      "slot": 15,
+      "number": 15,
+      "file": "15-15.png",
+      "image": "/images/fabrics/marko/15-15.png"
+    },
+    {
+      "slot": 17,
+      "number": 17,
+      "file": "17-17.png",
+      "image": "/images/fabrics/marko/17-17.png"
+    },
+    {
+      "slot": 19,
+      "number": 19,
+      "file": "19-19.png",
+      "image": "/images/fabrics/marko/19-19.png"
+    },
+    {
+      "slot": 20,
+      "number": 20,
+      "file": "20-20.png",
+      "image": "/images/fabrics/marko/20-20.png"
+    }
+  ],
+  "oliver": [
+    {
+      "slot": 3,
+      "number": 3,
+      "file": "3-3.png",
+      "image": "/images/fabrics/oliver/3-3.png"
+    },
+    {
+      "slot": 5,
+      "number": 5,
+      "file": "5-5.png",
+      "image": "/images/fabrics/oliver/5-5.png"
+    },
+    {
+      "slot": 6,
+      "number": 6,
+      "file": "6-6.png",
+      "image": "/images/fabrics/oliver/6-6.png"
+    },
+    {
+      "slot": 7,
+      "number": 7,
+      "file": "7-7.png",
+      "image": "/images/fabrics/oliver/7-7.png"
+    },
+    {
+      "slot": 21,
+      "number": 21,
+      "file": "21-21.png",
+      "image": "/images/fabrics/oliver/21-21.png"
+    },
+    {
+      "slot": 22,
+      "number": 22,
+      "file": "22-22.png",
+      "image": "/images/fabrics/oliver/22-22.png"
+    }
+  ],
   "komo": [],
   "lori": [],
   "lutos": [],
