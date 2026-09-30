@@ -57,7 +57,104 @@
     }
   ],
   "a-869-flora": [],
-  "ottimo": [],
+  "ottimo": [
+    {
+      "slot": 1,
+      "number": 1,
+      "file": "1-1.png",
+      "image": "/images/fabrics/ottimo/1-1.png"
+    },
+    {
+      "slot": 2,
+      "number": 2,
+      "file": "2-2.png",
+      "image": "/images/fabrics/ottimo/2-2.png"
+    },
+    {
+      "slot": 3,
+      "number": 3,
+      "file": "3-3.png",
+      "image": "/images/fabrics/ottimo/3-3.png"
+    },
+    {
+      "slot": 4,
+      "number": 4,
+      "file": "4-4.png",
+      "image": "/images/fabrics/ottimo/4-4.png"
+    },
+    {
+      "slot": 5,
+      "number": 5,
+      "file": "5-5.png",
+      "image": "/images/fabrics/ottimo/5-5.png"
+    },
+    {
+      "slot": 6,
+      "number": 6,
+      "file": "6-6.png",
+      "image": "/images/fabrics/ottimo/6-6.png"
+    },
+    {
+      "slot": 7,
+      "number": 7,
+      "file": "7-7.png",
+      "image": "/images/fabrics/ottimo/7-7.png"
+    },
+    {
+      "slot": 8,
+      "number": 8,
+      "file": "8-8.png",
+      "image": "/images/fabrics/ottimo/8-8.png"
+    },
+    {
+      "slot": 9,
+      "number": 9,
+      "file": "9-9.png",
+      "image": "/images/fabrics/ottimo/9-9.png"
+    },
+    {
+      "slot": 10,
+      "number": 10,
+      "file": "10-10.png",
+      "image": "/images/fabrics/ottimo/10-10.png"
+    },
+    {
+      "slot": 11,
+      "number": 11,
+      "file": "11-11.png",
+      "image": "/images/fabrics/ottimo/11-11.png"
+    },
+    {
+      "slot": 12,
+      "number": 12,
+      "file": "12-12.png",
+      "image": "/images/fabrics/ottimo/12-12.png"
+    },
+    {
+      "slot": 13,
+      "number": 13,
+      "file": "13-13.png",
+      "image": "/images/fabrics/ottimo/13-13.png"
+    },
+    {
+      "slot": 14,
+      "number": 14,
+      "file": "14-14.png",
+      "image": "/images/fabrics/ottimo/14-14.png"
+    },
+    {
+      "slot": 15,
+      "number": 15,
+      "file": "15-15.png",
+      "image": "/images/fabrics/ottimo/15-15.png"
+    },
+    {
+      "slot": 16,
+      "number": 16,
+      "file": "16-16.png",
+      "image": "/images/fabrics/ottimo/16-16.png"
+    }
+  ],
   "bibtex-beta": [],
   "marko": [],
   "oliver": [],
