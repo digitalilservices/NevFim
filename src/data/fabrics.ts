@@ -48,7 +48,6 @@ export function getFabricSwatches(
       (entry) =>
         Number.isInteger(entry.slot) &&
         entry.slot >= 1 &&
-        entry.slot <= 20 &&
         Number.isInteger(entry.number) &&
         entry.number >= 1 &&
         Boolean(entry.image),

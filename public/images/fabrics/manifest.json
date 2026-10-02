@@ -1,122 +1,4 @@
 {
-  "navi": [
-    {
-      "slot": 3,
-      "number": 3,
-      "file": "3-3.png",
-      "image": "/images/fabrics/navi/3-3.png"
-    },
-    {
-      "slot": 4,
-      "number": 4,
-      "file": "4-4.png",
-      "image": "/images/fabrics/navi/4-4.png"
-    },
-    {
-      "slot": 5,
-      "number": 5,
-      "file": "5-5.png",
-      "image": "/images/fabrics/navi/5-5.png"
-    },
-    {
-      "slot": 6,
-      "number": 6,
-      "file": "6-6.png",
-      "image": "/images/fabrics/navi/6-6.png"
-    },
-    {
-      "slot": 7,
-      "number": 7,
-      "file": "7-7.png",
-      "image": "/images/fabrics/navi/7-7.png"
-    },
-    {
-      "slot": 8,
-      "number": 8,
-      "file": "8-8.png",
-      "image": "/images/fabrics/navi/8-8.png"
-    },
-    {
-      "slot": 19,
-      "number": 19,
-      "file": "19-19.png",
-      "image": "/images/fabrics/navi/19-19.png"
-    },
-    {
-      "slot": 20,
-      "number": 20,
-      "file": "20-20.png",
-      "image": "/images/fabrics/navi/20-20.png"
-    },
-    {
-      "slot": 21,
-      "number": 21,
-      "file": "21-21.png",
-      "image": "/images/fabrics/navi/21-21.png"
-    },
-    {
-      "slot": 22,
-      "number": 22,
-      "file": "22-22.png",
-      "image": "/images/fabrics/navi/22-22.png"
-    }
-  ],
-  "ice-cream-nev": [
-    {
-      "slot": 1,
-      "number": 1,
-      "file": "1-1.jpg",
-      "image": "/images/fabrics/ice-cream-nev/1-1.jpg"
-    },
-    {
-      "slot": 2,
-      "number": 2,
-      "file": "2-2.jpg",
-      "image": "/images/fabrics/ice-cream-nev/2-2.jpg"
-    },
-    {
-      "slot": 3,
-      "number": 3,
-      "file": "3-3.jpg",
-      "image": "/images/fabrics/ice-cream-nev/3-3.jpg"
-    },
-    {
-      "slot": 4,
-      "number": 4,
-      "file": "4-4.jpg",
-      "image": "/images/fabrics/ice-cream-nev/4-4.jpg"
-    },
-    {
-      "slot": 5,
-      "number": 12,
-      "file": "5-12.jpg",
-      "image": "/images/fabrics/ice-cream-nev/5-12.jpg"
-    },
-    {
-      "slot": 6,
-      "number": 13,
-      "file": "6-13.jpg",
-      "image": "/images/fabrics/ice-cream-nev/6-13.jpg"
-    },
-    {
-      "slot": 7,
-      "number": 14,
-      "file": "7-14.jpg",
-      "image": "/images/fabrics/ice-cream-nev/7-14.jpg"
-    },
-    {
-      "slot": 8,
-      "number": 15,
-      "file": "8-15.jpg",
-      "image": "/images/fabrics/ice-cream-nev/8-15.jpg"
-    },
-    {
-      "slot": 9,
-      "number": 16,
-      "file": "9-16.jpg",
-      "image": "/images/fabrics/ice-cream-nev/9-16.jpg"
-    }
-  ],
   "a-869-flora": [
     {
       "slot": 1,
@@ -203,104 +85,6 @@
       "image": "/images/fabrics/a-869-flora/40-40.png"
     }
   ],
-  "ottimo": [
-    {
-      "slot": 1,
-      "number": 1,
-      "file": "1-1.png",
-      "image": "/images/fabrics/ottimo/1-1.png"
-    },
-    {
-      "slot": 2,
-      "number": 2,
-      "file": "2-2.png",
-      "image": "/images/fabrics/ottimo/2-2.png"
-    },
-    {
-      "slot": 3,
-      "number": 3,
-      "file": "3-3.png",
-      "image": "/images/fabrics/ottimo/3-3.png"
-    },
-    {
-      "slot": 4,
-      "number": 4,
-      "file": "4-4.png",
-      "image": "/images/fabrics/ottimo/4-4.png"
-    },
-    {
-      "slot": 5,
-      "number": 5,
-      "file": "5-5.png",
-      "image": "/images/fabrics/ottimo/5-5.png"
-    },
-    {
-      "slot": 6,
-      "number": 6,
-      "file": "6-6.png",
-      "image": "/images/fabrics/ottimo/6-6.png"
-    },
-    {
-      "slot": 7,
-      "number": 7,
-      "file": "7-7.png",
-      "image": "/images/fabrics/ottimo/7-7.png"
-    },
-    {
-      "slot": 8,
-      "number": 8,
-      "file": "8-8.png",
-      "image": "/images/fabrics/ottimo/8-8.png"
-    },
-    {
-      "slot": 9,
-      "number": 9,
-      "file": "9-9.png",
-      "image": "/images/fabrics/ottimo/9-9.png"
-    },
-    {
-      "slot": 10,
-      "number": 10,
-      "file": "10-10.png",
-      "image": "/images/fabrics/ottimo/10-10.png"
-    },
-    {
-      "slot": 11,
-      "number": 11,
-      "file": "11-11.png",
-      "image": "/images/fabrics/ottimo/11-11.png"
-    },
-    {
-      "slot": 12,
-      "number": 12,
-      "file": "12-12.png",
-      "image": "/images/fabrics/ottimo/12-12.png"
-    },
-    {
-      "slot": 13,
-      "number": 13,
-      "file": "13-13.png",
-      "image": "/images/fabrics/ottimo/13-13.png"
-    },
-    {
-      "slot": 14,
-      "number": 14,
-      "file": "14-14.png",
-      "image": "/images/fabrics/ottimo/14-14.png"
-    },
-    {
-      "slot": 15,
-      "number": 15,
-      "file": "15-15.png",
-      "image": "/images/fabrics/ottimo/15-15.png"
-    },
-    {
-      "slot": 16,
-      "number": 16,
-      "file": "16-16.png",
-      "image": "/images/fabrics/ottimo/16-16.png"
-    }
-  ],
   "bibtex-beta": [
     {
       "slot": 1,
@@ -375,68 +159,60 @@
       "image": "/images/fabrics/bibtex-beta/12-12.png"
     }
   ],
-  "marko": [
+  "ice-cream-nev": [
     {
-      "slot": 15,
-      "number": 15,
-      "file": "15-15.png",
-      "image": "/images/fabrics/marko/15-15.png"
+      "slot": 1,
+      "number": 1,
+      "file": "1-1.jpg",
+      "image": "/images/fabrics/ice-cream-nev/1-1.jpg"
     },
     {
-      "slot": 17,
-      "number": 17,
-      "file": "17-17.png",
-      "image": "/images/fabrics/marko/17-17.png"
+      "slot": 2,
+      "number": 2,
+      "file": "2-2.jpg",
+      "image": "/images/fabrics/ice-cream-nev/2-2.jpg"
     },
-    {
-      "slot": 19,
-      "number": 19,
-      "file": "19-19.png",
-      "image": "/images/fabrics/marko/19-19.png"
-    },
-    {
-      "slot": 20,
-      "number": 20,
-      "file": "20-20.png",
-      "image": "/images/fabrics/marko/20-20.png"
-    }
-  ],
-  "oliver": [
     {
       "slot": 3,
       "number": 3,
-      "file": "3-3.png",
-      "image": "/images/fabrics/oliver/3-3.png"
+      "file": "3-3.jpg",
+      "image": "/images/fabrics/ice-cream-nev/3-3.jpg"
+    },
+    {
+      "slot": 4,
+      "number": 4,
+      "file": "4-4.jpg",
+      "image": "/images/fabrics/ice-cream-nev/4-4.jpg"
     },
     {
       "slot": 5,
-      "number": 5,
-      "file": "5-5.png",
-      "image": "/images/fabrics/oliver/5-5.png"
+      "number": 12,
+      "file": "5-12.jpg",
+      "image": "/images/fabrics/ice-cream-nev/5-12.jpg"
     },
     {
       "slot": 6,
-      "number": 6,
-      "file": "6-6.png",
-      "image": "/images/fabrics/oliver/6-6.png"
+      "number": 13,
+      "file": "6-13.jpg",
+      "image": "/images/fabrics/ice-cream-nev/6-13.jpg"
     },
     {
       "slot": 7,
-      "number": 7,
-      "file": "7-7.png",
-      "image": "/images/fabrics/oliver/7-7.png"
+      "number": 14,
+      "file": "7-14.jpg",
+      "image": "/images/fabrics/ice-cream-nev/7-14.jpg"
     },
     {
-      "slot": 21,
-      "number": 21,
-      "file": "21-21.png",
-      "image": "/images/fabrics/oliver/21-21.png"
+      "slot": 8,
+      "number": 15,
+      "file": "8-15.jpg",
+      "image": "/images/fabrics/ice-cream-nev/8-15.jpg"
     },
     {
-      "slot": 22,
-      "number": 22,
-      "file": "22-22.png",
-      "image": "/images/fabrics/oliver/22-22.png"
+      "slot": 9,
+      "number": 16,
+      "file": "9-16.jpg",
+      "image": "/images/fabrics/ice-cream-nev/9-16.jpg"
     }
   ],
   "komo": [
@@ -649,5 +425,228 @@
       "image": "/images/fabrics/lutos/53-53.png"
     }
   ],
-  "diamant": []
+  "marko": [
+    {
+      "slot": 15,
+      "number": 15,
+      "file": "15-15.png",
+      "image": "/images/fabrics/marko/15-15.png"
+    },
+    {
+      "slot": 17,
+      "number": 17,
+      "file": "17-17.png",
+      "image": "/images/fabrics/marko/17-17.png"
+    },
+    {
+      "slot": 19,
+      "number": 19,
+      "file": "19-19.png",
+      "image": "/images/fabrics/marko/19-19.png"
+    },
+    {
+      "slot": 20,
+      "number": 20,
+      "file": "20-20.png",
+      "image": "/images/fabrics/marko/20-20.png"
+    }
+  ],
+  "navi": [
+    {
+      "slot": 3,
+      "number": 3,
+      "file": "3-3.png",
+      "image": "/images/fabrics/navi/3-3.png"
+    },
+    {
+      "slot": 4,
+      "number": 4,
+      "file": "4-4.png",
+      "image": "/images/fabrics/navi/4-4.png"
+    },
+    {
+      "slot": 5,
+      "number": 5,
+      "file": "5-5.png",
+      "image": "/images/fabrics/navi/5-5.png"
+    },
+    {
+      "slot": 6,
+      "number": 6,
+      "file": "6-6.png",
+      "image": "/images/fabrics/navi/6-6.png"
+    },
+    {
+      "slot": 7,
+      "number": 7,
+      "file": "7-7.png",
+      "image": "/images/fabrics/navi/7-7.png"
+    },
+    {
+      "slot": 8,
+      "number": 8,
+      "file": "8-8.png",
+      "image": "/images/fabrics/navi/8-8.png"
+    },
+    {
+      "slot": 19,
+      "number": 19,
+      "file": "19-19.png",
+      "image": "/images/fabrics/navi/19-19.png"
+    },
+    {
+      "slot": 20,
+      "number": 20,
+      "file": "20-20.png",
+      "image": "/images/fabrics/navi/20-20.png"
+    },
+    {
+      "slot": 21,
+      "number": 21,
+      "file": "21-21.png",
+      "image": "/images/fabrics/navi/21-21.png"
+    },
+    {
+      "slot": 22,
+      "number": 22,
+      "file": "22-22.png",
+      "image": "/images/fabrics/navi/22-22.png"
+    }
+  ],
+  "oliver": [
+    {
+      "slot": 3,
+      "number": 3,
+      "file": "3-3.png",
+      "image": "/images/fabrics/oliver/3-3.png"
+    },
+    {
+      "slot": 5,
+      "number": 5,
+      "file": "5-5.png",
+      "image": "/images/fabrics/oliver/5-5.png"
+    },
+    {
+      "slot": 6,
+      "number": 6,
+      "file": "6-6.png",
+      "image": "/images/fabrics/oliver/6-6.png"
+    },
+    {
+      "slot": 7,
+      "number": 7,
+      "file": "7-7.png",
+      "image": "/images/fabrics/oliver/7-7.png"
+    },
+    {
+      "slot": 21,
+      "number": 21,
+      "file": "21-21.png",
+      "image": "/images/fabrics/oliver/21-21.png"
+    },
+    {
+      "slot": 22,
+      "number": 22,
+      "file": "22-22.png",
+      "image": "/images/fabrics/oliver/22-22.png"
+    }
+  ],
+  "ottimo": [
+    {
+      "slot": 1,
+      "number": 1,
+      "file": "1-1.png",
+      "image": "/images/fabrics/ottimo/1-1.png"
+    },
+    {
+      "slot": 2,
+      "number": 2,
+      "file": "2-2.png",
+      "image": "/images/fabrics/ottimo/2-2.png"
+    },
+    {
+      "slot": 3,
+      "number": 3,
+      "file": "3-3.png",
+      "image": "/images/fabrics/ottimo/3-3.png"
+    },
+    {
+      "slot": 4,
+      "number": 4,
+      "file": "4-4.png",
+      "image": "/images/fabrics/ottimo/4-4.png"
+    },
+    {
+      "slot": 5,
+      "number": 5,
+      "file": "5-5.png",
+      "image": "/images/fabrics/ottimo/5-5.png"
+    },
+    {
+      "slot": 6,
+      "number": 6,
+      "file": "6-6.png",
+      "image": "/images/fabrics/ottimo/6-6.png"
+    },
+    {
+      "slot": 7,
+      "number": 7,
+      "file": "7-7.png",
+      "image": "/images/fabrics/ottimo/7-7.png"
+    },
+    {
+      "slot": 8,
+      "number": 8,
+      "file": "8-8.png",
+      "image": "/images/fabrics/ottimo/8-8.png"
+    },
+    {
+      "slot": 9,
+      "number": 9,
+      "file": "9-9.png",
+      "image": "/images/fabrics/ottimo/9-9.png"
+    },
+    {
+      "slot": 10,
+      "number": 10,
+      "file": "10-10.png",
+      "image": "/images/fabrics/ottimo/10-10.png"
+    },
+    {
+      "slot": 11,
+      "number": 11,
+      "file": "11-11.png",
+      "image": "/images/fabrics/ottimo/11-11.png"
+    },
+    {
+      "slot": 12,
+      "number": 12,
+      "file": "12-12.png",
+      "image": "/images/fabrics/ottimo/12-12.png"
+    },
+    {
+      "slot": 13,
+      "number": 13,
+      "file": "13-13.png",
+      "image": "/images/fabrics/ottimo/13-13.png"
+    },
+    {
+      "slot": 14,
+      "number": 14,
+      "file": "14-14.png",
+      "image": "/images/fabrics/ottimo/14-14.png"
+    },
+    {
+      "slot": 15,
+      "number": 15,
+      "file": "15-15.png",
+      "image": "/images/fabrics/ottimo/15-15.png"
+    },
+    {
+      "slot": 16,
+      "number": 16,
+      "file": "16-16.png",
+      "image": "/images/fabrics/ottimo/16-16.png"
+    }
+  ]
 }
