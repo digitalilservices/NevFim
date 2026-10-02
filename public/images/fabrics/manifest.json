@@ -1,5 +1,66 @@
 {
-  "navi": [],
+  "navi": [
+    {
+      "slot": 3,
+      "number": 3,
+      "file": "3-3.png",
+      "image": "/images/fabrics/navi/3-3.png"
+    },
+    {
+      "slot": 4,
+      "number": 4,
+      "file": "4-4.png",
+      "image": "/images/fabrics/navi/4-4.png"
+    },
+    {
+      "slot": 5,
+      "number": 5,
+      "file": "5-5.png",
+      "image": "/images/fabrics/navi/5-5.png"
+    },
+    {
+      "slot": 6,
+      "number": 6,
+      "file": "6-6.png",
+      "image": "/images/fabrics/navi/6-6.png"
+    },
+    {
+      "slot": 7,
+      "number": 7,
+      "file": "7-7.png",
+      "image": "/images/fabrics/navi/7-7.png"
+    },
+    {
+      "slot": 8,
+      "number": 8,
+      "file": "8-8.png",
+      "image": "/images/fabrics/navi/8-8.png"
+    },
+    {
+      "slot": 19,
+      "number": 19,
+      "file": "19-19.png",
+      "image": "/images/fabrics/navi/19-19.png"
+    },
+    {
+      "slot": 20,
+      "number": 20,
+      "file": "20-20.png",
+      "image": "/images/fabrics/navi/20-20.png"
+    },
+    {
+      "slot": 21,
+      "number": 21,
+      "file": "21-21.png",
+      "image": "/images/fabrics/navi/21-21.png"
+    },
+    {
+      "slot": 22,
+      "number": 22,
+      "file": "22-22.png",
+      "image": "/images/fabrics/navi/22-22.png"
+    }
+  ],
   "ice-cream-nev": [
     {
       "slot": 1,
@@ -378,8 +439,215 @@
       "image": "/images/fabrics/oliver/22-22.png"
     }
   ],
-  "komo": [],
-  "lori": [],
-  "lutos": [],
+  "komo": [
+    {
+      "slot": 1,
+      "number": 1,
+      "file": "1-1.png",
+      "image": "/images/fabrics/komo/1-1.png"
+    },
+    {
+      "slot": 2,
+      "number": 2,
+      "file": "2-2.png",
+      "image": "/images/fabrics/komo/2-2.png"
+    },
+    {
+      "slot": 3,
+      "number": 3,
+      "file": "3-3.png",
+      "image": "/images/fabrics/komo/3-3.png"
+    },
+    {
+      "slot": 4,
+      "number": 4,
+      "file": "4-4.png",
+      "image": "/images/fabrics/komo/4-4.png"
+    },
+    {
+      "slot": 6,
+      "number": 6,
+      "file": "6-6.png",
+      "image": "/images/fabrics/komo/6-6.png"
+    },
+    {
+      "slot": 7,
+      "number": 7,
+      "file": "7-7.png",
+      "image": "/images/fabrics/komo/7-7.png"
+    },
+    {
+      "slot": 8,
+      "number": 8,
+      "file": "8-8.png",
+      "image": "/images/fabrics/komo/8-8.png"
+    },
+    {
+      "slot": 9,
+      "number": 9,
+      "file": "9-9.png",
+      "image": "/images/fabrics/komo/9-9.png"
+    },
+    {
+      "slot": 10,
+      "number": 10,
+      "file": "10-10.png",
+      "image": "/images/fabrics/komo/10-10.png"
+    },
+    {
+      "slot": 15,
+      "number": 15,
+      "file": "15-15.png",
+      "image": "/images/fabrics/komo/15-15.png"
+    },
+    {
+      "slot": 16,
+      "number": 16,
+      "file": "16-16.png",
+      "image": "/images/fabrics/komo/16-16.png"
+    },
+    {
+      "slot": 18,
+      "number": 18,
+      "file": "18-18.png",
+      "image": "/images/fabrics/komo/18-18.png"
+    }
+  ],
+  "lori": [
+    {
+      "slot": 7,
+      "number": 7,
+      "file": "7-7.png",
+      "image": "/images/fabrics/lori/7-7.png"
+    },
+    {
+      "slot": 11,
+      "number": 11,
+      "file": "11-11.png",
+      "image": "/images/fabrics/lori/11-11.png"
+    },
+    {
+      "slot": 13,
+      "number": 13,
+      "file": "13-13.png",
+      "image": "/images/fabrics/lori/13-13.png"
+    },
+    {
+      "slot": 19,
+      "number": 19,
+      "file": "19-19.png",
+      "image": "/images/fabrics/lori/19-19.png"
+    },
+    {
+      "slot": 52,
+      "number": 52,
+      "file": "52-52.png",
+      "image": "/images/fabrics/lori/52-52.png"
+    },
+    {
+      "slot": 53,
+      "number": 53,
+      "file": "53-53.png",
+      "image": "/images/fabrics/lori/53-53.png"
+    },
+    {
+      "slot": 54,
+      "number": 54,
+      "file": "54-54.png",
+      "image": "/images/fabrics/lori/54-54.png"
+    },
+    {
+      "slot": 95,
+      "number": 95,
+      "file": "95-95.png",
+      "image": "/images/fabrics/lori/95-95.png"
+    },
+    {
+      "slot": 97,
+      "number": 97,
+      "file": "97-97.png",
+      "image": "/images/fabrics/lori/97-97.png"
+    },
+    {
+      "slot": 100,
+      "number": 100,
+      "file": "100-100.png",
+      "image": "/images/fabrics/lori/100-100.png"
+    }
+  ],
+  "lutos": [
+    {
+      "slot": 1,
+      "number": 1,
+      "file": "1-1.png",
+      "image": "/images/fabrics/lutos/1-1.png"
+    },
+    {
+      "slot": 2,
+      "number": 2,
+      "file": "2-2.png",
+      "image": "/images/fabrics/lutos/2-2.png"
+    },
+    {
+      "slot": 3,
+      "number": 3,
+      "file": "3-3.png",
+      "image": "/images/fabrics/lutos/3-3.png"
+    },
+    {
+      "slot": 4,
+      "number": 4,
+      "file": "4-4.png",
+      "image": "/images/fabrics/lutos/4-4.png"
+    },
+    {
+      "slot": 5,
+      "number": 5,
+      "file": "5-5.png",
+      "image": "/images/fabrics/lutos/5-5.png"
+    },
+    {
+      "slot": 17,
+      "number": 17,
+      "file": "17-17.png",
+      "image": "/images/fabrics/lutos/17-17.png"
+    },
+    {
+      "slot": 18,
+      "number": 18,
+      "file": "18-18.png",
+      "image": "/images/fabrics/lutos/18-18.png"
+    },
+    {
+      "slot": 19,
+      "number": 19,
+      "file": "19-19.png",
+      "image": "/images/fabrics/lutos/19-19.png"
+    },
+    {
+      "slot": 20,
+      "number": 20,
+      "file": "20-20.png",
+      "image": "/images/fabrics/lutos/20-20.png"
+    },
+    {
+      "slot": 51,
+      "number": 51,
+      "file": "51-51.png",
+      "image": "/images/fabrics/lutos/51-51.png"
+    },
+    {
+      "slot": 52,
+      "number": 52,
+      "file": "52-52.png",
+      "image": "/images/fabrics/lutos/52-52.png"
+    },
+    {
+      "slot": 53,
+      "number": 53,
+      "file": "53-53.png",
+      "image": "/images/fabrics/lutos/53-53.png"
+    }
+  ],
   "diamant": []
 }
