@@ -648,5 +648,61 @@
       "file": "16-16.png",
       "image": "/images/fabrics/ottimo/16-16.png"
     }
+  ],
+  "diamant": [
+    {
+      "slot": 5,
+      "number": 5,
+      "file": "5-5.png",
+      "image": "/images/fabrics/diamant/5-5.png"
+    },
+    {
+      "slot": 8,
+      "number": 8,
+      "file": "8-8.png",
+      "image": "/images/fabrics/diamant/8-8.png"
+    },
+    {
+      "slot": 9,
+      "number": 9,
+      "file": "9-9.png",
+      "image": "/images/fabrics/diamant/9-9.png"
+    },
+    {
+      "slot": 27,
+      "number": 27,
+      "file": "27-27.png",
+      "image": "/images/fabrics/diamant/27-27.png"
+    },
+    {
+      "slot": 33,
+      "number": 33,
+      "file": "33-33.png",
+      "image": "/images/fabrics/diamant/33-33.png"
+    },
+    {
+      "slot": 35,
+      "number": 35,
+      "file": "35-35.png",
+      "image": "/images/fabrics/diamant/35-35.png"
+    },
+    {
+      "slot": 37,
+      "number": 37,
+      "file": "37-37.png",
+      "image": "/images/fabrics/diamant/37-37.png"
+    },
+    {
+      "slot": 39,
+      "number": 39,
+      "file": "39-39.png",
+      "image": "/images/fabrics/diamant/39-39.png"
+    },
+    {
+      "slot": 42,
+      "number": 42,
+      "file": "42-42.png",
+      "image": "/images/fabrics/diamant/42-42.png"
+    }
   ]
 }
