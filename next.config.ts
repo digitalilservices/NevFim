@@ -48,14 +48,14 @@ function buildFabricManifest() {
 
       for (const file of files) {
         // 1-12.jpg => slot 1, visible fabric/color number 12.
-        // First number must be 1..20. Second number may be any positive integer.
+        // First number must be any positive integer.
         const match = file.match(/^(\d+)-(\d+)\.(jpe?g|png|webp)$/i);
         if (!match) continue;
 
         const slot = Number(match[1]);
         const number = Number(match[2]);
 
-        if (!Number.isInteger(slot) || slot < 1 || slot > 20) continue;
+        if (!Number.isInteger(slot) || slot < 1) continue;
         if (!Number.isInteger(number) || number < 1) continue;
         if (bySlot.has(slot)) continue;
 
@@ -77,7 +77,7 @@ function buildFabricManifest() {
         const number = Number(match[1]);
         const slot = number;
 
-        if (!Number.isInteger(slot) || slot < 1 || slot > 20) continue;
+        if (!Number.isInteger(slot) || slot < 1) continue;
         if (bySlot.has(slot)) continue;
 
         bySlot.set(slot, {
